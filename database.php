@@ -1,5 +1,10 @@
 <?php
+
+@include_once('config.php');
+
 const DATABASE_FILE = __DIR__ . '/database.db';
+
+
 
 if (session_id() == "") {
     session_start();
