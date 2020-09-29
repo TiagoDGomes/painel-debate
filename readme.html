@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Manual do painel</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+</head>
+
+<body>
+    <h1>Manual do painel</h1>
+    <p>O painel é um sistema para controle de perguntas, que contém um cronômetro para programar e iniciar contagens regressivas. A finalidade principal deste sistema é para gerência de tempo e de perguntas para debates de eleições.
+    </p>
+
+    <p>O painel possui apenas duas telas: de gerenciador e de usuário.</p>
+    <p>Na tela de gerenciador, o moderador pode manipular todas as ações: preparar e iniciar cronômetro, mandar mensagens aos usuários participantes, ativar a roleta de números aleatórios, e cadastrar e selecionar perguntas.</p>
+    <p>Na tela de usuário, é possível visualizar: o cronômetro gerenciado, as mensagens enviadas e os números aleatórios gerados por rodada. Nesta tela, a única ação possível é poder gerar um número de roleta para assim gerar o número de sorteio. Todos os
+        usuários participantes visualizam a mesma tela de usuário.
+    </p>
+    </p>
+    <h2>Criando um novo painel</h2>
+    <p>É possível criar múltiplos paineis para vários debates. Não é necessário autenticação, porém uma vez criado o painel, o criador terá posse de um link exclusivo para gerenciar o painel criado. Este link de gereência não pode ser compartilhado.</p>
+    <ol>
+        <li><a target="_blank" href="novo.php">Clique aqui para criar um novo painel</a></li>
+        <li>Na tela apresentada, os campos já virão preenchidos com valores padrão.
+            <ul>
+                <li>
+                    O <strong>código chave</strong> é um valor segredo para poder acessar a página de gerência
+                </li>
+                <li>A opção <strong>Ativar regressiva</strong> faz com que o cronômetro tenha 2 segundos adicionais para realizar uma contagem regressiva.</li>
+            </ul>
+        </li>
+        <li>Clique em <strong>Criar painel</strong>;</li>
+        <li>
+            Na página seguinte, haverá dois links: de usuário e de gerência. Compartilhe o link de usuário para os participantes que visualizarão o painel. NÃO COMPARTILHE o link de gerência! Apenas os moderadores do painel podem acessar o link de gerência.
+        </li>
+    </ol>
+    <h2>Tela de gerência</h2>
+    <p>A tela de gerência contém 3 seções:</p>
+    <ul>
+        <li>Parte superior: exibe o cronômetro</li>
+        <li>Parte central: gerência</li>
+        <li>Parte inferior: exibe os números de sorteio</li>
+    </ul>
+    <p>A parte central contém os controles do painel: crônometro, mensagem e roleta.</p>
+    <h3>Cronômetro</h3>
+    <p>Na seção <strong>Cronômetro</strong>, é possível definir o tempo para o cronômetro. O botão <strong>Preparar</strong> faz mostrar pausado o tempo escolhido na tela para todos os participantes e o botão <strong>Iniciar</strong> dá início ao cronômetro.</p>
+    <h3>Mensagem pública</h3>
+    <p>Na seção <strong>Mensagem pública</strong>, é possível enviar mensagens aos usuários participantes. Essa mensagem é visível para todos.
+    </p>
+    <ul>
+        <li>A opção <strong>Auto-enviar mensagem após a escolha do número sorteado</strong> envia o texto da roleta de sorteio automaticamente após a geração do número de sorteio.</li>
+
+    </ul>
+    <h3>Roleta</h3>
+    <p>
+        Na seção <strong>Roleta</strong>, é possível carregar alternativas para poder sorteá-las. Essas alternativas podem ser perguntas, opções ou qualquer outra coisa que possa ser sorteável.
+    </p>
+    <ul>
+        <li>Na caixa de seleção de opções conterá todos os grupos de alternativas que foram carregados. Para carregar um novo grupo, escolha a opção:
+            <ul>
+                <li><strong>(novo grupo de sorteio)</strong>: essa opção sempre estará disponível, e permite carregar um grupo de alternativas. Você precisará de um arquivo de texto puro com todas as alternativas de sorteio (uma alternativa em cada linha).
+                    O nome do grupo será o nome do arquivo. Clique no botão <strong>Escolher arquivo texto</strong> para selecionar e enviar este arquivo. </li>
+            </ul>
+        </li>
+        <li><strong>Ativar roleta para os participantes</strong>:
+            <ul>
+                <li>Ative-a e todos os usuários participantes poderão enviar números aleatórios apenas movimentando o cursor do mouse.</li>
+                <li>Desative-a e o número de sorteio será gerado. Ele é o resultado do resto da divisão da soma de todos os números gerados pelo número de perguntas cadastradas do grupo.</li>
+            </ul>
+        </li>
+    </ul>
+
+
+
+</body>
+
+</html>
