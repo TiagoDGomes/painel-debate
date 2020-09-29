@@ -2,6 +2,10 @@ function preparar_cronometro(tempo_definido) {
     simple_ajax('gerenciar.json.php?acao=preparar&id=' + global_id + '&codigo_chave=' + codigo_chave + '&tempo_definido=' + tempo_definido);
 }
 
+function pausar_cronometro() {
+    simple_ajax('gerenciar.json.php?acao=preparar&id=' + global_id + '&codigo_chave=' + codigo_chave + '&tempo_definido=' + (fim - tempo_referencia));
+}
+
 function iniciar_cronometro() {
     simple_ajax('gerenciar.json.php?acao=iniciar&id=' + global_id + '&codigo_chave=' + codigo_chave);
 }

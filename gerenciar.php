@@ -53,9 +53,12 @@ $itens_roleta = obter_itens_roleta($global_id);
                     <option value="5">5 segundos</option>
                     <option value="30">30 segundos</option>
                 </select>
-                <button onclick="preparar_cronometro(tempo_definido.value )">Preparar</button>
-                <button onclick="iniciar_cronometro()">Iniciar</button>
-                <!--
+                <button onclick="preparar_cronometro(tempo_definido.value); document.getElementById('chk_iniciar').checked=false">Preparar</button>
+                <input id="chk_iniciar" type="checkbox" onclick="if (this.checked) iniciar_cronometro(); else pausar_cronometro()">
+                <label for="chk_iniciar">Iniciar cronômetro</label>
+                <!--<button onclick="iniciar_cronometro()">Iniciar</button>
+                <button onclick="pausar_cronometro()">Pausar</button>
+               
                     <input type="checkbox"  checked="checked" name="regressiva" id="regressiva">
                 <label for="regressiva">Regresiva</label>
                 -->
