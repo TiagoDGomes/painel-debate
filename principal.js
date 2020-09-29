@@ -9,6 +9,9 @@ var mensagem_anterior = 0;
 
 var reg_alternador_mensagem = 0;
 
+var tempo_referencia_anterior = 0;
+var sync = false;
+
 function touch_server() {
 
     var xhr = new XMLHttpRequest();
@@ -20,6 +23,14 @@ function touch_server() {
             if (tempo_referencia == 0) {
                 tempo_referencia = dados['tempo_referencia'];
             }
+            if (sync == false) {
+                if (tempo_referencia_anterior != 0 && tempo_referencia_anterior != tempo_referencia) {
+                    clearInterval(touch_server_init);
+                    touch_server_init = setInterval(touch_server, 1000);
+                    sync = true;
+                }
+            }
+            tempo_referencia_anterior = tempo_referencia;
             tempo_inicio = 1 * dados['tempo_inicio'];
             inicio = 1 * dados['inicio'];
             fim = 1 * dados['fim'];
@@ -213,6 +224,6 @@ function vdebug(obj) {
     }
 }
 
-setInterval(touch_1s, 1000)
+var touch1s_init = setInterval(touch_1s, 1000)
 
-setInterval(touch_server, 500);
+var touch_server_init = setInterval(touch_server, 100);
