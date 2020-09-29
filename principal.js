@@ -170,7 +170,7 @@ function atualizar_contador(segundos) {
         }
         valor_mostrado = tempo_mensurado.toISOString().substr(pos, tam);
     } else {
-        if (segundos <= 3) {
+        if (segundos <= -3) {
             document.body.classList.add('zerado_3');
         }
         document.body.classList.remove('preparando');
