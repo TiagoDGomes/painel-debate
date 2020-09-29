@@ -51,5 +51,5 @@ function init_db()
 
 }
 
-
+init_db();
 
