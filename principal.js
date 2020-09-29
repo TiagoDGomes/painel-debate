@@ -32,9 +32,11 @@ function touch_server() {
                 bloco_esquerda.classList.add('ativo');
                 codigo_rodada_atual = dados['codigo_rodada_atual'];
                 definir_numero_sorteado(0);
+                document.body.classList.add('em_sorteio');
             } else {
                 bloco_esquerda.classList.remove('ativo');
                 codigo_rodada_atual = null;
+                document.body.classList.remove('em_sorteio');
             }
 
             if (codigo_rodada_atual != codigo_rodada_anterior) {
@@ -130,12 +132,17 @@ function atualizar_contador(segundos) {
     if (tempo_inicio < segundos - 2) {
         return;
     }
+
+    document.body.classList.remove('preparando');
+    document.body.classList.remove('zerado');
     var preparar = tempo_inicio == segundos - 2;
     var apontar = tempo_inicio == segundos - 1;
     if (preparar || segundos < 0) {
         display.style.backgroundColor = 'red';
+        document.body.classList.add('preparando');
     } else if (apontar) {
         display.style.backgroundColor = 'yellow';
+        document.body.classList.add('preparando');
     } else if (segundos <= 4) {
         display.style.backgroundColor = '#79b100';
     } else {
@@ -162,6 +169,10 @@ function atualizar_contador(segundos) {
             tam = 5;
         }
         valor_mostrado = tempo_mensurado.toISOString().substr(pos, tam);
+    } else {
+
+        document.body.classList.remove('preparando');
+        document.body.classList.add('zerado');
     }
 
     display.innerHTML = valor_mostrado;
