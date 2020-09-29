@@ -28,7 +28,8 @@ if (isset($_GET['t'])) {
     <script>
         var real_timestamp_server = 0;
         var last_diff = 0;
-
+        var next_timestamp_sec = 0;
+        var interval_start = 0;
         function ping(timestamp) {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
@@ -41,7 +42,11 @@ if (isset($_GET['t'])) {
                     if (timestamp == 1000) {
                         ping(real_timestamp_server);
                     }
-                    tempo_referencia = Math.round(real_timestamp_server / 1000);
+                    next_timestamp_sec = Math.round(real_timestamp_server / 1000) * 1000 ;
+                    interval_start =  next_timestamp_sec - real_timestamp_server;
+                    console.log('next_timestamp_sec', next_timestamp_sec);
+                    console.log('real_timestamp_server', real_timestamp_server);
+                    console.log('interval_start', interval_start);
                 }
             };
             xhr.open('GET', 'ping.php?t=' + timestamp);

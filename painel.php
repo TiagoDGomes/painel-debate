@@ -34,7 +34,7 @@ if (isset($_GET['id'])) {
 <body>
     <div id="painel">
         <div id="cronometro" class="meio">--:--</div>
-        <div id="marcador">Aguardando marcador...</div>
+        <div id="marcador">&nbsp;</div>
         <div id="mensagem">
 
             <?php if (!$painel_valido) : ?>
@@ -43,7 +43,7 @@ if (isset($_GET['id'])) {
 
             <?php else : ?>
 
-                Aguardando mensagem...
+                Aguarde o sincronismo de tempo...
 
             <?php endif; ?>
 

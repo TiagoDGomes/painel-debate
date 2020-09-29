@@ -23,14 +23,6 @@ function touch_server() {
             if (tempo_referencia == 0) {
                 tempo_referencia = dados['tempo_referencia'];
             }
-            if (sync == false) {
-                if (tempo_referencia_anterior != 0 && tempo_referencia_anterior != tempo_referencia) {
-                    clearInterval(touch_server_init);
-                    touch_server_init = setInterval(touch_server, 1000);
-                    sync = true;
-                }
-            }
-            tempo_referencia_anterior = tempo_referencia;
             tempo_inicio = 1 * dados['tempo_inicio'];
             inicio = 1 * dados['inicio'];
             fim = 1 * dados['fim'];
@@ -224,6 +216,58 @@ function vdebug(obj) {
     }
 }
 
-var touch1s_init = setInterval(touch_1s, 1000)
+var touch1s_init;
 
-var touch_server_init = setInterval(touch_server, 100);
+var touch_server_init;
+
+
+// Sincronismo de tempo:
+
+var count_sync_init = 0;
+
+var real_timestamp_server = 0;
+var last_diff = 0;
+var next_timestamp_sec = 0;
+var interval_start = 0;
+var sum_interval_start = 0;
+
+function ping(timestamp) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            var dados = JSON.parse(xhr.responseText);
+            var result = document.getElementById('result');
+            //result.innerHTML = dados['diff'] + 'ms';
+            real_timestamp_server = dados['t'];
+            last_diff = dados['diff'];
+            if (timestamp == 1000) {
+                ping(real_timestamp_server);
+            }
+            next_timestamp_sec = Math.floor(real_timestamp_server / 1000) * 1000 + 1000;
+            interval_start = next_timestamp_sec - real_timestamp_server;
+            sum_interval_start += interval_start;
+            console.log('next_timestamp_sec', next_timestamp_sec);
+            console.log('real_timestamp_server', real_timestamp_server);
+            console.log('interval_start', interval_start);
+        }
+    };
+    xhr.open('GET', 'ping.php?t=' + timestamp);
+    xhr.send();
+}
+
+var sync_init = setInterval(function() {
+    if (count_sync_init >= 5) {
+        var avg_interval_start = sum_interval_start / 5;
+        setTimeout(function() {
+            touch1s_init = setInterval(touch_1s, 1000);
+            touch_server_init = setInterval(touch_server, 500);
+        }, avg_interval_start);
+        clearInterval(sync_init);
+        if (pagina_atual == 'painel') {
+            document.getElementById('mensagem').innerHTML = '';
+        }
+    } else {
+        ping(real_timestamp_server + 1000 - last_diff, true);
+    }
+    count_sync_init++;
+}, 1000);
