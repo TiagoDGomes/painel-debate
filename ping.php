@@ -49,7 +49,7 @@ if (isset($_GET['t'])) {
         }
 
         setInterval(function() {
-            ping(timestamp_server + 1000, true);
+            ping(real_timestamp_server + 1000, true);
         }, 1000);
     </script>
 </body>
