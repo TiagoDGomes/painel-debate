@@ -60,7 +60,7 @@ if (isset($_GET['id'])) {
                     <p id="numeros_obtidos">
 
                     </p>
-                    <div style="">
+                    <div style="display:none">
                         <p id="formula">
                             Fórmula: soma-se todos números aleatórios
                             enviados pelos participantes e divide pela quantidade de questões.
