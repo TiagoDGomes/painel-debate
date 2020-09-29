@@ -2,7 +2,7 @@
 
 @include_once('config.php');
 
-const DATABASE_FILE = __DIR__ . '/database.db';
+
 
 
 
@@ -12,50 +12,15 @@ if (session_id() == "") {
     // Anything you want
 }
 
+$db_file = null;
 
-function init_db()
-{
-    $db_file = new PDO('sqlite:' . DATABASE_FILE);
-    $db_file->exec("CREATE TABLE IF NOT EXISTS painel(
-        id INTEGER PRIMARY KEY, 
-        inicio INTEGER,
-        fim INTEGER,
-        tempo_inicio INTEGER,
-        id_atual TEXT,
-        marcador TEXT,
-        mensagem TEXT,
-        hash_code TEXT,
-        regressiva INTEGER,
-        codigo_rodada_atual TEXT,
-        codigo_rodada_anterior TEXT
-        ); ");
-
-    $db_file->exec("CREATE TABLE IF NOT EXISTS rodada(
-        id INTEGER PRIMARY KEY, 
-        id_painel INTEGER, 
-        codigo_rodada TEXT,
-        ip_address TEXT,
-        numero_aleatorio INTEGER,
-        id_session TEXT,
-        tstamp INTEGER)");
-
-    $db_file->exec("CREATE TABLE IF NOT EXISTS roleta(
-        id INTEGER PRIMARY KEY,
-        id_painel INTEGER,            
-        marcador TEXT,
-        numero INTEGER, 
-        conteudo TEXT)");
-
-    $db_file->exec("CREATE UNIQUE INDEX 
-        idx_roleta_conteudo_unico 
-        ON roleta (id_painel, marcador, numero);");
-}
-
-if (!file_exists(DATABASE_FILE)) {
+try {
+    $db_file = new PDO(DATABASE_CONNECTION, DATABASE_USERNAME, DATABASE_PASSWORD);
+} catch (PDOException $pe){
+    include_once('install.php');
     init_db();
 }
 
-$db_file = new PDO('sqlite:' . DATABASE_FILE);
 
 function converter_chave_hash($codigo_chave)
 {
