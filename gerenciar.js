@@ -97,7 +97,7 @@ function executar_transferencia_sorteio_em_mensagem(numero_sorteado, cod_rodada)
     var mensagem_manual = document.getElementById('mensagem_manual');
 
     marcador_manual.value = marcador;
-    mensagem_manual.innerText = conteudo;
+    mensagem_manual.value = conteudo;
 
     var chk_auto_enviar = document.getElementById('chk_auto_enviar');
     if (chk_auto_enviar.checked) {
