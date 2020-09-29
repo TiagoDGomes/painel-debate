@@ -42,23 +42,35 @@ function touch_server() {
             }
 
             if (pagina_atual == 'painel') {
+                console.log('mensagem', dados['mensagem']);
+                var mensagem_painel = document.getElementById('mensagem');
+                var marcador_painel = document.getElementById('marcador');
+                if (dados['mensagem'] != '&nbsp;' && dados['mensagem'].length > 1) {
 
-                if (dados['mensagem']) {
-                    var mensagem_painel = document.getElementById('mensagem');
-                    mensagem_painel.innerHTML = dados['mensagem'];
-                    var marcador_painel = document.getElementById('marcador');
-                    marcador_painel.innerHTML = dados['marcador'];
-                    if (dados['mensagem'] != mensagem_anterior) {
-                        reg_alternador_mensagem = reg_alternador_mensagem % 2;
-                        marcador_painel.classList.add('alt' + reg_alternador_mensagem);
-                    }
 
+
+                    // if (dados['mensagem'] != mensagem_anterior) {
+                    //     reg_alternador_mensagem = reg_alternador_mensagem % 2;
+                    //     marcador_painel.classList.add('alt0');
+                    // } else {
+                    //     marcador_painel.classList.remove('alt0');
+                    // }
                     mensagem_anterior = dados['mensagem'];
 
+                    mensagem_painel.classList.remove('oculto');
+                    marcador_painel.classList.remove('oculto');
+                } else {
+                    mensagem_painel.classList.add('oculto');
+                    marcador_painel.classList.add('oculto');
                 }
+                mensagem_painel.innerHTML = dados['mensagem'];
+                marcador_painel.innerHTML = dados['marcador'];
+                //marcador_painel.style.display = mensagem_painel.style.display;
+
             } else {
 
             }
+
 
             if (dados['rodada_atual'].length > 0) {
                 limpar_numeros_rodada()
