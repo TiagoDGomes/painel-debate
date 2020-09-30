@@ -31,8 +31,8 @@ $itens_roleta = obter_itens_roleta($global_id);
         var codigo_chave = '<?= $codigo_chave ?>';
         var pagina_atual = 'gerenciar';
     </script>
-    <script type="text/javascript" src="principal.js"></script>
-    <script type="text/javascript" src="gerenciar.js"></script>
+    <script type="text/javascript" src="principal.js?v=0.02"></script>
+    <script type="text/javascript" src="gerenciar.js?v=0.02"></script>
 </head>
 
 <body>

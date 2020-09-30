@@ -25,8 +25,8 @@ if (isset($_GET['id'])) {
             var global_id = <?= @(int)$_GET['id'] ?>;
             var pagina_atual = 'painel';
         </script>
-        <script type="text/javascript" src="principal.js"></script>
-        <script type="text/javascript" src="painel.js?v=0.01"></script>
+        <script type="text/javascript" src="principal.js?v=0.02"></script>
+        <script type="text/javascript" src="painel.js?v=0.02"></script>
 
     <?php endif; ?>
 </head>
