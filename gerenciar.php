@@ -145,7 +145,7 @@ $itens_roleta = obter_itens_roleta($global_id);
         <p id="pre_sorteador"></p>
         <div id="sorteador">
             <div class="bloco esquerda">
-                <div class="titulo meio">Ativar<br>roleta</div>
+                <div class="titulo meio">Seu número<br>aleatório</div>
                 <div class="numero" id="numero_aleatorio">
 
                 </div>
