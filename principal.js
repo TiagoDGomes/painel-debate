@@ -61,6 +61,7 @@ function touch_server() {
 
                     mensagem_painel.classList.remove('oculto');
                     marcador_painel.classList.remove('oculto');
+
                 } else {
                     mensagem_painel.classList.add('oculto');
                     marcador_painel.classList.add('oculto');
@@ -192,10 +193,14 @@ function definir_numero_sorteado(numero) {
     if (numero != 0) {
         bloco_direita.classList.add('ativo');
         c_numero_sorteado.innerHTML = numero;
+        setTimeout(function() {
+            definir_numero_sorteado(0);
+        }, 10000)
     } else {
         bloco_direita.classList.remove('ativo');
-        //c_numero_sorteado.innerHTML = '--';
+        c_numero_sorteado.innerHTML = '--';
     }
+
 }
 
 
@@ -299,3 +304,77 @@ var sync_init = setInterval(function() {
     }
     count_sync_init++;
 }, 1000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var numero_aleatorio = 0;
+var numero_aleatorio_anterior = null;
+var numero_aleatorio_anterior_2 = null;
+
+
+function mandar_aleatorio() {
+    simple_ajax('mandar_aleatorio.json.php?id=' + global_id + '&codigo_rodada_atual=' + codigo_rodada_atual + '&numero_aleatorio=' + numero_aleatorio);
+}
+
+
+
+
+setInterval(function() {
+    if (numero_aleatorio_anterior_2 != numero_aleatorio_anterior) {
+        if (numero_aleatorio_anterior == numero_aleatorio) {
+            if (codigo_rodada_atual) {
+                mandar_aleatorio();
+            }
+        }
+    }
+    numero_aleatorio_anterior_2 = numero_aleatorio_anterior;
+    numero_aleatorio_anterior = numero_aleatorio;
+}, 500);
+
+
+
+(function() {
+    document.onmousemove = handleMouseMove;
+
+    function handleMouseMove(event) {
+        var eventDoc, doc, body;
+
+        event = event || window.event; // IE-ism
+
+        // If pageX/Y aren't available and clientX/Y are,
+        // calculate pageX/Y - logic taken from jQuery.
+        // (This is to support old IE)
+        if (event.pageX == null && event.clientX != null) {
+            eventDoc = (event.target && event.target.ownerDocument) || document;
+            doc = eventDoc.documentElement;
+            body = eventDoc.body;
+
+            event.pageX = event.clientX +
+                (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
+                (doc && doc.clientLeft || body && body.clientLeft || 0);
+            event.pageY = event.clientY +
+                (doc && doc.scrollTop || body && body.scrollTop || 0) -
+                (doc && doc.clientTop || body && body.clientTop || 0);
+        }
+
+        // Use event.pageX / event.pageY here
+        numero_aleatorio = (Math.floor(event.pageX * event.pageY)) % 1000;
+        var div_numero_aleatorio = document.getElementById('numero_aleatorio')
+        if (numero_aleatorio == 0) {
+            div_numero_aleatorio.innerHTML = '--';
+        } else {
+            div_numero_aleatorio.innerHTML = numero_aleatorio;
+        }
+    }
+})();
