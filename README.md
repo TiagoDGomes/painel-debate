@@ -52,7 +52,7 @@ Clique em "Parar sorteio de números aleatórios aos participantes" para obter o
 
 ### Tela de usuário
 
-A tela de usuário é praticamente a mesma da gerência, exceto que a ausência dos formulários de ações. 
+A tela de usuário é praticamente a mesma da gerência, exceto pela ausência dos formulários de ações. 
 A única ação possível do usuário é de gerar números aleatórios no momento em que a pessoa gerente iniciar o sorteio.
 
 ## Créditos
