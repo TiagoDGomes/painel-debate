@@ -2,16 +2,16 @@
 
 @include_once('config.php');
 
-if (strpos('sqlite', DATABASE_CONNECTION) > 0) {
+if (strpos('sqlite', DATABASE_CONNECTION) >= 0) {
     $AUTO_INCREMENT_KEYWORD = 'AUTOINCREMENT';
-    $TEXT = 'TEXT';   
+    $TEXT = 'TEXT';
     $LONG_TEXT = 'TEXT';
     $BYTE = 'INTEGER';
     $INT = 'INTEGER';
     $LONG_INT = 'INTEGER';
 } else {
-    $AUTO_INCREMENT_KEYWORD = 'AUTO_INCREMENT'; 
-    $TEXT = 'VARCHAR(100)';   
+    $AUTO_INCREMENT_KEYWORD = 'AUTO_INCREMENT';
+    $TEXT = 'VARCHAR(100)';
     $LONG_TEXT = 'TEXT';
     $BYTE = 'BYTE';
     $INT = 'INT';
@@ -62,21 +62,25 @@ $queries = array(
         );",
     "CREATE UNIQUE INDEX IF NOT EXISTS  
             idx_roleta_conteudo_unico 
-            ON roleta (id_painel, titulo, numero);"
+            ON roleta (id_painel, titulo, numero);",
+    "CREATE TABLE IF NOT EXISTS candidato (
+            id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 
+            id_painel $INT,
+            numero $INT DEFAULT 1,
+            nome $TEXT,
+            FOREIGN KEY(id_painel) REFERENCES painel(id)
+    )"
     
+
 );
 
-function init_db()
-{
-    global $db_file, $queries;
-    header('Content-Type: text/plain');
-    $db_file = new PDO(DATABASE_CONNECTION, DATABASE_USERNAME, DATABASE_PASSWORD);
-    $db_file->beginTransaction();
-    foreach ($queries as $query){
-        //echo "\n$query";
-        $db_file->exec($query);
-    }
-    $db_file->commit();
-}
 
-init_db();
+global $db_file, $queries;
+header('Content-Type: text/plain');
+$db_file = new PDO(DATABASE_CONNECTION, DATABASE_USERNAME, DATABASE_PASSWORD);
+$db_file->beginTransaction();
+foreach ($queries as $query) {
+    //echo "\n$query";
+    $db_file->exec($query);
+}
+$db_file->commit();
