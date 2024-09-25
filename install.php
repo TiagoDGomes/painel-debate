@@ -2,7 +2,7 @@
 
 @include_once('config.php');
 
-if (strpos('sqlite', DATABASE_CONNECTION) > 0) {
+if (str_contains(DATABASE_CONNECTION, 'sqlite')) { 
     $AUTO_INCREMENT_KEYWORD = 'AUTOINCREMENT';
     $TEXT = 'TEXT';   
     $LONG_TEXT = 'TEXT';
