@@ -11,7 +11,7 @@ const QUERYPART_RESTRICAO_PERMISSAO_GERENCIA_PAINEL = 'p.id = ? AND p.chave_gere
 try {
     $db_file = new PDO(DATABASE_CONNECTION, DATABASE_USERNAME, DATABASE_PASSWORD);
 } catch (PDOException $pe) {
-    exit('Database connection error');
+    exit('Database connection error: ' . $pe->getMessage());
 }
 
 
