@@ -62,7 +62,7 @@ $queries = array(
         );",
     "CREATE UNIQUE INDEX IF NOT EXISTS  
             idx_roleta_conteudo_unico 
-            ON roleta (id_painel, titulo, numero);"
+            ON itens_roleta (id_roleta, numero);"
     
 );
 
