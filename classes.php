@@ -20,9 +20,9 @@ class Painel
     public static function novo()
     {
         global  $array_resposta_json;
-        $novo_descricao = filter_input(INPUT_POST, POST_NOVO_DESCRICAO, FILTER_SANITIZE_STRING);
-        $novo_chave_usuario = filter_input(INPUT_POST, POST_NOVO_CHAVE_USUARIO, FILTER_SANITIZE_STRING);
-        $novo_chave_gerencia = filter_input(INPUT_POST, POST_NOVO_CHAVE_GERENCIA, FILTER_SANITIZE_STRING);
+        $novo_descricao = filter_input(INPUT_POST, POST_NOVO_DESCRICAO, FILTER_UNSAFE_RAW);
+        $novo_chave_usuario = filter_input(INPUT_POST, POST_NOVO_CHAVE_USUARIO, FILTER_UNSAFE_RAW);
+        $novo_chave_gerencia = filter_input(INPUT_POST, POST_NOVO_CHAVE_GERENCIA, FILTER_UNSAFE_RAW);
         $query = 'INSERT INTO painel (descricao, chave_usuario, chave_gerencia) VALUES (?,?,?)';
         $param = array($novo_descricao, $novo_chave_usuario, $novo_chave_gerencia);
         try {

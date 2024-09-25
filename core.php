@@ -103,13 +103,13 @@ $nomes_roleta = array();
 
 $global_id = filter_input(INPUT_GET, GET_CHAVE_ID, FILTER_SANITIZE_NUMBER_INT);
 $tempo_preparado = filter_input(INPUT_GET, GET_PREPARAR_CRONOMETRO, FILTER_SANITIZE_NUMBER_INT);
-$chave_usuario_atual = filter_input(INPUT_GET, GET_CHAVE_USUARIO, FILTER_SANITIZE_STRING);
+$chave_usuario_atual = filter_input(INPUT_GET, GET_CHAVE_USUARIO, FILTER_UNSAFE_RAW);
 $chave_usuario_atual = $chave_usuario_atual ? $chave_usuario_atual : '';
-$chave_gerencia_atual = filter_input(INPUT_GET, GET_CHAVE_GERENCIA, FILTER_SANITIZE_STRING);
+$chave_gerencia_atual = filter_input(INPUT_GET, GET_CHAVE_GERENCIA, FILTER_UNSAFE_RAW);
 $chave_gerencia_atual = $chave_gerencia_atual ? $chave_gerencia_atual : '';
-$numeros_aleatorios = filter_input(INPUT_GET, GET_NUMEROS_ALEATORIOS, FILTER_SANITIZE_STRING);
-$mensagem_titulo = filter_input(INPUT_GET, GET_MENSAGEM_TITULO, FILTER_SANITIZE_STRING);
-$mensagem_conteudo = filter_input(INPUT_GET, GET_MENSAGEM_CONTEUDO, FILTER_SANITIZE_STRING);
+$numeros_aleatorios = filter_input(INPUT_GET, GET_NUMEROS_ALEATORIOS, FILTER_UNSAFE_RAW);
+$mensagem_titulo = filter_input(INPUT_GET, GET_MENSAGEM_TITULO, FILTER_UNSAFE_RAW);
+$mensagem_conteudo = filter_input(INPUT_GET, GET_MENSAGEM_CONTEUDO, FILTER_UNSAFE_RAW);
 $roleta_ativa = filter_input(INPUT_GET, GET_INICIAR_SORTEIO, FILTER_SANITIZE_NUMBER_INT);
 
 $ip_address = isset($_SERVER['X-Real-IP']) ? $_SERVER['X-Real-IP'] : $_SERVER['REMOTE_ADDR'];

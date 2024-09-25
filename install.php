@@ -66,10 +66,8 @@ $queries = array(
     
 );
 
-function init_db()
-{
-    global $db_file, $queries;
-    header('Content-Type: text/plain');
+
+    
     $db_file = new PDO(DATABASE_CONNECTION, DATABASE_USERNAME, DATABASE_PASSWORD);
     $db_file->beginTransaction();
     foreach ($queries as $query){
@@ -77,6 +75,5 @@ function init_db()
         $db_file->exec($query);
     }
     $db_file->commit();
-}
 
-init_db();
+
