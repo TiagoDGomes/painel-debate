@@ -1,11 +1,12 @@
 # painel-debate
-Painel para gerência de tempo e perguntas em debates para eleições
+Painel para gerência de tempo e perguntas em debates para eleições. Você poderá utilizar como fonte para transmissões com OBS.
 
 ## Requisitos
  
-- Apache;
+- Apache HTTP Server;
 - PHP;
-- um banco de dados (testados: MySQL ou SQLite)
+- um banco de dados, que pode ser MySQL ou SQLite (outros bancos de dados não foram testados)
+- sistema operacional compatível. Nos testes foram usados Windows e Linux. Caso você deseje compartilhar os recursos de tela de usuários, seu servidor Apache deve estar acessível via rede.
 
 ## Instalação
 
@@ -13,7 +14,7 @@ Painel para gerência de tempo e perguntas em debates para eleições
 - Copie o arquivo `config.php-default` como `config.php`;
 - Abra o arquivo `config.php` e configure a seu gosto:
   - se decidir por MySQL, deixe configurado uma nova database;
-  - se decidir por SQLite, verifique se há permissões de escrita para o arquivo definido no arquivo de configuração;
+  - se decidir por SQLite, verifique se há permissões de escrita para o arquivo definido no arquivo de configuração (ex.: `chown -R www-data:www-data painel-debate`);
 - No seu diretório Web, execute `php install.php`;
 - Abra o navegador e navegue em http://seu-servidor/painel-debate/.
 
@@ -21,7 +22,7 @@ Painel para gerência de tempo e perguntas em debates para eleições
 
 Antes de começar, é preciso criar um painel. A página principal já vem para a configuração de um novo painel. 
 Recomendamos deixar os valores padrão. Clicando em "Criar novo painel", serão exibidos dois links: de usuário e de gerência. 
-O link de usuário pode ser compartilhado para mais pessoas, mas o de gerência deve ser restrito a quem irá comandar as ações do painel.
+O link de usuário pode ser compartilhado para mais pessoas, mas o de gerência deve ser restrito a quem irá comandar as ações do painel. 
 
 ### Tela de gerência
 A tela de gerência contém os todos os controles do painel: crônometro, mensagem e roleta.
