@@ -10,7 +10,7 @@ Painel para gerência de tempo e perguntas em debates para eleições. Você pod
 
 ## Instalação
 
-- Baixe os arquivos e extraia para seu diretório Web;
+- Baixe os arquivos e extraia para seu diretório Web (ou `git clone https://github.com/TiagoDGomes/painel-debate.git`);
 - Copie o arquivo `config.php-default` como `config.php`;
 - Abra o arquivo `config.php` e configure a seu gosto:
   - se decidir por MySQL, deixe configurado uma nova database;
