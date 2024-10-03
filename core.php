@@ -1,6 +1,7 @@
 <?php
+session_start();
 define('PAINEL_ROOT', true);
-$versao = '1.0';
+$versao = '1.1';
 const GET_CHAVE_ID = 'id';
 const GET_CHAVE_USUARIO = 'u';
 const GET_CHAVE_GERENCIA = 'g';
@@ -18,8 +19,11 @@ const GET_NOVO_OK = 'ok';
 const GET_INICIAR_CRONOMETRO = 'st';
 const GET_INICIAR_SORTEIO = 'iniciarsorteio';
 const GET_TERMINAR_SORTEIO = 'terminarsorteio';
+const GET_GERAL_ATIVAR_MENSAGEM = 'opt_msg';
+const GET_GERAL_ATIVAR_ROLETA = 'opt_rol';
 
 @include_once('relogio.php');
+@include_once('classes.php');
 
 $array_resposta_json = array(
     'erro' => NULL,
@@ -27,7 +31,9 @@ $array_resposta_json = array(
     'timestamp' => (int) Relogio::tempoServidor(),
     'rnd' => rand(0, 999999),
     '_get' => $_GET,
-    'simul' => Relogio::tempoSimulado()
+    'simul' => Relogio::tempoSimulado(),
+    GET_GERAL_ATIVAR_MENSAGEM => Mensagem::getAtivacao(),
+    GET_GERAL_ATIVAR_ROLETA => Roleta::getAtivacao()
 );
 
 
@@ -135,6 +141,10 @@ $aguardando_resposta_json  = isset($_GET[GET_ESPERA_JSON]);
 $enviando_inicio_cronometro = isset($_GET[GET_INICIAR_CRONOMETRO]);
 
 
+$definindo_opcao_mensagem = isset($_GET[GET_GERAL_ATIVAR_MENSAGEM]);
+$definindo_opcao_roleta = isset($_GET[GET_GERAL_ATIVAR_ROLETA]);
+
+
 $url_base_array[GET_CHAVE_USUARIO] = $chave_usuario_atual;
 $url_base_array[GET_CHAVE_GERENCIA] = $chave_gerencia_atual;
 
@@ -178,6 +188,10 @@ if ($acessando_como_usuario || $acessando_como_gerencia) {
         } else if ($enviando_lista_roleta) {
             $body_class .= ' tratar-inclusao-itens-roleta';
             Roleta::tratarInclusaoItensRoleta();
+        } else if ($definindo_opcao_mensagem) { 
+            Mensagem::definirAtivacao($_GET[GET_GERAL_ATIVAR_MENSAGEM] == 'true');
+        } else if ($definindo_opcao_roleta) { 
+            Roleta::definirAtivacao($_GET[GET_GERAL_ATIVAR_ROLETA] == 'true');
         } else {
             $body_class .= ' normal';
             $itens_roleta = Roleta::obterItensRoletas();

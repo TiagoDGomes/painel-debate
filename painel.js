@@ -4,6 +4,17 @@ var Painel = {
             Cronometro.tratarAtualizacoes(dados);
             Roleta.tratarAtualizacoes(dados);
             Mensagem.tratarAtualizacoes(dados);
+            try {
+                var gerencia_geral_display = document.querySelectorAll('.gerencia-geral')[0].style.display;
+                if (gerencia_geral_display == 'none') {
+                    elem('chk_opt_msg').checked = dados['opt_msg'] ? 'checked' : ''
+                    elem('chk_opt_rol').checked = dados['opt_rol'] ? 'checked' : ''
+                    document.querySelectorAll('.gerencia-geral')[0].style.display = 'inherit';
+                }
+            } catch (e) {
+
+            }
+
         }
     }
 }
@@ -37,7 +48,6 @@ var Relogio = {
             setTimeout(function() {
                 if (Relogio._contadorSync > Relogio.numeroPings) {
                     var mediaDiff = Relogio._somaDiff / Relogio._contadorSync;
-                    console.log("mediaDiff", mediaDiff);
                     var miliRedondo = Math.round(mediaDiff / 1000) * 1000;
                     Relogio.tempoLocal += miliRedondo;
                     setTimeout(function() {
@@ -243,6 +253,20 @@ var Cronometro = {
 
 
 var Mensagem = {
+    definirAtivacao: function(ativado) {
+        try {
+            if (ativado) {
+                elem('mensagem').style.display = '';
+                document.querySelectorAll('.gerencia-mensagem')[0].style.display = '';
+            } else {
+                elem('mensagem').style.display = 'none';
+                document.querySelectorAll('.gerencia-mensagem')[0].style.display = 'none';
+            }
+        } catch (e) {
+
+        }
+
+    },
     definir: function(titulo, conteudo) {
         if (acessando_como_gerencia) {
             enviarDados(url_base + 'json=true&mt=' + encodeURIComponent(titulo) + '&mc=' + encodeURIComponent(conteudo), function(dados) {
@@ -271,6 +295,7 @@ var Mensagem = {
         }
     },
     tratarAtualizacoes: function(dados) {
+
         var info = dados['update_info'];
         if (acessando_como_usuario) {
             if (info['mensagem_titulo'] != null || info['mensagem_conteudo'] != null) {
@@ -285,6 +310,7 @@ var Mensagem = {
                 elem('btn_enviar_mensagem_manual').classList.remove('destaque');
             }
         }
+        Mensagem.definirAtivacao(dados['opt_msg'] == true);
     }
 }
 
@@ -297,6 +323,19 @@ var Roleta = {
     contadorMovimentacao: 0,
     contadorExibicaoNumero: 0,
     bolasAleatorias: false,
+    definirAtivacao: function(ativado) {
+        try {
+            if (ativado) {
+                elem('sorteador').style.display = '';
+                document.querySelectorAll('.gerencia-roleta')[0].style.display = '';
+            } else {
+                elem('sorteador').style.display = 'none';
+                document.querySelectorAll('.gerencia-roleta')[0].style.display = 'none';
+            }
+        } catch (e) {
+
+        }
+    },
     tratarAtualizacoes: function(dados) {
         var info = dados['update_info'];
         if (info['codigo_sorteio_atual'] > 0) {
@@ -324,7 +363,7 @@ var Roleta = {
                 document.body.classList.remove('exibicao-numero-sorteado');
             }
         }
-
+        Roleta.definirAtivacao(dados['opt_rol']);
     },
     limparNumeroSorteado: function() {
         elem('numero_sorteado').innerHTML = '';

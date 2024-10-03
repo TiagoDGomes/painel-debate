@@ -34,11 +34,16 @@ if ($aguardando_resposta_json) {
         
         <div id="cronometro" class="meio"></div>
         <h1 id="titulo"><?= $painel_titulo ?></h1>
-        <div id="mensagem" class="conteudo central">
+        <?php if ($acessando_como_gerencia) : ?>
+            <div id="gerencia">
+                <?php include 'include/pagina.gerencia.php'; ?>
+            </div>
+        <?php endif; ?>
 
+        <div id="mensagem" class="conteudo central">
             <?php if ($acessando_como_gerencia) : ?>
 
-                <?php include_once 'include/pagina.gerencia.php'; ?>
+                <?php //include 'include/pagina.gerencia.php'; ?>
 
             <?php elseif ($acessando_como_usuario) : ?>
 

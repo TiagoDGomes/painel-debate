@@ -54,9 +54,11 @@ class Painel
                          codigo_sorteio_anterior,
                          codigo_roleta_atual,
                          codigo_roleta_anterior,
-                         ultimo_numero_sorteado
+                         ultimo_numero_sorteado,
+                         opt_msg,
+                         opt_rol
                     FROM painel AS p
-                    WHERE ' . QUERYPART_RESTRICAO_PERMISSAO_PAINEL;
+                    WHERE ' . QUERYPART_RESTRICAO_PERMISSAO_PAINEL;        
         $param = array($global_id, $chave_usuario_atual, $chave_gerencia_atual);
         try {
             $results = Database::fetch($query, $param);
@@ -88,6 +90,35 @@ class Painel
             exit('Proibido por razão desconhecida');
         }
     }
+    public static function obterValorOpcao($opt_key){
+        global $array_resposta_json;
+        if (!isset($_SESSION[$opt_key])){
+            //var_dump($array_resposta_json);
+            if (!isset($array_resposta_json['update_info'][$opt_key])){
+                Painel::buscarAtualizacoes();
+            }
+            if ($array_resposta_json['update_info']){
+                $_SESSION[$opt_key] = $array_resposta_json['update_info'][$opt_key];
+            } else {
+                $_SESSION[$opt_key] = NULL; 
+            }            
+        }
+        return $_SESSION[$opt_key];
+    }
+    public static function definirValorOpcao($opt_key, $opt_value){
+        global $global_id, $array_resposta_json;
+        Painel::verificarPermissaoParaPaginaOuErro(TRUE);
+        $query = "UPDATE painel SET $opt_key = ? WHERE id = ?"; 
+        $param = array($global_id);
+        try{
+            Database::execute($query, $param);
+            $array_resposta_json[$opt_key] = $opt_value;
+            $_SESSION[$opt_key] = $opt_value;
+        } catch (Exception $e){
+            //
+        }
+    }
+
 }
 
 
@@ -132,6 +163,12 @@ class Cronometro
 
 class Roleta
 {
+    public static function getAtivacao(){
+        return Painel::obterValorOpcao('opt_rol');
+    }
+    public static function definirAtivacao($ativado){
+        return Painel::definirValorOpcao('opt_rol', $ativado);
+    }
     public static function obterItensRoletas()
     {
         global $global_id;
@@ -141,7 +178,7 @@ class Roleta
                     INNER JOIN itens_roleta ON itens_roleta.id_roleta = roleta.id
                   WHERE id_painel = ?';
         $param = array($global_id);
-        return Database::fetchAll($query, $param);
+        return Database::execute($query, $param);
     }
 
     public static function tratarInclusaoItensRoleta()
@@ -281,7 +318,12 @@ class Roleta
 }
 class Mensagem
 {
-
+    public static function getAtivacao(){
+        return Painel::obterValorOpcao('opt_msg');
+    }
+    public static function definirAtivacao($ativado){
+        return Painel::definirValorOpcao('opt_msg', $ativado);
+    }
     public static function enviar($titulo, $conteudo)
     {
         global $global_id,  $chave_gerencia_atual, $array_resposta_json;

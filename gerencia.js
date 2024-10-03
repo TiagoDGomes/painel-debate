@@ -1,10 +1,21 @@
 Relogio.sincronizar(function() {
 
 });
+console.log('elem(opt_chk_msg)', elem('opt_chk_msg'))
+elem('chk_opt_msg').addEventListener('click', function(event) {
+    enviarDados(url_base + 'json=true&opt_msg=' + this.checked, function(dados) {
+        // Cronometro.iniciar();
+    });
 
-
+});
+elem('chk_opt_rol').addEventListener('click', function(event) {
+    enviarDados(url_base + 'json=true&opt_rol=' + this.checked, function(dados) {
+        // Cronometro.iniciar();
+    });
+});
 var tempoPreparado;
 try {
+
     elem('btn_enviar_mensagem_manual').addEventListener('click', function(event) {
         var mensagem_titulo = elem('txt_mensagem_titulo').value;
         var mensagem_conteudo = elem('txt_mensagem_conteudo').value;

@@ -3,7 +3,9 @@
     <legend>Cronômetro</legend>
     <span class="input">
         <select class="item" id="select_tempo_definido" name="select_tempo_definido">
+            <option value="30">30 segundos</option>
             <option value="60">1 minuto</option>
+            <option value="90">1 minuto e 30</option>
             <option value="120">2 minutos</option>
             <option value="180">3 minutos</option>
             <option value="240">4 minutos</option>
@@ -11,7 +13,6 @@
             <option value="600">10 minutos</option>
             <option disabled>--</option>
             <option value="5">5 segundos</option>
-            <option value="30">30 segundos</option>
         </select></span>
     <span class="input">
         <button class="item" id="btn_preparar">Preparar/Mostrar</button>
@@ -26,7 +27,20 @@
     </span>
 
 </fieldset>
-<fieldset class="gerencia-mensagem">
+<fieldset class="gerencia-geral" style="display: none">
+    <legend>Geral</legend>
+    <span class="mensagem">
+        <input id="chk_opt_msg" type="checkbox" style="width: 2em">
+        <label for="chk_opt_msg">Ativar sistema de mensagem pública</label>
+    </span>
+    <br>
+    <span class="roleta">
+        <input id="chk_opt_rol" type="checkbox" style="width: 2em">
+        <label for="chk_opt_rol">Ativar sistema de roleta/sorteio</label>
+    </span>
+    
+</fieldset>
+<fieldset class="gerencia-mensagem" style="display: none">
     <legend>Mensagem pública</legend>
     <p class="titulo">
         <input type="text" name="txt_mensagem_titulo" id="txt_mensagem_titulo">
@@ -44,13 +58,14 @@
         <label for="chk_auto_enviar">Auto-enviar mensagem após a escolha do número sorteado</label>
     </span>
 </fieldset>
-<fieldset>
+<fieldset class="gerencia-sorteio gerencia-roleta" style="display: none">
     <legend>Roleta para sorteio</legend>
     <p class="meio">
 
         <select id="select_roleta_ativa" name="roleta_ativa">
             <option value="-1">(roleta predefinida: 1 ou 2)</option>
             <?php $numero_anterior = ''; ?>
+            <?php if ($itens_roleta === false) : ?>
             <?php foreach ($itens_roleta as $linha) : ?>
                 <?php if ($linha['titulo'] != $numero_anterior) : ?>
                     <?php $identificador_questao =  $linha['id_roleta']; ?>
@@ -59,7 +74,7 @@
                 <?php endif; ?>
                 <?php $numero_anterior = $linha['titulo']; ?>
             <?php endforeach; ?>
-
+            <?php endif; ?>            
         </select>
         <script>
             var roleta_ativa = document.getElementById('select_roleta_ativa');
@@ -82,9 +97,9 @@
         </span>
 
     </p>
-    <div id="itens_roleta_container">
+    <div id="itens_roleta_container">        
         <table>
-
+            <?php if ($itens_roleta === false) : ?>
             <?php foreach ($itens_roleta as $linha) : ?>
 
                 <tr style="display:none" id="roleta_item_<?= $linha['id_roleta'] . '_' . $linha['numero'] ?>" class="roleta_item roleta_<?= $linha['id_roleta'] ?>">
@@ -97,7 +112,7 @@
                 </tr>
 
             <?php endforeach; ?>
-
+            <?php endif; ?>    
         </table>
 
     </div>

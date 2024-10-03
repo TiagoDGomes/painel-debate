@@ -33,7 +33,7 @@ $queries = array(
             cronometro_tempo_preparado $LONG_INT DEFAULT NULL,
             cronometro_tempo_inicio $LONG_INT DEFAULT NULL,
             cronometro_tempo_fim $LONG_INT DEFAULT NULL,                        
-            ultimo_numero_sorteado $INT DEFAULT NULL                      
+            ultimo_numero_sorteado $INT DEFAULT NULL  
         );",
     "CREATE TABLE IF NOT EXISTS roleta(
             id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD,
@@ -62,7 +62,9 @@ $queries = array(
         );",
     "CREATE UNIQUE INDEX IF NOT EXISTS  
             idx_roleta_conteudo_unico 
-            ON itens_roleta (id_roleta, numero);"
+            ON itens_roleta (id_roleta, numero);",
+    "ALTER TABLE painel ADD COLUMN opt_msg $INT DEFAULT 0",
+    "ALTER TABLE painel ADD COLUMN opt_rol $INT DEFAULT 0"    
     
 );
 
@@ -71,8 +73,16 @@ $queries = array(
     $db_file = new PDO(DATABASE_CONNECTION, DATABASE_USERNAME, DATABASE_PASSWORD);
     $db_file->beginTransaction();
     foreach ($queries as $query){
-        //echo "\n$query";
-        $db_file->exec($query);
+        if (str_contains($query, 'ALTER')){   
+            try{
+                $db_file->exec($query);
+            } catch (PDOException $e){
+
+            } 
+        } else {
+            $db_file->exec($query);
+        }
+        
     }
     $db_file->commit();
 
