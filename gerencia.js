@@ -24,6 +24,19 @@ try {
         });
 
     });
+    elem('btn_mostrar_painel_candidato_candidato').addEventListener('click', function(event) {
+        elem('btn_limpar_mensagem_manual').click();
+        elem('txt_mensagem_titulo').value = '';
+        elem('txt_mensagem_conteudo').value = '{{mostrar-painel-candidato-candidato}}';
+        elem('btn_enviar_mensagem_manual').click();
+
+        // var mensagem_titulo = '';
+        // var mensagem_conteudo = '{{mostrar-painel-candidato-candidato}}';
+        // enviarDados(url_base + 'json=true&mt=' + encodeURIComponent(mensagem_titulo) + '&mc=' + encodeURIComponent(mensagem_conteudo), function(dados) {
+        //     // Cronometro.iniciar();
+        // });
+
+    });
     elem('btn_limpar_mensagem_manual').addEventListener('click', function(event) {
         elem('txt_mensagem_titulo').value = '';
         elem('txt_mensagem_conteudo').value = '';

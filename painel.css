@@ -316,11 +316,11 @@ body.sorteio-ativo span.bola-sorteio {
     width: 3em;
     height: 3em;
     border: 1px solid silver;
-    border-radius: 50%;
     background-color: transparent;
     font-weight: bold;
     text-shadow: 1px 1px black;
     color: white;
+    border-radius: 50%;
     /*background-image: radial-gradient(ellipse at center, #00510f 1%, #17882c 100%);*/
     background-image: radial-gradient(circle, rgba(0, 81, 15, 0.5)29%, rgba(23, 136, 44, 0.65) 100%);
     position: fixed;
@@ -473,4 +473,50 @@ body.usuario #mensagem {
 #btn_enviar_mensagem_manual.destaque {
     font-weight: bold;
     color: red;
+}
+
+#itens_roleta_container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#itens_roleta_container table .numero,
+#itens_roleta_container table .check {
+    width: 1em;
+}
+
+#itens_roleta_container table .direita {
+    text-align: right;
+}
+
+#itens_roleta_container table .esquerda {
+    text-align: left;
+}
+
+#itens_roleta_container .header th,
+#itens_roleta_container .header td {
+    border-bottom: 1px solid black;
+}
+
+.bolinha {
+    border-radius: 50%;
+    background-color: silver;
+    width: 1.4em;
+    height: 1.4em;
+    display: inline-block;
+    color: #00000050;
+}
+
+#itens_roleta_container .numero input {
+    display: none;
+}
+
+#itens_roleta_container .numero input:checked~.bolinha {
+    background-color: green;
+    color: yellow;
+}
+
+#itens_roleta_container th,
+#itens_roleta_container td {
+    padding: 6px 4px 4px 0;
 }

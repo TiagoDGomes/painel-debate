@@ -63,7 +63,10 @@
     <p class="meio">
 
         <select id="select_roleta_ativa" name="roleta_ativa">
-            <option value="-1">(roleta predefinida: 1 ou 2)</option>
+            <option value="--" disabled selected>(selecione uma opção)</option>
+            <option value="-1">&lt;[ Candidatos (sorteio aleatório) ]&gt;</option>
+            <option value="-2">&lt;[ Candidato x Candidato ]&gt;</option>
+            <!--<option value="-1">(roleta predefinida: 1 ou 2)</option>-->
             <?php $numero_anterior = ''; ?>
             <?php if ($itens_roleta === false) : ?>
             <?php foreach ($itens_roleta as $linha) : ?>
@@ -98,16 +101,79 @@
 
     </p>
     <div id="itens_roleta_container">        
+
         <table>
             <?php if ($itens_roleta === false) : ?>
+            <?php foreach ($candidatos as $linha) : ?>
+
+                <tr style="display:none" id="roleta_item_-1_<?= $linha['numero'] ?>" class="roleta_item roleta_-1">
+                    <td class="check">
+                        <!--<input id="chk_roleta_item_-1_<?= $linha['numero'] ?>" type="checkbox">-->
+                    </td>
+                    <th class="numero">
+                        <span class="bolinha bolinha-<?= $linha['numero'] ?>"><?= $linha['numero'] ?></span>
+                    </th>
+                    <td class="conteudo" colspan="4"><?= $linha['nome'] ?></td>
+
+                </tr>
+
+            <?php endforeach; ?>
+            <tr style="display:none" class="roleta_item roleta_-2">
+                <th colspan="8">
+                    <button id="btn_mostrar_painel_candidato_candidato">Mostrar estas opções abaixo aos usuários</button>
+                </th>
+            </tr>
+
+            <tr style="display:none" class="roleta_item roleta_-2 header">
+                <td></td>
+                <th class="esquerda" colspan="2">
+                    <input name="chk_sorteio_lado" type="radio" checked="checked">
+                    Quem pergunta:
+                </th>
+                <th class="direita" colspan="2">Quem responde:<input name="chk_sorteio_lado" type="radio"></th>
+                <td></td>
+            </tr>
+            
+            <?php foreach ($candidatos as $linha) : ?>
+
+                <tr style="display:none" id="roleta_item_-2_<?= $linha['numero'] ?>" class="roleta_item roleta_-2">
+                    <td class="check">
+                        <input id="chk_roleta_item_-2_<?= $linha['numero'] ?>" type="checkbox">
+                    </td>
+
+                    <th class="numero">
+                        <input readonly id="opt_roleta_item_esquerda_-2_<?= $linha['numero'] ?>" name="opt_sorteio_lado_esquerdo" type="radio">
+                        <label for="opt_roleta_item_esquerda_-2_<?= $linha['numero'] ?>" class="bolinha bolinha-<?= $linha['numero'] ?>">
+                            <?= $linha['numero'] ?>
+                        </label>
+                    </th>
+                    <td class="conteudo"><?= $linha['nome'] ?></td>
+                    <td class="conteudo direita"><?= $linha['nome'] ?></td>
+                    <th class="numero">
+                        <input readonly id="opt_roleta_item_direita_-2_<?= $linha['numero'] ?>" name="opt_sorteio_lado_direita" type="radio">
+                        <label for="opt_roleta_item_direita_-2_<?= $linha['numero'] ?>" class="bolinha bolinha-<?= $linha['numero'] ?>">
+                            <?= $linha['numero'] ?>
+                        </label>
+                    </th>
+                    <td class="check">
+                        <input id="chk_roleta_item_-2_<?= $linha['numero'] ?>" type="checkbox">
+                    </td>
+
+                </tr>
+
+            <?php endforeach; ?>
+            
             <?php foreach ($itens_roleta as $linha) : ?>
 
                 <tr style="display:none" id="roleta_item_<?= $linha['id_roleta'] . '_' . $linha['numero'] ?>" class="roleta_item roleta_<?= $linha['id_roleta'] ?>">
                     <td class="check">
-                        <!--<input  id="chk_roleta_item_<?= $linha['id_roleta'] . '_' . $linha['numero'] ?>" type="checkbox">-->
+                        <input id="chk_roleta_item_<?= $linha['id_roleta'] . '_' . $linha['numero'] ?>" type="checkbox">
                     </td>
-                    <th class="numero"><?= $linha['numero'] ?></th>
-                    <td class="conteudo"><?= $linha['conteudo'] ?></td>
+                    <th class="numero">
+                        <span class="bolinha bolinha-<?= $linha['numero'] ?>">
+                            <?= $linha['numero'] ?>
+                        </span></th>
+                    <td class="conteudo" colspan="4"><?= $linha['conteudo'] ?></td>
 
                 </tr>
 
@@ -117,6 +183,26 @@
 
     </div>
     <hr>
+    <p>
+        <a href="#" onclick="escolher_novo_arquivo_candidato()">
+            Escolher um arquivo texto com o nome dos candidatos
+        </a>
+
+        <form action="<?= $url_base ?>" method="POST" id="form_candidato" enctype="multipart/form-data">
+            <label for="candidato_upload"></label>
+            <input style="display:none" type="file" accept="text/plain" name="candidato_upload" id="candidato_upload">
+        </form>
+        <script>
+            function escolher_novo_arquivo_candidato() {
+                elem('candidato_upload').click();
+                elem('candidato_upload').onchange = function() {
+                    if (this.value) {
+                        elem('form_candidato').submit();
+                    }
+                };
+            }
+        </script>
+    </p>
     <p>
         <a href="#" onclick="escolher_novo_arquivo_roleta()">
             Escolher um arquivo texto com perguntas para uma nova roleta
@@ -137,4 +223,5 @@
             }
         </script>
     </p>
+
 </fieldset>

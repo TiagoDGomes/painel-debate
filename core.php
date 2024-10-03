@@ -86,7 +86,7 @@ function default_fatal_error_handler()
 
 //set_exception_handler("default_exception_handler");
 //set_error_handler('default_error_handler');
-register_shutdown_function("default_fatal_error_handler");
+//register_shutdown_function("default_fatal_error_handler");
 
 include_once 'classes.php';
 
@@ -132,6 +132,7 @@ $limpando_mensagem = ($acessando_como_gerencia) && isset($_GET[GET_MENSAGEM_LIMP
 $buscando_atualizacao = (!$acessando_para_novo_em_branco) && isset($_GET[GET_BUSCANDO_ATUALIZACAO]);
 
 $enviando_lista_roleta = $acessando_como_gerencia && isset($_FILES["roleta_upload"]);
+$enviando_lista_candidatos = $acessando_como_gerencia && isset($_FILES["candidato_upload"]);
 
 $iniciar_sorteio = $acessando_como_gerencia && isset($_GET[GET_INICIAR_SORTEIO]);
 $terminar_sorteio = $acessando_como_gerencia && isset($_GET[GET_TERMINAR_SORTEIO]);
@@ -188,13 +189,21 @@ if ($acessando_como_usuario || $acessando_como_gerencia) {
         } else if ($enviando_lista_roleta) {
             $body_class .= ' tratar-inclusao-itens-roleta';
             Roleta::tratarInclusaoItensRoleta();
+<<<<<<< HEAD
         } else if ($definindo_opcao_mensagem) { 
             Mensagem::definirAtivacao($_GET[GET_GERAL_ATIVAR_MENSAGEM] == 'true');
         } else if ($definindo_opcao_roleta) { 
             Roleta::definirAtivacao($_GET[GET_GERAL_ATIVAR_ROLETA] == 'true');
         } else {
+=======
+        } else if ($enviando_lista_candidatos) {
+            $body_class .= ' tratar-inclusao-candidatos';
+            Roleta::tratarInclusaoCandidatos();
+        }else {
+>>>>>>> c4c05c6947246233d626a1a7ce8df3a55b26a067
             $body_class .= ' normal';
             $itens_roleta = Roleta::obterItensRoletas();
+            $candidatos = Roleta::obterCandidatos();
         }
         $painel_titulo = "Painel de gerência";
     } else {
@@ -221,3 +230,4 @@ if ($acessando_como_usuario || $acessando_como_gerencia) {
         GET_CHAVE_USUARIO => $chave_usuario_atual
     ));
 }
+

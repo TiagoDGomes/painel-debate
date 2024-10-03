@@ -75,7 +75,7 @@ if ($aguardando_resposta_json) {
 
 
                 <div class="bloco direita">
-                    <div class="titulo meio" id="titulo_numero_sorteado">Sorteado</div>
+                    <div class="titulo meio" id="titulo_numero_sorteado" style="visibility:hidden">Sorteado</div>
                     <div class="numero" id="numero_sorteado">--</div>
                 </div>
 
