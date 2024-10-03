@@ -5,7 +5,7 @@ Painel para gerência de tempo e perguntas em debates para eleições. Você pod
  
 - Um servidor Web com suporte a PHP ativo (pode ser Apache HTTP Server, nginx etc.);
 - um banco de dados, que pode ser MySQL ou SQLite (outros bancos de dados não foram testados)
-- sistema operacional compatível. Nos testes foram usados Windows e Linux. Caso você deseje compartilhar os recursos de tela de usuários, seu servidor Web deve estar acessível via rede.
+- sistema operacional compatível. Nos testes foram usados Windows e Linux. Caso você deseje compartilhar os recursos de usuários externos, seu servidor Web deve estar com firewall configurado para ser acessível externamente.
 
 ## Instalação
 
