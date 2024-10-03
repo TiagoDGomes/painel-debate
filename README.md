@@ -3,14 +3,13 @@ Painel para gerência de tempo e perguntas em debates para eleições. Você pod
 
 ## Requisitos
  
-- Apache HTTP Server;
-- PHP;
+- Um servidor Web com suporte a PHP ativo (pode ser Apache HTTP Server, nginx etc.);
 - um banco de dados, que pode ser MySQL ou SQLite (outros bancos de dados não foram testados)
-- sistema operacional compatível. Nos testes foram usados Windows e Linux. Caso você deseje compartilhar os recursos de tela de usuários, seu servidor Apache deve estar acessível via rede.
+- sistema operacional compatível. Nos testes foram usados Windows e Linux. Caso você deseje compartilhar os recursos de tela de usuários, seu servidor Web deve estar acessível via rede.
 
 ## Instalação
 
-- Baixe os arquivos e extraia para seu diretório Web (ou `git clone https://github.com/TiagoDGomes/painel-debate.git`);
+- Baixe os arquivos para seu diretório Web (`git clone https://github.com/TiagoDGomes/painel-debate.git`);
 - Copie o arquivo `config.php-default` como `config.php`;
 - Abra o arquivo `config.php` e configure a seu gosto:
   - se decidir por MySQL, deixe configurado uma nova database;
