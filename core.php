@@ -132,7 +132,7 @@ $limpando_mensagem = ($acessando_como_gerencia) && isset($_GET[GET_MENSAGEM_LIMP
 $buscando_atualizacao = (!$acessando_para_novo_em_branco) && isset($_GET[GET_BUSCANDO_ATUALIZACAO]);
 
 $enviando_lista_roleta = $acessando_como_gerencia && isset($_FILES["roleta_upload"]);
-$enviando_lista_candidatos = $acessando_como_gerencia && isset($_FILES["candidato_upload"]);
+
 
 $iniciar_sorteio = $acessando_como_gerencia && isset($_GET[GET_INICIAR_SORTEIO]);
 $terminar_sorteio = $acessando_como_gerencia && isset($_GET[GET_TERMINAR_SORTEIO]);
@@ -189,16 +189,13 @@ if ($acessando_como_usuario || $acessando_como_gerencia) {
         } else if ($enviando_lista_roleta) {
             $body_class .= ' tratar-inclusao-itens-roleta';
             Roleta::tratarInclusaoItensRoleta();
-
         } else if ($definindo_opcao_mensagem) { 
             Mensagem::definirAtivacao($_GET[GET_GERAL_ATIVAR_MENSAGEM] == 'true');
         } else if ($definindo_opcao_roleta) { 
             Roleta::definirAtivacao($_GET[GET_GERAL_ATIVAR_ROLETA] == 'true');
         } else {
-
             $body_class .= ' normal';
             $itens_roleta = Roleta::obterItensRoletas();
-            $candidatos = Roleta::obterCandidatos();
         }
         $painel_titulo = "Painel de gerência";
     } else {

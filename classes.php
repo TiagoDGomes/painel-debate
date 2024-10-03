@@ -169,6 +169,7 @@ class Roleta
     public static function definirAtivacao($ativado){
         return Painel::definirValorOpcao('opt_rol', $ativado);
     }
+    
     public static function obterItensRoletas()
     {
         global $global_id;
@@ -176,16 +177,6 @@ class Roleta
         $query = 'SELECT roleta.id as id_roleta, numero, titulo, conteudo 
                     FROM roleta 
                     INNER JOIN itens_roleta ON itens_roleta.id_roleta = roleta.id
-                  WHERE id_painel = ?';
-        $param = array($global_id);
-        return Database::execute($query, $param);
-    }
-    public static function obterCandidatos()
-    {
-        global $global_id;
-        Painel::verificarPermissaoParaPaginaOuErro(TRUE);
-        $query = 'SELECT numero, nome
-                    FROM candidato                 
                   WHERE id_painel = ?';
         $param = array($global_id);
         return Database::fetchAll($query, $param);
@@ -221,32 +212,10 @@ class Roleta
         Database::commit();
         redirecionar_para_atualizar();
         
-    }public static function tratarInclusaoCandidatos()
-    {
-        global $global_id;
-        Painel::verificarPermissaoParaPaginaOuErro(TRUE);
-        Database::beginTransaction();        
-        $lista = file_get_contents($_FILES["candidato_upload"]["tmp_name"]);
-        $lista_real = explode(PHP_EOL, $lista);
-        $numero = 1;
-        $query = "INSERT INTO candidato (id_painel, numero, nome) VALUES (?, ?)";
-        
-        foreach ($lista_real as $nome) {
-            if ($nome != '') {
-                $param = array($global_id, $numero, $nome);
-                $numero++;
-                Database::execute($query, $param);
-                //var_dump($param);
-            }
-        }
-        //exit();
-        Database::commit();
-        redirecionar_para_atualizar();
-        
     }
     public static function iniciarSorteio($codigo_roleta_atual)
     {
-        global $global_id,  $chave_gerencia_atual, $array_resposta_json, $SORTEIO_FIXO_INTMAP;
+        global $global_id,  $chave_gerencia_atual, $array_resposta_json;
         $array_resposta_json['acao'] = 'iniciar_sorteio';
         $query = 'UPDATE painel AS p
                     SET codigo_sorteio_atual = codigo_sorteio_anterior + 1,
@@ -269,10 +238,6 @@ class Roleta
         
         $array_resposta_json['acao'] = 'terminar_sorteio';
 
-        $query_codigo_roleta_atual = "SELECT codigo_roleta_anterior FROM painel AS p WHERE p.id = ?";        
-        $param_codigo_roleta_atual = array($global_id);
-        $codigo_roleta = Database::fetchOne($query_codigo_roleta_atual, $param_codigo_roleta_atual);
-
         $query = 'UPDATE painel AS p
                      SET codigo_sorteio_anterior = codigo_sorteio_atual, 
                          codigo_roleta_anterior = codigo_roleta_atual
@@ -287,22 +252,13 @@ class Roleta
 
         $query3 = 'SELECT sum(somatorio) FROM sorteio                                
                         WHERE id_painel = ? 
-                        AND id_roleta = ?
+                        AND id_roleta = (SELECT codigo_roleta_anterior FROM painel AS p WHERE p.id = ?)
                         AND codigo_sorteio = (SELECT codigo_sorteio_anterior FROM painel AS p WHERE p.id = ?)';
-        $param3 = array($global_id, $codigo_roleta, $global_id);
+        $param3 = array($global_id, $global_id, $global_id);
 
-
-        if ($codigo_roleta < 0){
-            $query4 = "SELECT count(*) FROM candidato                               
-                        WHERE id_painel = ?";
-            $param4 = array($global_id);
-        } else {
-            $query4= "SELECT count(*) FROM itens_roleta                                
-                        WHERE id_roleta = ?";
-            $param4 = array($codigo_roleta);
-        }
-        
-
+        $query4 = 'SELECT count(*) FROM itens_roleta                                
+                        WHERE id_roleta = (SELECT codigo_roleta_anterior FROM painel AS p WHERE p.id = ?)';
+        $param4 = array($global_id);
 
         $query5 = 'UPDATE painel AS p
                     SET ultimo_numero_sorteado = ?           

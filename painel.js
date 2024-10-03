@@ -48,6 +48,7 @@ var Relogio = {
             setTimeout(function() {
                 if (Relogio._contadorSync > Relogio.numeroPings) {
                     var mediaDiff = Relogio._somaDiff / Relogio._contadorSync;
+                    console.log("mediaDiff", mediaDiff);
                     var miliRedondo = Math.round(mediaDiff / 1000) * 1000;
                     Relogio.tempoLocal += miliRedondo;
                     setTimeout(function() {
