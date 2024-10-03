@@ -189,18 +189,13 @@ if ($acessando_como_usuario || $acessando_como_gerencia) {
         } else if ($enviando_lista_roleta) {
             $body_class .= ' tratar-inclusao-itens-roleta';
             Roleta::tratarInclusaoItensRoleta();
-<<<<<<< HEAD
+
         } else if ($definindo_opcao_mensagem) { 
             Mensagem::definirAtivacao($_GET[GET_GERAL_ATIVAR_MENSAGEM] == 'true');
         } else if ($definindo_opcao_roleta) { 
             Roleta::definirAtivacao($_GET[GET_GERAL_ATIVAR_ROLETA] == 'true');
         } else {
-=======
-        } else if ($enviando_lista_candidatos) {
-            $body_class .= ' tratar-inclusao-candidatos';
-            Roleta::tratarInclusaoCandidatos();
-        }else {
->>>>>>> c4c05c6947246233d626a1a7ce8df3a55b26a067
+
             $body_class .= ' normal';
             $itens_roleta = Roleta::obterItensRoletas();
             $candidatos = Roleta::obterCandidatos();
