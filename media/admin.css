@@ -8,10 +8,8 @@
     text-align: center;
 }
 
-body.timer-ready button.pause {
-    visibility: hidden;
-}
-
-body.admin.timer-sync .timer-buttons {
+body.admin.timer-sync .timer-buttons,
+body.admin.timer-zero button.pause,
+body.admin.timer-ready button.pause {
     visibility: hidden;
 }
