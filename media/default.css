@@ -108,3 +108,25 @@ body .container-title h1 {
     margin: 0;
     padding: 0 5px 0 15px;
 }
+
+body.admin #qrcode {
+    bottom: 4em;
+}
+
+#qrcode {
+    position: fixed;
+    margin: 2px;
+    right: 2px;
+
+}
+
+body.user #qrcode {
+    bottom: 2px
+}
+
+
+@media (max-width: 768px) or (max-height: 768px) {
+    #qrcode {
+        display: none;
+    }
+}

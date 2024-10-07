@@ -9,13 +9,21 @@
     <link rel="stylesheet" href="media/button.css?v=<?= @$APP_VERSION ?>"> 
     <script>
         var GLOBAL_ID = '<?= $_GET['i'] ?>';
-        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>;
+        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>; 
+        var REQUEST_SCHEME = '<?= $_SERVER["REQUEST_SCHEME"] ?>';
+        var HTTP_HOST = '<?= $_SERVER["HTTP_HOST"] ?>';       
+        var CURRENT_URL = REQUEST_SCHEME + '://' + HTTP_HOST + '?i=' + GLOBAL_ID;
+    </script>
     </script>
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
+    <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
     <?php if (AccessCheck::isValidAdminPage()): ?>
 
     <link rel="stylesheet" href="media/admin.css?v=<?= @$APP_VERSION ?>"> 
+    <script>
+        CURRENT_URL += '&g=<?= $_GET['g'] ?>';
+    </script>
 
     <?php else: ?>
 
@@ -26,6 +34,7 @@
 <body class="<?= $body_admin_class ?>">
     <div id="main">        
         <div id="visible" style="display:none">
+            
             <div class="container-timer">
                 <div id="timer"></div>
             </div>
@@ -121,14 +130,8 @@
                         </button>
                     </div>
                 </div>  
-                <script>
-                    function index_prepareTime(t){
-                        m = Math.floor(t / 60);
-                        s = t % 60; ss = s > 9 ? s : "0" + s;
-                        Timer.prepareTime(t);
-                        document.querySelectorAll("button.start .text")[0].innerHTML = m + ":" + ss;
-                    }
-                </script>
+                
+                
             <!--</admin>-->
 
             <?php endif; ?>         
@@ -140,7 +143,34 @@
         </div>
         <div class="container-debug">
             <pre id="debug"></pre>
-        </div>       
-    </div>    
+        </div>
+        <div id="qrcode"></div>       
+    </div>   
+    <script type="text/javascript">
+
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: CURRENT_URL,
+            width: 128,
+            height: 128,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+        document.getElementById("qrcode").title="";
+        <?php if (AccessCheck::isValidAdminPage()): ?>
+        document.getElementById("qrcode").addEventListener('mouseover', function(event){
+            this.style.filter = 'blur(0)';
+        });
+        document.getElementById("qrcode").addEventListener('mouseout', function(event){
+            this.style.filter = 'blur(4px)';
+        });        
+        function index_prepareTime(t){
+            m = Math.floor(t / 60);
+            s = t % 60; ss = s > 9 ? s : "0" + s;
+            Timer.prepareTime(t);
+            document.querySelectorAll("button.start .text")[0].innerHTML = m + ":" + ss;
+        }
+        <?php endif; // (AccessCheck::isValidAdminPage()): ?>
+    </script> 
 </body>
 </html>
