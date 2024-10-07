@@ -10,6 +10,10 @@
     --status-font-color: rgba(255, 255, 255, 0.75);
 }
 
+a {
+    text-decoration: none;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     padding: 0;
@@ -69,13 +73,25 @@ body .container-status div {
     background-color: var(--status-color);
     color: var(--status-font-color);
     padding: 8px 15px 8px 15px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     border-radius: 0 8px 0 0;
+    transform: translate(0%, 0%);
 }
 
 body .container-status div:empty {
     padding: 0;
+}
+
+#status-basic {
+    left: 50%;
+    transform: translate(-50%, 0%);
+    border-radius: 8px 8px 0 0;
+    font-size: .75em
+}
+
+body.user #status-basic {
+    display: none
 }
 
 body #status-error {
