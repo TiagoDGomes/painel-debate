@@ -113,7 +113,13 @@
                             <span class="front text">15:00</span>                        
                         </button>
                     </div>
-                    
+                    <div class="timer-buttons">
+                        <button onclick="window.open('?i=<?= $_GET['i'] ?>')" class="big blue">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">Tela inteira</span>                        
+                        </button>
+                    </div>
                 </div>  
                 <script>
                     function index_prepareTime(t){
@@ -129,6 +135,7 @@
         </div>  
         <div class="container-status">
             <div id="status"></div>
+            <div id="status-basic"></div>
             <div id="status-error"><noscript>O Javascript está desativado.</noscript></div>
         </div>
         <div class="container-debug">
