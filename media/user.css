@@ -7,13 +7,15 @@ body.user .container-timer {
 
 }
 
-body.user #qrcode {
-    display: none;
-}
+
 
 @media (orientation: landscape) {
     body.user .container-timer {
         font-size: 60vh;
+    }
+
+    body.user #qrcode {
+        display: none;
     }
 }
 
