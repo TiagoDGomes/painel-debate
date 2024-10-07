@@ -9,6 +9,7 @@
     --button-green-edge-2:#02a317;
     --button-green-front: #09ff00;    
 }
+
 button.red .edge{
     background: linear-gradient(
       to left,

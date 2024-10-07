@@ -3,4 +3,8 @@
     max-width: 800px;
     margin: 0 auto;
 }
+.timer-buttons{
+    margin: 1em;
+    text-align: center;
+}
 

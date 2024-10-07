@@ -43,26 +43,68 @@
 
             <!--<admin>--> 
                 <div class="container-admin">
-                    <button onclick="Timer.syncTicTac()" class="red" role="button">
+                    <p>
+                    <!--<button onclick="Timer.syncTicTac()" class="red" role="button">
                         <span class="shadow"></span>
                         <span class="edge"></span>
                         <span class="front text">Sync</span>
                     </button>
-                    <button onclick="Timer.syncTicTac()">Sync</button>
                     <button onclick="Timer.prepareTime(11)" class="blue">
                         <span class="shadow"></span>
                         <span class="edge"></span>
                         <span class="front text">0:11</span>                        
-                    </button>
-                    <button onclick="Timer.prepareTime(30)" color="green">
-                        <span class="shadow"></span>
-                        <span class="edge"></span>
-                        <span class="front text">0:30</span>    
-                    </button>
-                    <button onclick="Timer.prepareTime(60)">1:00</button>
-                    <button onclick="Timer.start()">Start</button>
-                    <button onclick="Timer.prepareTime(Timer.getRemainingSeconds())">Pause</button>
-                    <button onclick="window.open('about:blank')">Pause</button>
+                    </button>-->
+                    <div class="timer-buttons">
+                        <button onclick="Timer.prepareTime(30)" class="blue">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">0:30</span>    
+                        </button>
+                        <button onclick="Timer.prepareTime(60)" class="blue">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">1:00</span>
+                        </button>
+                        <button onclick="Timer.prepareTime(90)" class="blue">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">1:30</span>                        
+                        </button>
+                        <button onclick="Timer.prepareTime(120)" class="blue">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">2:00</span>                        
+                        </button>
+                    </div>
+                    <div class="timer-buttons">
+                        <button onclick="Timer.prepareTime(180)" class="blue">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">3:00</span>                        
+                        </button>
+                        <button onclick="Timer.prepareTime(240)" class="blue">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">4:00</span>                        
+                        </button>
+                        <button onclick="Timer.prepareTime(300)" class="blue">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">5:00</span>                        
+                        </button>
+                    </div>
+                    <div class="timer-buttons">
+                        <button onclick="Timer.start()" class="green">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">Start</span>   
+                        </button>
+                        <button onclick="Timer.prepareTime(Timer.getRemainingSeconds())">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">Pause</span>      
+                        </button>
+                    </div>
                 </div>  
             <!--</admin>-->
 
