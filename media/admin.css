@@ -1,13 +1,17 @@
-.container-admin{
+.container-admin {
     padding-top: 1em;
-    max-width: 800px;
     margin: 0 auto;
 }
-.timer-buttons{
+
+.timer-buttons {
     margin: 1em;
     text-align: center;
 }
 
-body.timer-ready button.pause{
+body.timer-ready button.pause {
+    visibility: hidden;
+}
+
+body.admin.timer-sync .timer-buttons {
     visibility: hidden;
 }

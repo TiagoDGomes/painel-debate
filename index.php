@@ -54,57 +54,66 @@
                         <span class="edge"></span>
                         <span class="front text">0:11</span>                        
                     </button>-->
-                    <div class="timer-buttons">
-                        <button onclick="index_prepareTime(30)" class="">
+                    <div class="timer-buttons command-buttons">
+                        <button onclick="Timer.start()" class="big green start">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">▶️</span>   
+                        </button>
+                        <button onclick="index_prepareTime(Timer.getRemainingSeconds())" class="big pause">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front text">⏸️</span>      
+                        </button>
+                    </div>
+                    <div class="timer-buttons prepare-buttons">
+                        <button onclick="index_prepareTime(30)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">0:30</span>    
                         </button>
-                        <button onclick="index_prepareTime(60)" class="">
+                        <button onclick="index_prepareTime(60)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">1:00</span>
                         </button>
-                        <button onclick="index_prepareTime(90)" class="">
+                        <button onclick="index_prepareTime(90)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">1:30</span>                        
                         </button>
-                        <button onclick="index_prepareTime(120)" class="">
+                        <button onclick="index_prepareTime(120)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">2:00</span>                        
                         </button>
-                    </div>
-                    <div class="timer-buttons">
-                        <button onclick="index_prepareTime(180)" class="">
+                        <button onclick="index_prepareTime(180)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">3:00</span>                        
                         </button>
-                        <button onclick="index_prepareTime(240)" class="">
+                        <button onclick="index_prepareTime(240)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">4:00</span>                        
                         </button>
-                        <button onclick="index_prepareTime(300)" class="">
+                        <button onclick="index_prepareTime(300)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">5:00</span>                        
                         </button>
-                    </div>
-                    <div class="timer-buttons">
-                        <button onclick="Timer.start()" class="green start">
+                        <button onclick="index_prepareTime(600)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
-                            <span class="front text">Start</span>   
+                            <span class="front text">10:00</span>                        
                         </button>
-                        <button onclick="index_prepareTime(Timer.getRemainingSeconds())" class="pause">
+                        <button onclick="index_prepareTime(900)" class="big">
                             <span class="shadow"></span>
                             <span class="edge"></span>
-                            <span class="front text">Pause</span>      
+                            <span class="front text">15:00</span>                        
                         </button>
                     </div>
+                    
                 </div>  
                 <script>
                     function index_prepareTime(t){

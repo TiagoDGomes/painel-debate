@@ -7,10 +7,10 @@ var Timer = {
     startTime: null,
     endTime: null,
     preparedTime: null,
-    isSyncing: function () {
+    isSyncing: function() {
         return Timer._syncing;
     },
-    setSyncing: function (s) {
+    setSyncing: function(s) {
         if (s) {
             Status.setMessage("Sincronizando...");
         } else {
@@ -18,17 +18,17 @@ var Timer = {
         }
         Timer._syncing = s;
     },
-    prepareTime: function (time_value) {
+    prepareTime: function(time_value) {
         //console.log('Timer.prepareTime time_value', time_value);
         Timer.preparedTime = time_value;
-        Property.set('timer-prepared', (time_value), function (data) {
+        Property.set('timer-prepared', (time_value), function(data) {
             document.body.classList.add('timer-ready');
             Timer.preparedTime = data['timer-prepared'];
             Timer.refreshInterface();
             //console.log('prepareTime set', data);
         });
     },
-    syncTicTac: function () {
+    syncTicTac: function() {
         //console.log("Timer.syncTicTac");
         document.body.classList.add('timer-sync');
         Timer.localTime = 0;
@@ -39,12 +39,12 @@ var Timer = {
         Timer._diffSum = 0;
         clearInterval(Timer._interval1s);
         Timer.setContent('');
-        Timer._syncTicTacLoop(function () {
+        Timer._syncTicTacLoop(function() {
 
         });
     },
-    _syncTicTacLoop: function (callback_sync) {
-        HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTime, function (data) {
+    _syncTicTacLoop: function(callback_sync) {
+        HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTime, function(data) {
             //console.log("Timer._syncTicTacLoop", data);
             var diff = data['diff'];
             Timer.serverTimeMillis = data['serverTimeMillis'];
@@ -55,13 +55,13 @@ var Timer = {
             Timer.localTime = Timer.serverTimeMillis;
             Timer._syncCount++;
             var nextTimeout = 1000 - diffToZero;
-            console.log("Timer._syncCount,diff, diffToZero, nextTimeout", Timer._syncCount,diff, diffToZero,nextTimeout);
-            setTimeout(function () {
+            console.log("Timer._syncCount,diff, diffToZero, nextTimeout", Timer._syncCount, diff, diffToZero, nextTimeout);
+            setTimeout(function() {
                 if (Timer._syncCount >= Timer.pingCount) {
                     var avgDiff = Timer._diffSum / Timer._syncCount;
                     var miliRounded = Math.round(avgDiff / 1000) * 1000;
                     Timer.localTime += miliRounded;
-                    setTimeout(function () {
+                    setTimeout(function() {
                         Timer.initTicTac();
                         try {
                             callback_sync();
@@ -75,7 +75,7 @@ var Timer = {
             }, nextTimeout);
         });
     },
-    initTicTac: function () {
+    initTicTac: function() {
         console.log('Timer.initTicTac');
         clearInterval(Timer._interval1s);
         Timer.setSyncing(false);
@@ -84,14 +84,14 @@ var Timer = {
         delete Timer._diffSum;
         delete Timer.serverTimeMillis;
         Timer.localTime = Math.round(Timer.localTime / 1000);
-        Timer._interval1s = setInterval(function () {
+        Timer._interval1s = setInterval(function() {
             Timer.localTime += 1;
             Timer.updateData(Timer.refreshInterface);
         }, 1000);
         Timer.updateData(Timer.refreshInterface);
     },
-    updateData: function (callback) {
-        Property.getAll(function(data){
+    updateData: function(callback) {
+        Property.getAll(function(data) {
             if (data) {
                 Timer.preparedTime = data['timer-prepared'];
                 Timer.startTime = data['timer-start'];
@@ -103,9 +103,9 @@ var Timer = {
                 }
             }
             if (callback) callback();
-        });        
+        });
     },
-    refreshInterface: function () {
+    refreshInterface: function() {
         var seconds = 0;
         document.body.classList.remove('timer-sync-error');
         document.body.classList.remove('timer-ignored');
@@ -115,17 +115,16 @@ var Timer = {
             document.body.classList.add('timer-semaphore');
             seconds = Timer.preparedTime;
             var secondsRegressive = Timer.startTime - Timer.localTime;
+            Status.setMessage("Aguarde o sinal...");
             if (secondsRegressive == 2) {
-                Status.setMessage("Ready...");
                 document.body.classList.remove('set');
                 document.body.classList.add('ready');
             } else if (secondsRegressive == 1) {
-                Status.setMessage("Set...");
                 document.body.classList.remove('ready');
                 document.body.classList.add('set');
             }
         } else if (Timer.isPaused()) {
-            Status.setMessage("Paused");
+            Status.setMessage("Em pausa");
             seconds = Timer.preparedTime;
             document.body.classList.add('timer-ready');
             document.body.classList.remove('timer-semaphore');
@@ -136,16 +135,16 @@ var Timer = {
             document.body.classList.remove('ready');
             document.body.classList.remove('set');
             seconds = Timer.getRemainingSeconds();
-            Status.setMessage("Running...");
+            Status.setMessage("No tempo");
         }
         var valueShow = '';
 
         if (Timer.isEnding()) {
             document.body.classList.add('timer-ending');
-            Status.setMessage("Ending...");
+            Status.setMessage("Terminando...");
             if (seconds <= 3) {
                 //if (seconds % 2 == 0) {
-                    document.body.classList.add('timer-alert');
+                document.body.classList.add('timer-alert');
                 //} else {
                 //    document.body.classList.remove('timer-alert');
                 //}
@@ -181,7 +180,7 @@ var Timer = {
         if (!Timer.isPrepared()) {
             seconds = Timer.getRemainingSecondsDiff();
             if (seconds < 0) {
-                Status.setMessage("Stop");
+                Status.setMessage("Tempo esgotado");
                 document.body.classList.add('timer-zero');
                 Timer.setText('0:00');
                 document.title = '0:00';
@@ -191,42 +190,42 @@ var Timer = {
             }
         }
     },
-    setContent: function (content) {
+    setContent: function(content) {
         document.getElementById('timer').innerHTML = content;
     },
-    setText: function (content) {
+    setText: function(content) {
         Timer.setContent(content);
         document.title = content;
     },
-    getRemainingSeconds: function () {
+    getRemainingSeconds: function() {
         seconds = Timer.getRemainingSecondsDiff();
         if (seconds < 0) {
             return 0;
         }
         return seconds;
     },
-    getRemainingSecondsDiff: function () {
+    getRemainingSecondsDiff: function() {
         return Timer.endTime - Timer.localTime
     },
-    isSemaphored: function () {
+    isSemaphored: function() {
         return Timer.startTime > Timer.localTime;
     },
-    isPaused: function () {
+    isPaused: function() {
         return Timer.preparedTime && Timer.endTime == 0;
     },
-    isEnding: function () {
+    isEnding: function() {
         seconds = Timer.getRemainingSecondsDiff();
         return seconds >= 0 && seconds < 10;
     },
-    isRunning: function () {
+    isRunning: function() {
         seconds = Timer.getRemainingSeconds();
         return seconds > 0 && seconds < 86400;
     },
-    isPrepared: function () {
+    isPrepared: function() {
         return Timer.endTime <= 0;
     },
-    start: function () {
-        Property.set('timer-start', Timer.localTime + 3, function (data) {
+    start: function() {
+        Property.set('timer-start', Timer.localTime + 3, function(data) {
             Timer.preparedTime = data['timer-prepared'];
             Timer.startTime = data['timer-start'];
             Timer.endTime = data['timer-end'];
@@ -237,38 +236,38 @@ var Timer = {
 }
 
 var Property = {
-    getAll: function (callbackdata) {
-        HTTPRequest.getJSON('?up=1', function (data) {
+    getAll: function(callbackdata) {
+        HTTPRequest.getJSON('?up=1', function(data) {
             if (data) {
-                Status.setMessageError('');                
+                Status.setMessageError('');
             } else {
-                Status.setMessageError('A conexão com o servidor foi perdida. Verifique o status da rede.');                
+                Status.setMessageError('A conexão com o servidor foi perdida. Verifique o status da rede.');
             }
             callbackdata(data);
         });
     },
-    set: function (prop_name, prop_value, func) {
+    set: function(prop_name, prop_value, func) {
         HTTPRequest.getJSON("?set=1&prop_name=" + prop_name + "&prop_value=" + prop_value, func);
     }
 }
 
 var Status = {
-    setMessage: function (message) {
+    setMessage: function(message) {
         document.getElementById("status").innerHTML = message;
     },
-    setMessageError: function (message) {
+    setMessageError: function(message) {
         document.getElementById("status-error").innerHTML = message;
     },
 }
 
 var HTTPRequest = {
-    getJSON: function(url, callback_func){
+    getJSON: function(url, callback_func) {
         HTTPRequest._send(url + '&json=1&_=' + Timer.localTime + "&i=" + GLOBAL_ID, callback_func);
     },
-    _send: function(url, callback_func){
+    _send: function(url, callback_func) {
         var xhr = new XMLHttpRequest();
         if (callback_func) {
-            xhr.onreadystatechange = function () {
+            xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     try {
                         var r = JSON.parse(xhr.responseText);
