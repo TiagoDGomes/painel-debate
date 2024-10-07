@@ -1,0 +1,15 @@
+.container-admin {
+    padding-top: 1em;
+    margin: 0 auto;
+}
+
+.timer-buttons {
+    margin: 1em;
+    text-align: center;
+}
+
+body.admin.timer-sync .timer-buttons,
+body.admin.timer-zero button.pause,
+body.admin.timer-ready button.pause {
+    visibility: hidden;
+}

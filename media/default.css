@@ -1,0 +1,110 @@
+:root {
+    --timer-default-color: green;
+    --timer-ready-color: #8a8a8a;
+    --timer-semaphore-ready: red;
+    --timer-semaphore-set: #d6c803;
+    --timer-font-color: white;
+    --timer-ending-color: #1aaa35;
+    --status-error-color: rgb(204, 0, 255);
+    --status-color: rgba(87, 86, 86, 0.25);
+    --status-font-color: rgba(255, 255, 255, 0.75);
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+body.user,
+body .container-timer {
+    background-color: var(--timer-default-color);
+}
+
+body .container-timer {
+    padding: .1em;
+    font-size: 6em;
+    text-align: center;
+    text-shadow: 2px 2px black;
+    color: var(--timer-font-color);
+}
+
+body.user.timer-ready,
+body.timer-ready .container-timer {
+    background-color: var(--timer-ready-color);
+}
+
+body.user.timer-semaphore.ready,
+body.user.timer-zero,
+body.timer-semaphore.ready .container-timer,
+body.timer-zero .container-timer {
+    background-color: var(--timer-semaphore-ready);
+}
+
+body.user.timer-ending,
+body.timer-ending .container-timer {
+    background-color: var(--timer-ending-color);
+}
+
+body.user.timer-semaphore.set,
+body.user.timer-ending.timer-alert,
+body.timer-semaphore.set .container-timer,
+body.timer-ending.timer-alert .container-timer {
+    background-color: var(--timer-semaphore-set);
+}
+
+#timer {
+    min-height: 1.2em;
+}
+
+#timer:empty {
+    background-image: url(loading.gif);
+    background-size: .8em;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+
+body .container-status div {
+    background-color: var(--status-color);
+    color: var(--status-font-color);
+    padding: 8px 15px 8px 15px;
+    position: fixed;
+    bottom: 0;
+    border-radius: 0 8px 0 0;
+    transform: translate(0%, 0%);
+}
+
+body .container-status div:empty {
+    padding: 0;
+}
+
+#status-basic {
+    left: 50%;
+    transform: translate(-50%, 0%);
+    border-radius: 8px 8px 0 0;
+    font-size: .75em
+}
+
+body.user #status-basic {
+    display: none
+}
+
+body #status-error {
+    right: 0;
+    border-radius: 8px 0 0 0;
+    background-color: var(--status-error-color);
+}
+
+body .container-status .hidden {
+    visibility: hidden;
+}
+
+body .container-title h1 {
+    margin: 0;
+    padding: 0 5px 0 15px;
+}

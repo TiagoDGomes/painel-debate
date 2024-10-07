@@ -1,0 +1,149 @@
+:root {
+    --button-red-edge-1: #55031e;
+    --button-red-edge-2: #a30238;
+    --button-red-front: #fa003e;
+    --button-blue-edge-1: #0b0355;
+    --button-blue-edge-2: #1f0499;
+    --button-blue-front: #0000ff;
+    --button-green-edge-1: #03551e;
+    --button-green-edge-2: #028f15;
+    --button-green-front: #07b401;
+}
+
+button.big {
+    position: relative;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 4px;
+    cursor: pointer;
+    outline-offset: 4px;
+    transition: filter 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    min-width: 130px;
+    height: 55px;
+}
+
+button.big.red .edge {
+    background: linear-gradient(to left,
+            var(--button-red-edge-1) 0%,
+            var(--button-red-edge-2) 48%,
+            var(--button-red-edge-2) 52%,
+            var(--button-red-edge-1) 100%);
+}
+
+button.big.red .front {
+    background: var(--button-red-front);
+}
+
+button.big.blue .edge {
+    background: linear-gradient(to left,
+            var(--button-blue-edge-1) 0%,
+            var(--button-blue-edge-2) 48%,
+            var(--button-blue-edge-2) 52%,
+            var(--button-blue-edge-1) 100%);
+}
+
+button.big.blue .front {
+    background: var(--button-blue-front);
+}
+
+button.big.green .edge {
+    background: linear-gradient(to left,
+            var(--button-green-edge-1) 0%,
+            var(--button-green-edge-2) 48%,
+            var(--button-green-edge-2) 52%,
+            var(--button-green-edge-1) 100%);
+}
+
+button.big.green .front {
+    background: var(--button-green-front);
+}
+
+
+
+
+button.big .shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    will-change: transform;
+    transform: translateY(2px);
+    transition:
+        transform 600ms cubic-bezier(.3, .7, .4, 1);
+    background: #bdbdbd65;
+}
+
+
+button.big .edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(to left,
+            #202020 0%,
+            #777777 48%,
+            #777777 52%,
+            #202020 100%);
+}
+
+
+
+button.big .front {
+    display: block;
+    position: relative;
+    padding: 12px 27px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: white;
+    background: #999999;
+    will-change: transform;
+    transform: translateY(-4px);
+    transition:
+        transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+@media (min-width: 768px) {
+    button.big .front {
+        font-size: 1.25rem;
+        padding: 12px 42px;
+    }
+}
+
+button.big:hover {
+    filter: brightness(110%);
+    -webkit-filter: brightness(110%);
+}
+
+button.big:hover .front {
+    transform: translateY(-6px);
+    transition:
+        transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+}
+
+button.big:active .front {
+    transform: translateY(-2px);
+    transition: transform 34ms;
+}
+
+button.big:hover .shadow {
+    transform: translateY(4px);
+    transition:
+        transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+}
+
+button.big:active .shadow {
+    transform: translateY(1px);
+    transition: transform 34ms;
+}
+
+button.big:focus:not(:focus-visible) {
+    outline: none;
+}
