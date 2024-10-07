@@ -9,11 +9,8 @@
     <link rel="stylesheet" href="media/button.css?v=<?= @$APP_VERSION ?>"> 
     <script>
         var GLOBAL_ID = '<?= $_GET['i'] ?>';
-        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>; 
-        var REQUEST_SCHEME = '<?= $_SERVER["REQUEST_SCHEME"] ?>';
-        var REQUEST_SCHEME = '<?= $_SERVER["REQUEST_URI"] ?>';
-        var HTTP_HOST = '<?= $_SERVER["HTTP_HOST"] ?>';       
-        var CURRENT_URL = REQUEST_SCHEME + '://' + HTTP_HOST + REQUEST_URI;
+        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>;    
+        var CURRENT_URL = window.location.href;
     </script>
     </script>
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
@@ -22,9 +19,6 @@
     <?php if (AccessCheck::isValidAdminPage()): ?>
 
     <link rel="stylesheet" href="media/admin.css?v=<?= @$APP_VERSION ?>"> 
-    <script>
-        CURRENT_URL += '&g=<?= $_GET['g'] ?>';
-    </script>
 
     <?php else: ?>
 
