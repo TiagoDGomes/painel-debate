@@ -55,57 +55,65 @@
                         <span class="front text">0:11</span>                        
                     </button>-->
                     <div class="timer-buttons">
-                        <button onclick="Timer.prepareTime(30)" class="blue">
+                        <button onclick="index_prepareTime(30)" class="">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">0:30</span>    
                         </button>
-                        <button onclick="Timer.prepareTime(60)" class="blue">
+                        <button onclick="index_prepareTime(60)" class="">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">1:00</span>
                         </button>
-                        <button onclick="Timer.prepareTime(90)" class="blue">
+                        <button onclick="index_prepareTime(90)" class="">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">1:30</span>                        
                         </button>
-                        <button onclick="Timer.prepareTime(120)" class="blue">
+                        <button onclick="index_prepareTime(120)" class="">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">2:00</span>                        
                         </button>
                     </div>
                     <div class="timer-buttons">
-                        <button onclick="Timer.prepareTime(180)" class="blue">
+                        <button onclick="index_prepareTime(180)" class="">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">3:00</span>                        
                         </button>
-                        <button onclick="Timer.prepareTime(240)" class="blue">
+                        <button onclick="index_prepareTime(240)" class="">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">4:00</span>                        
                         </button>
-                        <button onclick="Timer.prepareTime(300)" class="blue">
+                        <button onclick="index_prepareTime(300)" class="">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">5:00</span>                        
                         </button>
                     </div>
                     <div class="timer-buttons">
-                        <button onclick="Timer.start()" class="green">
+                        <button onclick="Timer.start()" class="green start">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">Start</span>   
                         </button>
-                        <button onclick="Timer.prepareTime(Timer.getRemainingSeconds())">
+                        <button onclick="index_prepareTime(Timer.getRemainingSeconds())" class="pause">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">Pause</span>      
                         </button>
                     </div>
                 </div>  
+                <script>
+                    function index_prepareTime(t){
+                        m = Math.floor(t / 60);
+                        s = t % 60; ss = s > 9 ? s : "0" + s;
+                        Timer.prepareTime(t);
+                        document.querySelectorAll("button.start .text")[0].innerHTML = m + ":" + ss;
+                    }
+                </script>
             <!--</admin>-->
 
             <?php endif; ?>         

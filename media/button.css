@@ -3,11 +3,11 @@
     --button-red-edge-2:#a30238;
     --button-red-front: #fa003e;
     --button-blue-edge-1:#0b0355;
-    --button-blue-edge-2:#1f02a3;
+    --button-blue-edge-2:#1f0499;
     --button-blue-front: #0000ff;
     --button-green-edge-1:#03551e;
-    --button-green-edge-2:#02a317;
-    --button-green-front: #09ff00;    
+    --button-green-edge-2:#028f15;
+    --button-green-front: #07b401;    
 }
 
 button.red .edge{

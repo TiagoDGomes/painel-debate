@@ -8,3 +8,6 @@
     text-align: center;
 }
 
+body.timer-ready button.pause{
+    visibility: hidden;
+}
