@@ -11,8 +11,9 @@
         var GLOBAL_ID = '<?= $_GET['i'] ?>';
         var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>; 
         var REQUEST_SCHEME = '<?= $_SERVER["REQUEST_SCHEME"] ?>';
+        var REQUEST_SCHEME = '<?= $_SERVER["REQUEST_URI"] ?>';
         var HTTP_HOST = '<?= $_SERVER["HTTP_HOST"] ?>';       
-        var CURRENT_URL = REQUEST_SCHEME + '://' + HTTP_HOST + '?i=' + GLOBAL_ID;
+        var CURRENT_URL = REQUEST_SCHEME + '://' + HTTP_HOST + REQUEST_URI;
     </script>
     </script>
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
@@ -142,10 +143,11 @@
             <div id="status-error"><noscript>O Javascript está desativado.</noscript></div>
         </div>
         <div class="container-debug">
-            <pre id="debug"></pre>
+            <pre id="debug"><?php // var_dump($_SERVER); ?></pre>
         </div>
         <div id="qrcode"></div>       
     </div>   
+    
     <script type="text/javascript">
 
         var qrcode = new QRCode(document.getElementById("qrcode"), {
