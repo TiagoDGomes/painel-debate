@@ -4,6 +4,7 @@ var Timer = {
     _syncing: false,
     pingCount: SYNC_PING_COUNT,
     _interval1s: null,
+    _interval1sUpdate: null,
     startTime: null,
     endTime: null,
     preparedTime: null,
@@ -38,6 +39,7 @@ var Timer = {
         Timer._diffServer = 0;
         Timer._diffSum = 0;
         clearInterval(Timer._interval1s);
+        clearInterval(Timer._interval1sUpdate);
         Timer.setContent('');
         Timer._syncTicTacLoop(function() {
 
@@ -77,7 +79,6 @@ var Timer = {
     },
     initTicTac: function() {
         console.log('Timer.initTicTac');
-        clearInterval(Timer._interval1s);
         Timer.setSyncing(false);
         delete Timer._syncCount;
         delete Timer._diffServer;
@@ -86,8 +87,10 @@ var Timer = {
         Timer.localTime = Math.round(Timer.localTime / 1000);
         Timer._interval1s = setInterval(function() {
             Timer.localTime += 1;
-            Timer.updateData(Timer.refreshInterface);
         }, 1000);
+        Timer._interval1sUpdate = setInterval(function() {
+            Timer.updateData(Timer.refreshInterface);
+        }, 500);
         Timer.updateData(Timer.refreshInterface);
     },
     updateData: function(callback) {
@@ -262,7 +265,7 @@ var Status = {
 
 var HTTPRequest = {
     getJSON: function(url, callback_func) {
-        HTTPRequest._send(url + '&json=1&_=' + Timer.localTime + "&i=" + GLOBAL_ID, callback_func);
+        HTTPRequest._send(url + '&json=1&_=' + (Math.floor(Math.random() * 1000000)) + "&i=" + GLOBAL_ID, callback_func);
     },
     _send: function(url, callback_func) {
         var xhr = new XMLHttpRequest();
