@@ -1,105 +1,80 @@
-<?php
-include_once 'core.php';
-ob_end_flush() ;
-if ($aguardando_resposta_json) {
-    header('Content-Type: application/json');
-    exit(json_encode($array_resposta_json));
-}
-?>
+<?php require_once 'core/init.php'; ?>
 <!DOCTYPE html>
-
-<html lang="pt-BR">
-
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= @$titulo ?></title>
-    <link rel="stylesheet" href="painel.css?v=<?= @$versao ?>">
-
+    <title><?= @$APP_TITLE ?></title>
+    <link rel="stylesheet" href="media/default.css?v=<?= @$APP_VERSION ?>">
+    <link rel="stylesheet" href="media/button.css?v=<?= @$APP_VERSION ?>"> 
     <script>
-        var acessando_como_gerencia = <?= $acessando_como_gerencia ? 'true' : 'false' ?>;
-        var acessando_como_usuario = <?= $acessando_como_usuario ? 'true' : 'false' ?>;
-        var acessando_para_novo = <?= $acessando_para_novo_em_branco ? 'true' : 'false' ?>;
-        var url_base = '<?= @$url_base ?>';
+        var GLOBAL_ID = '<?= $_GET['i'] ?>';
+        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>;
     </script>
-    <script type="text/javascript" src="basico.js?v=<?= @$versao ?>"></script>
-    <?php if ($acessando_como_usuario) : ?>
-        <link rel="manifest" href="pwa.php<?= $url_base ?>">
-    <?php endif; ?>
+    <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
+    <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
+    <?php if (AccessCheck::isValidAdminPage()): ?>
 
+    <link rel="stylesheet" href="media/admin.css?v=<?= @$APP_VERSION ?>"> 
+
+    <?php else: ?>
+
+    <link rel="stylesheet" href="media/user.css?v=<?= @$APP_VERSION ?>"> 
+
+    <?php endif; ?>     
 </head>
-
-<body class="<?= $body_class ?>">
-    <div id="painel">
-        
-        <div id="cronometro" class="meio"></div>
-        <h1 id="titulo"><?= $painel_titulo ?></h1>
-        <div id="mensagem" class="conteudo central">
-
-            <?php if ($acessando_como_gerencia) : ?>
-
-                <?php include_once 'include/pagina.gerencia.php'; ?>
-
-            <?php elseif ($acessando_como_usuario) : ?>
-
-                Aguardando sincronismo de relógio...
-
-            <?php elseif ($acessando_para_novo_em_branco || $acessando_apos_cadastrar_novo) : ?>
-
-                <?php include_once 'include/pagina.novo.php'; ?>
-
-            <?php endif; ?>
-
-        </div>
-
-        <?php if (!$acessando_para_novo_em_branco && !$acessando_apos_cadastrar_novo) : ?>
-
-            <div id="sorteador">
-                <div class="bloco esquerda">
-                    <!--<div class="titulo meio">Números<br>aleatórios</div>
-                    <div class="numero" id="numero_aleatorio">0</div>-->
-
-                </div>
-                <div class="bloco centro">
-
-                    <p id="numeros_obtidos">
-
-                    </p>
-
-                </div>
-
-
-                <div class="bloco direita">
-                    <div class="titulo meio" id="titulo_numero_sorteado">Sorteado</div>
-                    <div class="numero" id="numero_sorteado">--</div>
-                </div>
-
-
+<body class="<?= $body_admin_class ?>">
+    <div id="main">        
+        <div id="visible" style="display:none">
+            <div class="container-timer">
+                <div id="timer"></div>
             </div>
+            <?php if (AccessCheck::isSystemMessageActive()): ?>
 
-        <?php endif; ?>
+                <div class="container-title">
+                    <h1 id="title"><?= $body_admin_class ?></h1>
+                </div>
+                <div class="container-message">
+                    <p id="message"><?= $body_admin_class ?></p>
+                </div>                
+                <?php endif; ?>  
 
-    </div>
-    <pre id="debug"></pre>
+            <?php if (AccessCheck::isValidAdminPage()): ?>
 
-    <?php if (!$acessando_para_novo_em_branco) : ?>
+            <!--<admin>--> 
+                <div class="container-admin">
+                    <button onclick="Timer.syncTicTac()" class="red" role="button">
+                        <span class="shadow"></span>
+                        <span class="edge"></span>
+                        <span class="front text">Sync</span>
+                    </button>
+                    <button onclick="Timer.syncTicTac()">Sync</button>
+                    <button onclick="Timer.prepareTime(11)" class="blue">
+                        <span class="shadow"></span>
+                        <span class="edge"></span>
+                        <span class="front text">0:11</span>                        
+                    </button>
+                    <button onclick="Timer.prepareTime(30)" color="green">
+                        <span class="shadow"></span>
+                        <span class="edge"></span>
+                        <span class="front text">0:30</span>    
+                    </button>
+                    <button onclick="Timer.prepareTime(60)">1:00</button>
+                    <button onclick="Timer.start()">Start</button>
+                    <button onclick="Timer.prepareTime(Timer.getRemainingSeconds())">Pause</button>
+                    <button onclick="window.open('about:blank')">Pause</button>
+                </div>  
+            <!--</admin>-->
 
-        <script type="text/javascript" src="painel.js?v=<?= @$versao ?>"></script>
-
-    <?php endif; ?>
-
-
-    <?php if ($acessando_como_usuario) : ?>
-
-        <script type="text/javascript" src="usuario.js?v=<?= @$versao ?>"></script>
-
-    <?php elseif ($acessando_como_gerencia) : ?>
-
-        <script type="text/javascript" src="gerencia.js?v=<?= @$versao ?>"></script>
-
-    <?php endif; ?>
-
-
+            <?php endif; ?>         
+        </div>  
+        <div class="container-status">
+            <div id="status"></div>
+            <div id="status-error"><noscript>O Javascript está desativado.</noscript></div>
+        </div>
+        <div class="container-debug">
+            <pre id="debug"></pre>
+        </div>       
+    </div>    
 </body>
-
 </html>
