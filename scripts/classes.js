@@ -29,19 +29,27 @@ var Timer = {
             //console.log('prepareTime set', data);
         });
     },
-    syncTicTac: function() {
+    syncTicTac: function(callback_func) {
         //console.log("Timer.syncTicTac");
-        document.body.classList.add('timer-sync');
-        Timer.localTime = 0;
-        Timer.serverTimeMillis = 0;
+        clearInterval(Timer._interval1s);
+        clearInterval(Timer._interval1sUpdate);
         Timer.setSyncing(true);
+        document.body.classList.add('timer-sync');
+        document.body.classList.remove('timer-sync-error');
+        document.body.classList.remove('timer-ignored');
+        document.body.classList.remove('timer-sync');
+        document.body.classList.remove('timer-zero');
+        Timer.preparedTime = 0;
+        Timer.startTime = 0;
+        Timer.endTime = 0;
+        Timer.localTime = 0;
+        Timer.serverTime = 0;
+        Timer.serverTimeMillis = 0;
         Timer._syncCount = 0;
         Timer._diffServer = 0;
         Timer._diffSum = 0;
-        clearInterval(Timer._interval1s);
-        clearInterval(Timer._interval1sUpdate);
-        Timer.setContent('');
-        Timer._syncTicTacLoop(function() {
+        Timer.setText('');
+        Timer._syncTicTacLoop(function(){
 
         });
     },
@@ -61,7 +69,7 @@ var Timer = {
             setTimeout(function() {
                 if (Timer._syncCount >= Timer.pingCount) {
                     var avgDiff = Timer._diffSum / Timer._syncCount;
-                    var miliRounded = Math.round(avgDiff / 1000) * 1000;
+                    var miliRounded = Math.floor(avgDiff / 1000) * 1000;
                     Timer.localTime += miliRounded;
                     setTimeout(function() {
                         Timer.initTicTac();
@@ -85,11 +93,18 @@ var Timer = {
         delete Timer._diffSum;
         delete Timer.serverTimeMillis;
         Timer.localTime = Math.round(Timer.localTime / 1000);
-        Timer._interval1s = setInterval(function() {
-            Timer.localTime += 1;
+        Timer._interval1s = setInterval(function() {            
+            Timer.localTime += 1;            
         }, 1000);
         Timer._interval1sUpdate = setInterval(function() {
-            Timer.updateData(Timer.refreshInterface);
+            Timer.updateData();
+            Timer.refreshInterface();
+            //Status.setDebugMessage(Timer.localTime + '\n' + Timer.serverTime);
+            if (!Timer.isRunning) {         
+                if (Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime){
+                    Timer.syncTicTac();
+                } 
+            }
         }, 500);
         Timer.updateData(Timer.refreshInterface);
     },
@@ -99,6 +114,7 @@ var Timer = {
                 Timer.preparedTime = data['timer-prepared'];
                 Timer.startTime = data['timer-start'];
                 Timer.endTime = data['timer-end'];
+                Timer.serverTime = data['serverTimeMillis'] / 1000;
             } else {
                 document.body.classList.add('timer-sync-error');
                 if (!Timer.isRunning) {
@@ -261,6 +277,9 @@ var Status = {
     setMessageError: function(message) {
         document.getElementById("status-error").innerHTML = message;
     },
+    setDebugMessage: function (message){
+        document.getElementById("debug").innerHTML = message;
+    }
 }
 
 var HTTPRequest = {

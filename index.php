@@ -130,7 +130,8 @@
             <!--</admin>-->
 
             <?php endif; ?>         
-        </div>  
+        </div> 
+        <div id="qrcode"></div>   
         <div class="container-status">
             <div id="status"></div>
             <div id="status-basic"></div>
@@ -139,7 +140,7 @@
         <div class="container-debug">
             <pre id="debug"><?php // var_dump($_SERVER); ?></pre>
         </div>
-        <div id="qrcode"></div>       
+             
     </div>   
     
     <script type="text/javascript">
