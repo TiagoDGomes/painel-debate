@@ -8,6 +8,7 @@ var Timer = {
     startTime: null,
     endTime: null,
     preparedTime: null,
+    updateFailed: false,
     isSyncing: function() {
         return Timer._syncing;
     },
@@ -26,6 +27,7 @@ var Timer = {
             document.body.classList.add('timer-ready');
             Timer.preparedTime = data['timer-prepared'];
             Timer.refreshInterface();
+            
             //console.log('prepareTime set', data);
         });
     },
@@ -37,7 +39,6 @@ var Timer = {
         document.body.classList.add('timer-sync');
         document.body.classList.remove('timer-sync-error');
         document.body.classList.remove('timer-ignored');
-        document.body.classList.remove('timer-sync');
         document.body.classList.remove('timer-zero');
         Timer.preparedTime = 0;
         Timer.startTime = 0;
@@ -99,8 +100,8 @@ var Timer = {
         Timer._interval1sUpdate = setInterval(function() {
             Timer.updateData();
             Timer.refreshInterface();
-            //Status.setDebugMessage(Timer.localTime + '\n' + Timer.serverTime);
-            if (!Timer.isRunning) {         
+            Status.setDebugMessage(Timer.localTime + '\n' + Timer.serverTime);
+            if (!Timer.isRunning() || !Timer.updateFailed) {         
                 if (Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime){
                     Timer.syncTicTac();
                 } 
@@ -115,7 +116,9 @@ var Timer = {
                 Timer.startTime = data['timer-start'];
                 Timer.endTime = data['timer-end'];
                 Timer.serverTime = data['serverTimeMillis'] / 1000;
+                Timer.updateFailed = false;
             } else {
+                Timer.updateFailed = true;
                 document.body.classList.add('timer-sync-error');
                 if (!Timer.isRunning) {
                     Timer.syncTicTac();
@@ -138,6 +141,7 @@ var Timer = {
             if (secondsRegressive == 2) {
                 document.body.classList.remove('set');
                 document.body.classList.add('ready');
+                
             } else if (secondsRegressive == 1) {
                 document.body.classList.remove('ready');
                 document.body.classList.add('set');
@@ -147,6 +151,7 @@ var Timer = {
             seconds = Timer.preparedTime;
             document.body.classList.add('timer-ready');
             document.body.classList.remove('timer-semaphore');
+            Timer.updateButtonStartLabel(seconds);
         } else {
             document.body.classList.remove('timer-semaphore');
             document.body.classList.remove('timer-ready');
@@ -155,6 +160,7 @@ var Timer = {
             document.body.classList.remove('set');
             seconds = Timer.getRemainingSeconds();
             Status.setMessage("No tempo");
+            Timer.updateButtonStartLabel(Timer.endTime - Timer.startTime);
         }
         var valueShow = '';
 
@@ -195,6 +201,8 @@ var Timer = {
         valueShow = timeMeasured.toISOString().substr(pos, tam);
         Timer.setText(valueShow);
         document.title = valueShow;
+
+
 
         if (!Timer.isPrepared()) {
             seconds = Timer.getRemainingSecondsDiff();
@@ -251,6 +259,15 @@ var Timer = {
             Timer.refreshInterface();
             console.log('Timer.start set', data);
         });
+    },
+    updateButtonStartLabel: function(seconds){
+        try{
+            m = Math.floor(seconds / 60);
+            s = seconds % 60; ss = s > 9 ? s : "0" + s;
+            document.querySelectorAll("button.start .text")[0].innerHTML = m + ":" + ss;
+        } catch(e){
+
+        }
     }
 }
 
