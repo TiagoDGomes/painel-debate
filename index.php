@@ -16,10 +16,12 @@
     </script>
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
-    <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
     <link rel="stylesheet" href="media/<?= $flag_access ?>.css?v=<?= @$APP_VERSION ?>">  
     <meta name="theme-color" content="var(--timer-default-color)">
 
+    <?php if (AccessCheck::hasQRCode()): ?>
+    <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
+    <?php endif; ?>
 </head>
 <body class="<?= $flag_access ?>">
     <div id="main">        
@@ -43,16 +45,6 @@
             <!--<admin>--> 
                 <div class="container-admin">
                     <p>
-                    <!--<button onclick="Timer.syncTicTac()" class="red" role="button">
-                        <span class="shadow"></span>
-                        <span class="edge"></span>
-                        <span class="front text">Sync</span>
-                    </button>
-                    <button onclick="Timer.prepareTime(11)" class="blue">
-                        <span class="shadow"></span>
-                        <span class="edge"></span>
-                        <span class="front text">0:11</span>                        
-                    </button>-->
                     <div class="timer-buttons command-buttons">
                         <button onclick="Timer.start()" class="big green start">
                             <span class="shadow"></span>
@@ -137,7 +129,8 @@
         </div>
              
     </div>   
-    
+    <?php if (AccessCheck::hasQRCode()): ?>
+
     <script type="text/javascript">
 
         var qrcode = new QRCode(document.getElementById("qrcode"), {
@@ -149,14 +142,20 @@
             correctLevel : QRCode.CorrectLevel.H
         });
         document.getElementById("qrcode").title="";
+
         <?php if (AccessCheck::isValidAdminPage()): ?>
-        document.getElementById("qrcode").addEventListener('mouseover', function(event){
-            this.style.filter = 'blur(0)';
-        });
-        document.getElementById("qrcode").addEventListener('mouseout', function(event){
-            this.style.filter = 'blur(4px)';
-        }); 
+
+            document.getElementById("qrcode").addEventListener('mouseover', function(event){
+                this.style.filter = 'blur(0)';
+            });
+            document.getElementById("qrcode").addEventListener('mouseout', function(event){
+                this.style.filter = 'blur(4px)';
+            }); 
         <?php endif; // (AccessCheck::isValidAdminPage()): ?>
-    </script> 
+
+    </script>
+
+    <?php endif; // (AccessCheck::hasQRCode())?> 
+
 </body>
 </html>
