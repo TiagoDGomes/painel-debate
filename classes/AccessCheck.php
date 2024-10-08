@@ -1,6 +1,9 @@
 <?php
 
 class AccessCheck {
+    public static function hasQRCode(){
+        return @$_GET['qrcode'] == '1';
+    }
     public static function isSystemMessageActive(){
         return FALSE;
     }

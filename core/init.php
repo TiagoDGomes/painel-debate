@@ -25,4 +25,4 @@ if (AccessCheck::isUpdateData()) {
     require_once 'core/info.php';
 }
 
-$body_admin_class = AccessCheck::isValidAdminPage() ? 'admin' : 'user';
+$flag_access = AccessCheck::isValidAdminPage() ? 'admin' : 'user';
