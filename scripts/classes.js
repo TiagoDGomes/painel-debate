@@ -21,18 +21,14 @@ var Timer = {
         Timer._syncing = s;
     },
     prepareTime: function(time_value) {
-        //console.log('Timer.prepareTime time_value', time_value);
         Timer.preparedTime = time_value;
         Property.set('timer-prepared', (time_value), function(data) {
             document.body.classList.add('timer-ready');
             Timer.preparedTime = data['timer-prepared'];
             Timer.refreshInterface();
-
-            //console.log('prepareTime set', data);
         });
     },
     syncTicTac: function(callback_func) {
-        //console.log("Timer.syncTicTac");   
         clearInterval(Timer._interval1s);
         clearInterval(Timer._interval1sUpdate);
         Timer.setSyncing(true);
@@ -56,7 +52,6 @@ var Timer = {
     },
     _syncTicTacLoop: function(callback_sync) {
         HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTime, function(data) {
-            //console.log("Timer._syncTicTacLoop", data);
             var diff = data['diff'];
             Timer.serverTimeMillis = data['serverTimeMillis'];
             if (diff != Timer.serverTimeMillis) {
@@ -162,17 +157,13 @@ var Timer = {
             Status.setMessage("No tempo");
             Timer.updateButtonStartLabel(Timer.endTime - Timer.startTime);
         }
-        var valueShow = '';
+
 
         if (Timer.isEnding()) {
             document.body.classList.add('timer-ending');
             Status.setMessage("Terminando...");
             if (seconds <= 3) {
-                //if (seconds % 2 == 0) {
                 document.body.classList.add('timer-alert');
-                //} else {
-                //    document.body.classList.remove('timer-alert');
-                //}
             }
         } else {
             document.body.classList.remove('timer-ending');
@@ -198,12 +189,10 @@ var Timer = {
             tam = 4;
         }
 
+        var valueShow = '';
         valueShow = timeMeasured.toISOString().substr(pos, tam);
         Timer.setText(valueShow);
         document.title = valueShow;
-
-
-
         if (!Timer.isPrepared()) {
             seconds = Timer.getRemainingSecondsDiff();
             if (seconds < 0) {
