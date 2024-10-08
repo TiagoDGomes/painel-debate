@@ -17,20 +17,11 @@
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
-    <?php if (AccessCheck::isValidAdminPage()): ?>
-
-    <link rel="stylesheet" href="media/admin.css?v=<?= @$APP_VERSION ?>"> 
-
-    <?php else: ?>
-
-    <link rel="stylesheet" href="media/user.css?v=<?= @$APP_VERSION ?>"> 
-
-    <?php endif; ?> 
-     
+    <link rel="stylesheet" href="media/<?= $flag_access ?>.css?v=<?= @$APP_VERSION ?>">  
     <meta name="theme-color" content="var(--timer-default-color)">
 
 </head>
-<body class="<?= $body_admin_class ?>">
+<body class="<?= $flag_access ?>">
     <div id="main">        
         <div id="visible" style="display:none">
             
