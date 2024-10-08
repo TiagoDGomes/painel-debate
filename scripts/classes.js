@@ -32,9 +32,8 @@ var Timer = {
         });
     },
     syncTicTac: function(callback_func) {
-        //console.log("Timer.syncTicTac");
-        clearInterval(Timer._interval1s);
-        clearInterval(Timer._interval1sUpdate);
+        //console.log("Timer.syncTicTac");        
+
         Timer.setSyncing(true);
         document.body.classList.add('timer-sync');
         document.body.classList.remove('timer-sync-error');
@@ -88,6 +87,8 @@ var Timer = {
     },
     initTicTac: function() {
         console.log('Timer.initTicTac');
+        clearInterval(Timer._interval1s);
+        clearInterval(Timer._interval1sUpdate);
         Timer.setSyncing(false);
         delete Timer._syncCount;
         delete Timer._diffServer;
