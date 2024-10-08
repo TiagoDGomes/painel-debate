@@ -27,7 +27,7 @@ var Timer = {
             document.body.classList.add('timer-ready');
             Timer.preparedTime = data['timer-prepared'];
             Timer.refreshInterface();
-            
+
             //console.log('prepareTime set', data);
         });
     },
@@ -50,7 +50,7 @@ var Timer = {
         Timer._diffServer = 0;
         Timer._diffSum = 0;
         Timer.setText('');
-        Timer._syncTicTacLoop(function(){
+        Timer._syncTicTacLoop(function() {
 
         });
     },
@@ -94,17 +94,17 @@ var Timer = {
         delete Timer._diffSum;
         delete Timer.serverTimeMillis;
         Timer.localTime = Math.round(Timer.localTime / 1000);
-        Timer._interval1s = setInterval(function() {            
-            Timer.localTime += 1;            
+        Timer._interval1s = setInterval(function() {
+            Timer.localTime += 1;
         }, 1000);
         Timer._interval1sUpdate = setInterval(function() {
             Timer.updateData();
             Timer.refreshInterface();
-            Status.setDebugMessage(Timer.localTime + '\n' + Timer.serverTime);
-            if (!Timer.isRunning() || !Timer.updateFailed) {         
-                if (Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime){
+            Status.setDebugMessage('L: ' + Timer.localTime + '\nS: ' + Timer.serverTime);
+            if (!Timer.isRunning() || !Timer.updateFailed) {
+                if (Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime) {
                     Timer.syncTicTac();
-                } 
+                }
             }
         }, 500);
         Timer.updateData(Timer.refreshInterface);
@@ -141,7 +141,7 @@ var Timer = {
             if (secondsRegressive == 2) {
                 document.body.classList.remove('set');
                 document.body.classList.add('ready');
-                
+
             } else if (secondsRegressive == 1) {
                 document.body.classList.remove('ready');
                 document.body.classList.add('set');
@@ -260,12 +260,13 @@ var Timer = {
             console.log('Timer.start set', data);
         });
     },
-    updateButtonStartLabel: function(seconds){
-        try{
+    updateButtonStartLabel: function(seconds) {
+        try {
             m = Math.floor(seconds / 60);
-            s = seconds % 60; ss = s > 9 ? s : "0" + s;
+            s = seconds % 60;
+            ss = s > 9 ? s : "0" + s;
             document.querySelectorAll("button.start .text")[0].innerHTML = m + ":" + ss;
-        } catch(e){
+        } catch (e) {
 
         }
     }
@@ -294,7 +295,7 @@ var Status = {
     setMessageError: function(message) {
         document.getElementById("status-error").innerHTML = message;
     },
-    setDebugMessage: function (message){
+    setDebugMessage: function(message) {
         document.getElementById("debug").innerHTML = message;
     }
 }
