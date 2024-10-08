@@ -33,10 +33,10 @@
             <?php if (AccessCheck::isSystemMessageActive()): ?>
 
                 <div class="container-title">
-                    <h1 id="title"><?= $body_admin_class ?></h1>
+                    <h1 id="title"></h1>
                 </div>
                 <div class="container-message">
-                    <p id="message"><?= $body_admin_class ?></p>
+                    <p id="message"></p>
                 </div>                
                 <?php endif; ?>  
 
@@ -115,7 +115,10 @@
                 
                 
             <!--</admin>-->
+            <?php else: ?>  
+            <!--<user>--> 
 
+            <!--</user>-->    
             <?php endif; ?>         
         </div> 
         <div id="qrcode"></div>   
