@@ -43,6 +43,11 @@
             <?php if (AccessCheck::isValidAdminPage()): ?>
 
             <!--<admin>--> 
+                <div class="container-toolbar">
+                    <span class="item">
+                        <a title="Versão em tela inteira" target="_blank" href="?i=<?= $_GET['i'] ?>"><i class="icon full-screen"></i></a>
+                    </span>
+                </div>
                 <div class="container-admin">
                     <p>
                     <div class="timer-buttons command-buttons">
@@ -103,22 +108,23 @@
                             <span class="edge"></span>
                             <span class="front text">15:00</span>                        
                         </button>
-                    </div>
+                    </div>   
                     <div class="timer-buttons">
-                        <button onclick="window.open('?i=<?= $_GET['i'] ?>')" class="big blue">
+                        <button style="display: none" onclick="window.open('?i=<?= $_GET['i'] ?>')" class="big blue">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">Tela inteira</span>                        
                         </button>
-                    </div>
-                </div>  
-                
-                
+                    </div>                 
+                </div>                                
             <!--</admin>-->
+
             <?php else: ?>  
+
             <!--<user>--> 
 
-            <!--</user>-->    
+            <!--</user>-->  
+
             <?php endif; ?>         
         </div> 
         <div id="qrcode"></div>   
