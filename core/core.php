@@ -1,6 +1,6 @@
 <?php
 
-$APP_VERSION = "2.0";
+$APP_VERSION = "2.2";
 $APP_TITLE = "Painel";
 
 define('PCORE', true);
