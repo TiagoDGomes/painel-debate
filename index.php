@@ -28,11 +28,9 @@
                 <div id="timer"></div>
             </div>
             <div class="container-toolbar">
-                <?php if (AccessCheck::isValidAdminPage()): ?>
                 <div class="item">
-                    <a title="Acessar versão em tela inteira" target="_blank" href="?i=<?= $_GET['i'] ?>"><i class="icon full-screen"></i></a>
+                    <a title="Acessar versão em tela inteira" target="<?= $target_full_screen ?>" href="<?= $full_screen_url ?>"><i class="icon full-screen"></i></a>
                 </div>
-                <?php endif; ?> 
                 <div class="item">
                     <a id="qcode" href="#" title="Mostrar QRCode" onclick="alternarQRCode()"><i class="icon qrcode"></i></a>
                 </div>
@@ -139,6 +137,6 @@
         <div class="container-debug">
             <pre id="debug"><?php // var_dump($_SERVER); ?></pre>
         </div>             
-    </div>
+    </div>   
 </body>
 </html>

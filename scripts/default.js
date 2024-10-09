@@ -30,4 +30,12 @@ function alternarQRCode(){
     qrcode.style.display = alternarQRCodeStatus ? 'block': 'none';    
 }
 
+function fullScreen(){
+    if (document.fullscreenElement != null){
+        document.exitFullscreen();
+    } else {
+        document.getElementById('main').requestFullscreen();
+    }    
+}
+
 window.addEventListener("load", main);
