@@ -24,8 +24,8 @@ body .container-timer {
     background-color: var(--timer-default-color);
     width: 100%;
 }
-body.user{
-    overflow: hidden;
+body{
+    overflow-x: hidden;
 }
 body .container-timer {
     padding: .1em;
