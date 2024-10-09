@@ -9,10 +9,10 @@ var Timer = {
     endTime: null,
     preparedTime: null,
     updateFailed: false,
-    isSyncing: function() {
+    isSyncing: function () {
         return Timer._syncing;
     },
-    setSyncing: function(s) {
+    setSyncing: function (s) {
         if (s) {
             Status.setMessage("Sincronizando...");
         } else {
@@ -20,15 +20,15 @@ var Timer = {
         }
         Timer._syncing = s;
     },
-    prepareTime: function(time_value) {
+    prepareTime: function (time_value) {
         Timer.preparedTime = time_value;
-        Property.set('timer-prepared', (time_value), function(data) {
+        Property.set('timer-prepared', (time_value), function (data) {
             document.body.classList.add('timer-ready');
             Timer.preparedTime = data['timer-prepared'];
             Timer.refreshInterface();
         });
     },
-    syncTicTac: function(callback_func) {
+    syncTicTac: function (callback_func) {
         clearInterval(Timer._interval1s);
         clearInterval(Timer._interval1sUpdate);
         Timer.setSyncing(true);
@@ -46,12 +46,12 @@ var Timer = {
         Timer._diffServer = 0;
         Timer._diffSum = 0;
         Timer.setText('');
-        Timer._syncTicTacLoop(function() {
+        Timer._syncTicTacLoop(function () {
 
         });
     },
-    _syncTicTacLoop: function(callback_sync) {
-        HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTime, function(data) {
+    _syncTicTacLoop: function (callback_sync) {
+        HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTime, function (data) {
             var diff = data['diff'];
             Timer.serverTimeMillis = data['serverTimeMillis'];
             if (diff != Timer.serverTimeMillis) {
@@ -62,12 +62,12 @@ var Timer = {
             Timer._syncCount++;
             var nextTimeout = 1000 - diffToZero;
             console.log("Timer._syncCount,diff, diffToZero, nextTimeout", Timer._syncCount, diff, diffToZero, nextTimeout);
-            setTimeout(function() {
+            setTimeout(function () {
                 if (Timer._syncCount >= Timer.pingCount) {
                     var avgDiff = Timer._diffSum / Timer._syncCount;
                     var miliRounded = Math.floor(avgDiff / 1000) * 1000;
                     Timer.localTime += miliRounded;
-                    setTimeout(function() {
+                    setTimeout(function () {
                         Timer.initTicTac();
                         try {
                             callback_sync();
@@ -81,7 +81,7 @@ var Timer = {
             }, nextTimeout);
         });
     },
-    initTicTac: function() {
+    initTicTac: function () {
         console.log('Timer.initTicTac');
         Timer.setSyncing(false);
         delete Timer._syncCount;
@@ -89,10 +89,10 @@ var Timer = {
         delete Timer._diffSum;
         delete Timer.serverTimeMillis;
         Timer.localTime = Math.round(Timer.localTime / 1000);
-        Timer._interval1s = setInterval(function() {
+        Timer._interval1s = setInterval(function () {
             Timer.localTime += 1;
         }, 1000);
-        Timer._interval1sUpdate = setInterval(function() {
+        Timer._interval1sUpdate = setInterval(function () {
             Timer.updateData();
             Timer.refreshInterface();
             Status.setDebugMessage('L: ' + Timer.localTime + '\nS: ' + Timer.serverTime);
@@ -104,8 +104,8 @@ var Timer = {
         }, 500);
         Timer.updateData(Timer.refreshInterface);
     },
-    updateData: function(callback) {
-        Property.getAll(function(data) {
+    updateData: function (callback) {
+        Property.getAll(function (data) {
             if (data) {
                 Timer.preparedTime = data['timer-prepared'];
                 Timer.startTime = data['timer-start'];
@@ -122,7 +122,7 @@ var Timer = {
             if (callback) callback();
         });
     },
-    refreshInterface: function() {
+    refreshInterface: function () {
         var seconds = 0;
         document.body.classList.remove('timer-sync-error');
         document.body.classList.remove('timer-ignored');
@@ -206,42 +206,42 @@ var Timer = {
             }
         }
     },
-    setContent: function(content) {
+    setContent: function (content) {
         document.getElementById('timer').innerHTML = content;
     },
-    setText: function(content) {
+    setText: function (content) {
         Timer.setContent(content);
         document.title = content;
     },
-    getRemainingSeconds: function() {
+    getRemainingSeconds: function () {
         seconds = Timer.getRemainingSecondsDiff();
         if (seconds < 0) {
             return 0;
         }
         return seconds;
     },
-    getRemainingSecondsDiff: function() {
+    getRemainingSecondsDiff: function () {
         return Timer.endTime - Timer.localTime
     },
-    isSemaphored: function() {
+    isSemaphored: function () {
         return Timer.startTime > Timer.localTime;
     },
-    isPaused: function() {
+    isPaused: function () {
         return Timer.preparedTime && Timer.endTime == 0;
     },
-    isEnding: function() {
+    isEnding: function () {
         seconds = Timer.getRemainingSecondsDiff();
         return seconds >= 0 && seconds < 10;
     },
-    isRunning: function() {
+    isRunning: function () {
         seconds = Timer.getRemainingSeconds();
         return seconds > 0 && seconds < 86400;
     },
-    isPrepared: function() {
+    isPrepared: function () {
         return Timer.endTime <= 0;
     },
-    start: function() {
-        Property.set('timer-start', Timer.localTime + 3, function(data) {
+    start: function () {
+        Property.set('timer-start', Timer.localTime + 3, function (data) {
             Timer.preparedTime = data['timer-prepared'];
             Timer.startTime = data['timer-start'];
             Timer.endTime = data['timer-end'];
@@ -249,7 +249,7 @@ var Timer = {
             console.log('Timer.start set', data);
         });
     },
-    updateButtonStartLabel: function(seconds) {
+    updateButtonStartLabel: function (seconds) {
         try {
             m = Math.floor(seconds / 60);
             s = seconds % 60;
@@ -262,8 +262,8 @@ var Timer = {
 }
 
 var Property = {
-    getAll: function(callbackdata) {
-        HTTPRequest.getJSON('?up=1', function(data) {
+    getAll: function (callbackdata) {
+        HTTPRequest.getJSON('?up=1', function (data) {
             if (data) {
                 Status.setMessageError('');
             } else {
@@ -272,31 +272,31 @@ var Property = {
             callbackdata(data);
         });
     },
-    set: function(prop_name, prop_value, func) {
+    set: function (prop_name, prop_value, func) {
         HTTPRequest.getJSON("?set=1&prop_name=" + prop_name + "&prop_value=" + prop_value, func);
     }
 }
 
 var Status = {
-    setMessage: function(message) {
+    setMessage: function (message) {
         document.getElementById("status").innerHTML = message;
     },
-    setMessageError: function(message) {
+    setMessageError: function (message) {
         document.getElementById("status-error").innerHTML = message;
     },
-    setDebugMessage: function(message) {
+    setDebugMessage: function (message) {
         document.getElementById("debug").innerHTML = message;
     }
 }
 
 var HTTPRequest = {
-    getJSON: function(url, callback_func) {
+    getJSON: function (url, callback_func) {
         HTTPRequest._send(url + '&json=1&_=' + (Math.floor(Math.random() * 1000000)) + "&i=" + GLOBAL_ID, callback_func);
     },
-    _send: function(url, callback_func) {
+    _send: function (url, callback_func) {
         var xhr = new XMLHttpRequest();
         if (callback_func) {
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     try {
                         var r = JSON.parse(xhr.responseText);
