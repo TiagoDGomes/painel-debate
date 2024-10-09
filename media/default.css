@@ -161,6 +161,12 @@ i.icon {
     opacity: .5;
 }
 
+button i.icon{
+    width: 1em; 
+    height: 1em;
+    opacity: 1;
+}
+
 i.icon:hover {
     opacity: 1;
 }
@@ -171,4 +177,7 @@ i.icon.full-screen {
 
 i.icon.qrcode {
     background-image: url(qrcode.png);
+}
+i.icon.pause {
+    background-image: url(pause.svg);
 }

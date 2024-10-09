@@ -60,7 +60,7 @@
                         <button onclick="Timer.prepareTime(Timer.getRemainingSeconds())" class="big pause">
                             <span class="shadow"></span>
                             <span class="edge"></span>
-                            <span class="front text">⏸️</span>      
+                            <span class="front text"><i class="icon pause"></i></span>      
                         </button>
                     </div>
                     <div class="timer-buttons prepare-buttons">
