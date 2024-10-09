@@ -18,10 +18,7 @@
     <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
     <link rel="stylesheet" href="media/<?= $flag_access ?>.css?v=<?= @$APP_VERSION ?>">  
     <meta name="theme-color" content="var(--timer-default-color)">
-
-    <?php if (AccessCheck::hasQRCode()): ?>
     <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
-    <?php endif; ?>
 </head>
 <body class="<?= $flag_access ?>">
     <div id="main">        
@@ -30,19 +27,28 @@
             <div class="container-timer">
                 <div id="timer"></div>
             </div>
+            <div class="container-toolbar">
+                <div class="item">
+                    <a title="Acessar versão em tela inteira" target="<?= $target_full_screen ?>" href="<?= $full_screen_url ?>"><i class="icon full-screen"></i></a>
+                </div>
+                <div class="item">
+                    <a id="qcode" href="#" title="Mostrar QRCode" onclick="alternarQRCode()"><i class="icon qrcode"></i></a>
+                </div>
+            </div>
             <?php if (AccessCheck::isSystemMessageActive()): ?>
 
                 <div class="container-title">
-                    <h1 id="title"><?= $body_admin_class ?></h1>
+                    <h1 id="title"></h1>
                 </div>
                 <div class="container-message">
-                    <p id="message"><?= $body_admin_class ?></p>
+                    <p id="message"></p>
                 </div>                
                 <?php endif; ?>  
 
             <?php if (AccessCheck::isValidAdminPage()): ?>
 
             <!--<admin>--> 
+
                 <div class="container-admin">
                     <p>
                     <div class="timer-buttons command-buttons">
@@ -103,22 +109,26 @@
                             <span class="edge"></span>
                             <span class="front text">15:00</span>                        
                         </button>
-                    </div>
+                    </div>   
                     <div class="timer-buttons">
-                        <button onclick="window.open('?i=<?= $_GET['i'] ?>')" class="big blue">
+                        <button style="display: none" onclick="window.open('?i=<?= $_GET['i'] ?>')" class="big blue">
                             <span class="shadow"></span>
                             <span class="edge"></span>
                             <span class="front text">Tela inteira</span>                        
                         </button>
-                    </div>
-                </div>  
-                
-                
+                    </div>                 
+                </div>                                
             <!--</admin>-->
+
+            <?php else: ?>  
+
+            <!--<user>--> 
+
+            <!--</user>-->  
 
             <?php endif; ?>         
         </div> 
-        <div id="qrcode"></div>   
+        <div id="qrcode" style="display: none"></div>   
         <div class="container-status">
             <div id="status"></div>
             <div id="status-basic"></div>
@@ -126,36 +136,7 @@
         </div>
         <div class="container-debug">
             <pre id="debug"><?php // var_dump($_SERVER); ?></pre>
-        </div>
-             
+        </div>             
     </div>   
-    <?php if (AccessCheck::hasQRCode()): ?>
-
-    <script type="text/javascript">
-
-        var qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: CURRENT_URL,
-            width: 128,
-            height: 128,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-        document.getElementById("qrcode").title="";
-
-        <?php if (AccessCheck::isValidAdminPage()): ?>
-
-            document.getElementById("qrcode").addEventListener('mouseover', function(event){
-                this.style.filter = 'blur(0)';
-            });
-            document.getElementById("qrcode").addEventListener('mouseout', function(event){
-                this.style.filter = 'blur(4px)';
-            }); 
-        <?php endif; // (AccessCheck::isValidAdminPage()): ?>
-
-    </script>
-
-    <?php endif; // (AccessCheck::hasQRCode())?> 
-
 </body>
 </html>

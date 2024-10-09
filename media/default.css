@@ -23,6 +23,11 @@ body {
 body.user,
 body .container-timer {
     background-color: var(--timer-default-color);
+    width: 100%;
+}
+
+body {
+    overflow-x: hidden;
 }
 
 body .container-timer {
@@ -109,15 +114,12 @@ body .container-title h1 {
     padding: 0 5px 0 15px;
 }
 
-body.admin #qrcode {
-    bottom: 4em;
-}
 
 #qrcode {
     position: fixed;
     margin: 2px;
-    right: 2px;
-
+    right: 40px;
+    top: 1px;
 }
 
 body.user #qrcode {
@@ -133,11 +135,40 @@ body.user #qrcode {
 
 .container-debug {
     position: fixed;
-    top: 0.02em;
+    top: .5em;
     left: .5em;
 }
 
 #debug {
     color: #ffffff1a;
     text-shadow: 1px 1px #00000021;
+    margin: 0;
+}
+
+.container-toolbar {
+    position: fixed;
+    top: .5em;
+    right: .5em;
+}
+
+i.icon {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    filter: invert();
+    opacity: .5;
+}
+
+i.icon:hover {
+    opacity: 1;
+}
+
+i.icon.full-screen {
+    background-image: url(fullscreen.png);
+}
+
+i.icon.qrcode {
+    background-image: url(qrcode.png);
 }
