@@ -18,10 +18,7 @@
     <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
     <link rel="stylesheet" href="media/<?= $flag_access ?>.css?v=<?= @$APP_VERSION ?>">  
     <meta name="theme-color" content="var(--timer-default-color)">
-
-    <?php if (AccessCheck::hasQRCode()): ?>
     <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
-    <?php endif; ?>
 </head>
 <body class="<?= $flag_access ?>">
     <div id="main">        
@@ -29,6 +26,16 @@
             
             <div class="container-timer">
                 <div id="timer"></div>
+            </div>
+            <div class="container-toolbar">
+                <?php if (AccessCheck::isValidAdminPage()): ?>
+                <div class="item">
+                    <a title="Acessar versão em tela inteira" target="_blank" href="?i=<?= $_GET['i'] ?>"><i class="icon full-screen"></i></a>
+                </div>
+                <?php endif; ?> 
+                <div class="item">
+                    <a id="qcode" href="#" title="Mostrar QRCode" onclick="alternarQRCode()"><i class="icon qrcode"></i></a>
+                </div>
             </div>
             <?php if (AccessCheck::isSystemMessageActive()): ?>
 
@@ -43,11 +50,7 @@
             <?php if (AccessCheck::isValidAdminPage()): ?>
 
             <!--<admin>--> 
-                <div class="container-toolbar">
-                    <span class="item">
-                        <a title="Versão em tela inteira" target="_blank" href="?i=<?= $_GET['i'] ?>"><i class="icon full-screen"></i></a>
-                    </span>
-                </div>
+
                 <div class="container-admin">
                     <p>
                     <div class="timer-buttons command-buttons">
@@ -127,7 +130,7 @@
 
             <?php endif; ?>         
         </div> 
-        <div id="qrcode"></div>   
+        <div id="qrcode" style="display: none"></div>   
         <div class="container-status">
             <div id="status"></div>
             <div id="status-basic"></div>
@@ -135,36 +138,7 @@
         </div>
         <div class="container-debug">
             <pre id="debug"><?php // var_dump($_SERVER); ?></pre>
-        </div>
-             
-    </div>   
-    <?php if (AccessCheck::hasQRCode()): ?>
-
-    <script type="text/javascript">
-
-        var qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: CURRENT_URL,
-            width: 128,
-            height: 128,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-        document.getElementById("qrcode").title="";
-
-        <?php if (AccessCheck::isValidAdminPage()): ?>
-
-            document.getElementById("qrcode").addEventListener('mouseover', function(event){
-                this.style.filter = 'blur(0)';
-            });
-            document.getElementById("qrcode").addEventListener('mouseout', function(event){
-                this.style.filter = 'blur(4px)';
-            }); 
-        <?php endif; // (AccessCheck::isValidAdminPage()): ?>
-
-    </script>
-
-    <?php endif; // (AccessCheck::hasQRCode())?> 
-
+        </div>             
+    </div>
 </body>
 </html>

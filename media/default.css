@@ -109,15 +109,12 @@ body .container-title h1 {
     padding: 0 5px 0 15px;
 }
 
-body.admin #qrcode {
-    bottom: 4em;
-}
 
 #qrcode {
     position: fixed;
     margin: 2px;
-    right: 2px;
-
+    right: 40px;
+    top: 1px;
 }
 
 body.user #qrcode {
@@ -162,4 +159,7 @@ i.icon:hover{
 }
 i.icon.full-screen{
     background-image: url(fullscreen.png);
+}
+i.icon.qrcode{
+    background-image: url(qrcode.png);
 }
