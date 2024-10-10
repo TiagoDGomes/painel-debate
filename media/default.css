@@ -8,6 +8,7 @@
     --status-error-color: rgb(204, 0, 255);
     --status-color: rgba(87, 86, 86, 0.25);
     --status-font-color: rgba(255, 255, 255, 0.75);
+    --timer-sync-error-color: red; 
 }
 
 a {
@@ -53,6 +54,12 @@ body.timer-zero .container-timer {
 body.user.timer-ending,
 body.timer-ending .container-timer {
     background-color: var(--timer-ending-color);
+}
+
+
+body.user.timer-sync.timer-sync-error,
+body.timer-sync.timer-sync-error .container-timer{
+    background-color: var(--timer-sync-error-color);
 }
 
 body.user.timer-semaphore.set,
@@ -161,6 +168,12 @@ i.icon {
     opacity: .5;
 }
 
+button i.icon{
+    width: 1em; 
+    height: 1em;
+    opacity: 1;
+}
+
 i.icon:hover {
     opacity: 1;
 }
@@ -171,4 +184,7 @@ i.icon.full-screen {
 
 i.icon.qrcode {
     background-image: url(qrcode.png);
+}
+i.icon.pause {
+    background-image: url(pause.svg);
 }

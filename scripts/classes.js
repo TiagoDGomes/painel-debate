@@ -1,5 +1,6 @@
 var Timer = {
     localTime: 0,
+    localTimeMillis: 0,
     serverTimeMillis: 0,
     _syncing: false,
     pingCount: SYNC_PING_COUNT,
@@ -9,6 +10,7 @@ var Timer = {
     endTime: null,
     preparedTime: null,
     updateFailed: false,
+
     isSyncing: function () {
         return Timer._syncing;
     },
@@ -39,70 +41,91 @@ var Timer = {
         Timer.preparedTime = 0;
         Timer.startTime = 0;
         Timer.endTime = 0;
-        Timer.localTime = 0;
         Timer.serverTime = 0;
+        Timer.localTimeMillis = 0;
         Timer.serverTimeMillis = 0;
         Timer._syncCount = 0;
         Timer._diffServer = 0;
         Timer._diffSum = 0;
         Timer.setText('');
-        Timer._syncTicTacLoop(function () {
-
-        });
+        Timer._syncTicTacLoop(function (resultSuccess) { });
     },
-    _syncTicTacLoop: function (callback_sync) {
-        HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTime, function (data) {
-            var diff = data['diff'];
-            Timer.serverTimeMillis = data['serverTimeMillis'];
-            if (diff != Timer.serverTimeMillis) {
-                Timer._diffSum += diff;
-            }
-            var diffToZero = Timer.serverTimeMillis % 1000;
-            Timer.localTime = Timer.serverTimeMillis;
-            Timer._syncCount++;
-            var nextTimeout = 1000 - diffToZero;
-            console.log("Timer._syncCount,diff, diffToZero, nextTimeout", Timer._syncCount, diff, diffToZero, nextTimeout);
-            setTimeout(function () {
-                if (Timer._syncCount >= Timer.pingCount) {
-                    var avgDiff = Timer._diffSum / Timer._syncCount;
-                    var miliRounded = Math.floor(avgDiff / 1000) * 1000;
-                    Timer.localTime += miliRounded;
-                    setTimeout(function () {
-                        Timer.initTicTac();
-                        try {
-                            callback_sync();
-                        } catch (e) {
-                            console.error(e);
-                        }
-                    }, miliRounded - avgDiff * 2)
-                } else {
-                    Timer._syncTicTacLoop(callback_sync);
+    _syncTicTacLoop: function (callback_result_success) {
+        HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTimeMillis, function (data) {
+            if (data === null){
+                // console.error("Sincronização falhou.");
+                Timer._syncTicTacLoop(callback_result_success);
+            } else {
+                
+                var diff = data['diff'];
+                Timer.serverTimeMillis = data['serverTimeMillis'];
+                if (diff != Timer.serverTimeMillis) {
+                    Timer._diffSum += diff;
                 }
-            }, nextTimeout);
+                var diffToZero = Timer.serverTimeMillis % 1000;
+                Timer.localTimeMillis = Timer.serverTimeMillis + 1000;
+                Timer._syncCount++;
+                var nextTimeout = 1000 - diffToZero;
+                console.log("_syncCount         ", Timer._syncCount,
+                            "\ndiff             ", diff, 
+                            "\ndiffToZero       ", diffToZero, 
+                            "\n_diffSum         ", Timer._diffSum, 
+                            "\nnextTimeout      ", nextTimeout,
+                            "\nserverTimeMillis ", Timer.serverTimeMillis,
+                            "\nlocalTimeMillis  ", Timer.localTimeMillis,
+                       );
+                
+                setTimeout(function () {
+                    var requireNewPing = Timer._syncCount >= Timer.pingCount;                     
+                    if (requireNewPing) {
+                        var avgDiff = Timer._diffSum / Timer._syncCount;
+                        var miliRounded = Math.floor(avgDiff / 1000) * 1000;
+                        Timer.localTimeMillis += miliRounded;
+                        setTimeout(function () {
+                            Timer.initTicTac();
+                            try {
+                                callback_result_success(true);
+                            } catch (e) {
+                                console.error(e);
+                            }
+                        }, miliRounded - avgDiff * 2)
+                    } else {
+                        Timer._syncTicTacLoop(callback_result_success);
+                    }
+                }, nextTimeout);
+            }            
         });
     },
     initTicTac: function () {
-        console.log('Timer.initTicTac');
+        console.log("initTicTac:",
+                  "\nTimer.localTime:  ", Timer.localTime, 
+                  "\nTimer.serverTime: ", Timer.serverTime);
         Timer.setSyncing(false);
         delete Timer._syncCount;
         delete Timer._diffServer;
         delete Timer._diffSum;
         delete Timer.serverTimeMillis;
-        Timer.localTime = Math.round(Timer.localTime / 1000);
-        Timer._interval1s = setInterval(function () {
-            Timer.localTime += 1;
-        }, 1000);
-        Timer._interval1sUpdate = setInterval(function () {
-            Timer.updateData();
-            Timer.refreshInterface();
-            Status.setDebugMessage('L: ' + Timer.localTime + '\nS: ' + Timer.serverTime);
-            if (!Timer.isRunning() || !Timer.updateFailed) {
-                if (Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime) {
-                    Timer.syncTicTac();
-                }
-            }
-        }, 500);
+        Timer.localTime = Math.round(Timer.localTimeMillis / 1000);
+        Timer._interval1s = setInterval(Timer.tic, 1000);
+        Timer._interval1sUpdate = setInterval(Timer.updateTicTac, 500);
         Timer.updateData(Timer.refreshInterface);
+    },
+    tic: function(){
+        Timer.localTime += 1;
+        Status.setDebugMessage('L: ' + Timer.localTime + '\nS: ' + Timer.serverTime);
+    },
+    updateTicTac: function(){
+        Timer.updateData();
+        Timer.refreshInterface();        
+        if (Timer.isRunning()) {
+            //console.log('Timer is Running!');
+        } else {
+            //console.log('Timer is not Running!');
+            //console.log("Timer.serverTime: ", Timer.serverTime, "\nTimer.localTime:  ", Timer.localTime)
+            if (Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime) {
+                Timer.syncTicTac();
+            }
+        }
     },
     updateData: function (callback) {
         Property.getAll(function (data) {
@@ -113,7 +136,7 @@ var Timer = {
                 Timer.serverTime = data['serverTimeMillis'] / 1000;
                 Timer.updateFailed = false;
             } else {
-                Timer.updateFailed = true;
+                Timer.updateFailed = true;                
                 document.body.classList.add('timer-sync-error');
                 if (!Timer.isRunning) {
                     Timer.syncTicTac();
@@ -234,8 +257,8 @@ var Timer = {
         return seconds >= 0 && seconds < 10;
     },
     isRunning: function () {
-        seconds = Timer.getRemainingSeconds();
-        return seconds > 0 && seconds < 86400;
+        seconds = Timer.getRemainingSecondsDiff();
+        return seconds > -3 && seconds < 86400;
     },
     isPrepared: function () {
         return Timer.endTime <= 0;
@@ -260,6 +283,8 @@ var Timer = {
         }
     }
 }
+
+Timer.localTimeMillis = (new Date()).getTime();
 
 var Property = {
     getAll: function (callbackdata) {
@@ -302,7 +327,7 @@ var HTTPRequest = {
                         var r = JSON.parse(xhr.responseText);
                         callback_func(r);
                     } catch (e) {
-                        console.info(url, '\n', e, xhr.responseText);
+                        //console.info(url, '\n', e, xhr.responseText);                        
                         callback_func(null);
                     }
                 }
