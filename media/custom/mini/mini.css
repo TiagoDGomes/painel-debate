@@ -1,0 +1,44 @@
+body {
+    background-color: black;
+}
+#main{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    min-height: 300px;
+}
+.container-timer{
+    width: 300px !important;
+    border-radius: 12px;
+}
+#debug{
+    display: none;
+}
+body #main {    
+    opacity: 1;
+    animation-name: fadeIn;
+    animation-duration: .5s;
+}
+
+body.timer-ignored .container-timer {
+    opacity: 0;
+    animation-name: fadeOut;
+    animation-duration: .5s;
+}
+body.timer-sync.timer-sync-error #main{
+    display: none;
+}
+@keyframes fadeOut {
+    from {opacity: 1;}
+    to {opacity: 0;visibility: hidden;}
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;visibility: visible;}
+}
+
+.container-timer {
+    border: 1px inset silver;
+    box-shadow: 6px 6px 12px 2px #b1b1b1;
+}
