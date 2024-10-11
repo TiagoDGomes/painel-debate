@@ -1,6 +1,6 @@
 <?php
 
-$APP_VERSION = "2.3";
+$APP_VERSION = "2.4";
 $APP_TITLE = "Painel";
 
 define('PCORE', true);
@@ -15,12 +15,17 @@ if (!isset($DATABASE_PATH)){
 if (!isset($MAX_DATABASES)){
     $MAX_DATABASES = 6;
 }
-if (!isset($MAX_DATABASES)){
+if (!isset($ID_LENGTH)){
     $ID_LENGTH = 12;
 }
-if (!isset($MAX_DATABASES)){
+if (!isset($SYNC_PING_COUNT)){
     $SYNC_PING_COUNT = 4;
 }
+if (!isset($HIDE_STYLES)){
+    $HIDE_STYLES = array();
+}
+
+
 require_once 'classes.php';
 
 

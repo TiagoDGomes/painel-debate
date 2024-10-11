@@ -1,0 +1,41 @@
+body {
+    background-color: rgba(0, 0, 0, 0) !important;
+    margin: 0px auto;
+    overflow: hidden;
+}
+
+#debug,
+.container-status,
+body.timer-ready #main,
+body.timer-semaphore #main,
+.container-toolbar {
+    display: none
+}
+
+.container-timer {
+    border-radius: 25px !important;
+    max-width: 350px
+}
+
+body #main {    
+    opacity: 1;
+    animation-name: fadeIn;
+    animation-duration: .5s;
+}
+body.timer-sync #main,
+body.timer-ignored #main {
+    opacity: 0;
+    animation-name: fadeOut;
+    animation-duration: .5s;
+}
+body.timer-sync.timer-sync-error #main{
+    display: none;
+}
+@keyframes fadeOut {
+    from {opacity: 1;}
+    to {opacity: 0;visibility: hidden;}
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;visibility: visible;}
+}

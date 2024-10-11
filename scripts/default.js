@@ -6,7 +6,6 @@ function main() {
     Status.setMessageError('');
     Timer.syncTicTac();
     if (window.obsstudio) {
-        document.body.classList.add('obs');
         window.obsstudio.getStatus(function (status) {
             document.getElementById('debug').innerHTML = (status);
         })

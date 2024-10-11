@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg width="600" height="600" viewBox="0 0 158.75 158.75" version="1.1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <g>
+      <rect style="fill:none;stroke:#000000;stroke-width:11.5534;stroke-linejoin:miter;stroke-miterlimit:13.9;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" width="137.73885" height="97.081078" x="11.206541" y="18.148109" />
+      <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.88049;stroke-linejoin:miter;stroke-miterlimit:13.9;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" width="6.6302543" height="23.984177" x="77.25666" y="112.95616" />
+      <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.065;stroke-linejoin:miter;stroke-miterlimit:13.9;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" width="55.036728" height="9.9165277" x="53.020081" y="136.35225" />
+      <text xml:space="preserve" style="font-size:3.175px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:9.965;stroke-linejoin:miter;stroke-miterlimit:13.9;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" x="26.774624" y="50.574291">
+         <tspan style="stroke-width:9.965"></tspan>
+      </text>
+      <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:51.4534px;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:22.7097;stroke-linejoin:miter;stroke-miterlimit:13.9;stroke-dasharray:none;stroke-opacity:0;paint-order:normal" x="31.271822" y="83.185211" transform="scale(0.97812981,1.0223592)">
+         <tspan style="stroke:#000000;stroke-width:22.7097;stroke-dasharray:none;stroke-opacity:0" x="31.271822" y="83.185211">1:23</tspan>
+      </text>
+   </g>
+</svg>
