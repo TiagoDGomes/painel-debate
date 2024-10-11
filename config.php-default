@@ -1,6 +1,15 @@
 <?php 
-
+// Defina o número máximo de arquivos databases:
 $MAX_DATABASES = 1;
+
+// Pasta onde serão armazenados os arquivos databases:
 $DATABASE_PATH = __DIR__ . "/databases";
+
+// Tamanho do nome do ID do arquivo database:
 $ID_LENGTH = 12;
+
+// Depreciado:
 $SYNC_PING_COUNT = 4;
+
+// Esconder estilos:
+$HIDE_STYLES = array('blank');
