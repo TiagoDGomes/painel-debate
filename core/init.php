@@ -25,14 +25,6 @@ if (AccessCheck::isUpdateData()) {
     require_once 'core/info.php';
 }
 
-$flag_access = AccessCheck::isValidAdminPage() ? 'admin' : 'user';
-
-if (AccessCheck::isValidAdminPage()) {
-    $flag_access = 'admin';
-    $full_screen_url = '?i=' . $_GET['i'];
-    $target_full_screen = '';
-} else {
-    $flag_access = 'user';
-    $full_screen_url = 'javascript:fullScreen();';
-    $target_full_screen = '';
+if (!AccessCheck::isValidStyle()){
+    HTTPResponse::forbidden('Invalid style.');
 }

@@ -49,4 +49,12 @@ class AccessCheck {
     public static function isRequestingNewDatabase() {
         return !Database::isValidDatabase();
     }
+
+    public static function isValidStyle(){
+        if (!isset($_GET['s'])){
+            return true;
+        } else {
+            return (file_exists(Style::getCurrentPathStyle() . '/' . $_GET['s'] . '/' . $_GET['s'] . '.css'));
+        }
+    }
 }

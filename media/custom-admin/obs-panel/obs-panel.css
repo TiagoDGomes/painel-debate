@@ -1,0 +1,55 @@
+:root{
+    --timer-ready-color: blue;
+}
+
+body.obs-panel {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: black;
+    color: white;
+}
+
+.obs-panel button {
+    background-color: var(--timer-ready-color);
+    color: white;
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.obs-panel button:hover {
+    background-color: rgb(100, 99, 99);
+}
+
+.obs-panel .container-timer {
+    font-size: 2em;
+    text-align: center;
+    min-height: 1.5em;
+    margin-top: 1em;
+}
+.obs-panel .command-buttons{
+    text-align: center;
+    margin: 1em 0;
+}
+.obs-panel button {
+    min-width: 60px;
+}
+
+.obs-panel .container-toolbar{
+    display: none;
+}
+
+.obs-panel .container-status{
+    position: fixed;
+    top: 0;
+}
+
+.obs-panel .big.start{
+    background-color: green;
+}
+.obs-panel .big.pause{
+    background-color: blue;
+}
+.obs-panel #debug{
+    position: fixed;
+    bottom: 0;
+}

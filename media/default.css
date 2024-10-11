@@ -1,15 +1,4 @@
-:root {
-    --timer-default-color: green;
-    --timer-ready-color: #8a8a8a;
-    --timer-semaphore-ready: red;
-    --timer-semaphore-set: #d6c803;
-    --timer-font-color: white;
-    --timer-ending-color: #1aaa35;
-    --status-error-color: rgb(204, 0, 255);
-    --status-color: rgba(87, 86, 86, 0.25);
-    --status-font-color: rgba(255, 255, 255, 0.75);
-    --timer-sync-error-color: red; 
-}
+
 
 a {
     text-decoration: none;
@@ -21,9 +10,8 @@ body {
     margin: 0;
 }
 
-body.user,
+
 body .container-timer {
-    background-color: var(--timer-default-color);
     width: 100%;
 }
 
@@ -39,42 +27,52 @@ body .container-timer {
     color: var(--timer-font-color);
 }
 
-body.user.timer-ready,
+
 body.timer-ready .container-timer {
     background-color: var(--timer-ready-color);
 }
 
-body.user.timer-semaphore.ready,
-body.user.timer-zero,
 body.timer-semaphore.ready .container-timer,
 body.timer-zero .container-timer {
     background-color: var(--timer-semaphore-ready);
 }
 
-body.user.timer-ending,
 body.timer-ending .container-timer {
     background-color: var(--timer-ending-color);
 }
 
 
-body.user.timer-sync.timer-sync-error,
 body.timer-sync.timer-sync-error .container-timer{
     background-color: var(--timer-sync-error-color);
 }
 
-body.user.timer-semaphore.set,
-body.user.timer-ending.timer-alert,
 body.timer-semaphore.set .container-timer,
 body.timer-ending.timer-alert .container-timer {
     background-color: var(--timer-semaphore-set);
 }
 
+body.admin hr{
+    border: 1px solid #33333333;
+}
+
+body.admin .container-admin {
+    padding-top: 1em;
+    margin: 0 auto;
+}
+
+body.admin .timer-buttons {
+    margin: 1em;
+    text-align: center;
+}
+body.admin{
+    overflow-x: hidden;
+}
 #timer {
     min-height: 1.2em;
 }
 
 #timer:empty {
-    background-image: url(loading.gif);
+    background-image: url(loading.png);
     background-size: .8em;
     background-repeat: no-repeat;
     background-position: center center;
@@ -102,9 +100,7 @@ body .container-status div:empty {
     font-size: .75em
 }
 
-body.user #status-basic {
-    display: none
-}
+
 
 body #status-error {
     right: 0;
@@ -121,6 +117,12 @@ body .container-title h1 {
     padding: 0 5px 0 15px;
 }
 
+body .selector{
+    display: none;
+}
+body.admin .selector{
+    display: block;
+}
 
 #qrcode {
     position: fixed;
@@ -129,9 +131,6 @@ body .container-title h1 {
     top: 1px;
 }
 
-body.user #qrcode {
-    bottom: 2px
-}
 
 
 @media (max-width: 300px) and (max-height: 650px) {
@@ -154,37 +153,13 @@ body.user #qrcode {
 
 .container-toolbar {
     position: fixed;
-    top: .5em;
-    right: .5em;
+    top: 0em;
+    right: 0em;
+    background-color: #30303090;
+    padding: 6px;
+    border-radius: 0 0 0 10px;
 }
-
 i.icon {
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 24px;
-    height: 24px;
-    display: inline-block;
     filter: invert();
     opacity: .5;
-}
-
-button i.icon{
-    width: 1em; 
-    height: 1em;
-    opacity: 1;
-}
-
-i.icon:hover {
-    opacity: 1;
-}
-
-i.icon.full-screen {
-    background-image: url(fullscreen.png);
-}
-
-i.icon.qrcode {
-    background-image: url(qrcode.png);
-}
-i.icon.pause {
-    background-image: url(pause.svg);
 }

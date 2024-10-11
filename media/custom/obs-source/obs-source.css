@@ -1,0 +1,30 @@
+body {
+    background-color: rgba(0, 0, 0, 0) !important;
+    margin: 0px auto;
+    overflow: hidden;
+}
+
+#debug,
+.container-status,
+body.timer-ready #main,
+body.timer-semaphore #main,
+.container-toolbar {
+    display: none
+}
+
+.container-timer {
+    border-radius: 25px !important;
+    max-width: 350px
+}
+
+body #main {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0s .4s, visibility .4s
+}
+
+body.timer-ignored #main {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s .4s, opacity .4s linear;
+}

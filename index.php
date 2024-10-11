@@ -5,35 +5,49 @@
     <meta charset="UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title><?= @$APP_TITLE ?></title>
-    <link rel="stylesheet" href="media/default.css?v=<?= @$APP_VERSION ?>">
-    <link rel="stylesheet" href="media/button.css?v=<?= @$APP_VERSION ?>"> 
+
+    <link rel="stylesheet" href="media/minimal.css?v=<?= @$APP_VERSION ?>">
+
+    <?php Style::HTMLHeadCurrentStyle(); ?>
+
+    <meta name="theme-color" content="var(--timer-default-color)">
+
     <script>
         var GLOBAL_ID = '<?= $_GET['i'] ?>';
         var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>;    
         var CURRENT_URL = window.location.href;
     </script>
-    </script>
+    
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
-    <link rel="stylesheet" href="media/<?= $flag_access ?>.css?v=<?= @$APP_VERSION ?>">  
-    <meta name="theme-color" content="var(--timer-default-color)">
     <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
 </head>
-<body class="<?= $flag_access ?>">
+<body class="<?= Style::getCurrentStyle() . ' ' . (AccessCheck::isValidAdminPage() ? 'admin': '') ?>">
     <div id="main">        
         <div id="visible" style="display:none">
             
             <div class="container-timer">
                 <div id="timer"></div>
             </div>
+            
             <div class="container-toolbar">
-                <div class="item">
-                    <a title="Acessar versão em tela inteira" target="<?= $target_full_screen ?>" href="<?= $full_screen_url ?>"><i class="icon full-screen"></i></a>
+
+                <div class="item full-screen">
+                    <a title="Mostrar em tela inteira" href="javascript:fullScreen();"><i class="icon full-screen"></i></a>
                 </div>
-                <div class="item">
-                    <a id="qcode" href="#" title="Mostrar QRCode" onclick="alternarQRCode()"><i class="icon qrcode"></i></a>
+
+                <div class="item qrcode">
+                    <a title="Mostrar QRCode" href="javascript:alternarQRCode();"><i class="icon qrcode"></i></a>
                 </div>
+
+                <?php if (AccessCheck::isValidAdminPage()): ?>
+
+                <?php Style::HTMLMenu(); ?>
+
+                <?php endif; ?> 
+                
             </div>
             <?php if (AccessCheck::isSystemMessageActive()): ?>
 
