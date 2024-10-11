@@ -21,6 +21,11 @@ if (!isset($ID_LENGTH)){
 if (!isset($SYNC_PING_COUNT)){
     $SYNC_PING_COUNT = 4;
 }
+if (!isset($HIDE_STYLES)){
+    $HIDE_STYLES = array();
+}
+
+
 require_once 'classes.php';
 
 
