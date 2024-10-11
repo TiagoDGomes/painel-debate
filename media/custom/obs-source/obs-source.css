@@ -17,14 +17,25 @@ body.timer-semaphore #main,
     max-width: 350px
 }
 
-body #main {
-    visibility: visible;
+body #main {    
     opacity: 1;
-    transition: opacity 0s .4s, visibility .4s
+    animation-name: fadeIn;
+    animation-duration: .5s;
 }
-
+body.timer-sync #main,
 body.timer-ignored #main {
-    visibility: hidden;
     opacity: 0;
-    transition: visibility 0s .4s, opacity .4s linear;
+    animation-name: fadeOut;
+    animation-duration: .5s;
+}
+body.timer-sync.timer-sync-error #main{
+    display: none;
+}
+@keyframes fadeOut {
+    from {opacity: 1;}
+    to {opacity: 0;visibility: hidden;}
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;visibility: visible;}
 }
