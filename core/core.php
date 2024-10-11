@@ -18,9 +18,6 @@ if (!isset($MAX_DATABASES)){
 if (!isset($MAX_DATABASES)){
     $ID_LENGTH = 12;
 }
-if (!isset($MAX_DATABASES)){
-    $SYNC_PING_COUNT = 4;
-}
 require_once 'classes.php';
 
 

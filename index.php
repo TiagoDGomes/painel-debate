@@ -15,8 +15,7 @@
     <meta name="theme-color" content="var(--timer-default-color)">
 
     <script>
-        var GLOBAL_ID = '<?= $_GET['i'] ?>';
-        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>;    
+        var GLOBAL_ID = '<?= $_GET['i'] ?>'; 
         var CURRENT_URL = window.location.href;
     </script>
     
