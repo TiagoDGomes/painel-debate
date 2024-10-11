@@ -10,3 +10,6 @@ $ID_LENGTH = 12;
 
 // Esconder estilos:
 $HIDE_STYLES = array('blank');
+
+// Número de pings para fazer a sincronização:
+$SYNC_PING_COUNT = 4;

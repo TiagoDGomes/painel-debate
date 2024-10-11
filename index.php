@@ -17,6 +17,7 @@
     <script>
         var GLOBAL_ID = '<?= $_GET['i'] ?>'; 
         var CURRENT_URL = window.location.href;
+        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>;   
     </script>
     
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>

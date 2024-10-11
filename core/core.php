@@ -15,8 +15,11 @@ if (!isset($DATABASE_PATH)){
 if (!isset($MAX_DATABASES)){
     $MAX_DATABASES = 6;
 }
-if (!isset($MAX_DATABASES)){
+if (!isset($ID_LENGTH)){
     $ID_LENGTH = 12;
+}
+if (!isset($SYNC_PING_COUNT)){
+    $SYNC_PING_COUNT = 4;
 }
 require_once 'classes.php';
 
