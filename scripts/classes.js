@@ -3,7 +3,6 @@ var Timer = {
     localTimeMillis: 0,
     serverTimeMillis: 0,
     _syncing: false,
-    pingCount: SYNC_PING_COUNT,
     _interval1s: null,
     _interval1sUpdate: null,
     startTime: null,
