@@ -1,5 +1,9 @@
 
-
+:root{
+    --timer-padding-size: .1em;
+    --timer-height: 6em;
+    --timer-height-full: calc(var(--timer-padding-size) + var(--timer-height) * 1.5);
+}
 a {
     text-decoration: none;
 }
@@ -11,17 +15,29 @@ body {
 }
 
 
-body .container-timer {
+body.admin .container-timer {
     width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+body.admin .container-toolbar{
+    z-index: 1;
 }
 
+
+body.admin .container-admin{
+    max-width: 980px;
+    margin: 0 auto;
+    min-height: 400px;
+}
 body {
     overflow-x: hidden;
 }
 
 body .container-timer {
-    padding: .1em;
-    font-size: 6em;
+    padding: var(--timer-padding-size);
+    font-size: var(--timer-height);
     text-align: center;
     text-shadow: 2px 2px black;
     color: var(--timer-font-color);
@@ -63,6 +79,9 @@ body.admin .container-admin {
 body.admin .timer-buttons {
     margin: 1em;
     text-align: center;
+}
+body.admin .container-timer-spacing{
+    margin-top: var(--timer-height-full);
 }
 body.admin{
     overflow-x: hidden;
@@ -130,6 +149,7 @@ body.admin .selector{
     margin: 2px;
     right: 40px;
     top: 1px;
+    z-index: 1;
 }
 
 
@@ -144,6 +164,7 @@ body.admin .selector{
     position: fixed;
     top: .5em;
     left: .5em;
+    z-index: 1;
 }
 
 #debug {

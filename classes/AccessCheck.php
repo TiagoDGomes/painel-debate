@@ -7,7 +7,9 @@ class AccessCheck {
     public static function isSystemMessageActive(){
         return FALSE;
     }
-
+    public static function inListMode(){
+        return isset($_GET['l']);
+    }
     public static function isValidPage() {
         return Database::isValidDatabase();
     }

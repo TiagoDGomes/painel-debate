@@ -17,38 +17,42 @@
     <script>
         var GLOBAL_ID = '<?= $_GET['i'] ?>'; 
         var CURRENT_URL = window.location.href;
-        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>;   
+        var SYNC_PING_COUNT = <?= $SYNC_PING_COUNT * 1 ?>;  
+        var originalTextContent = <?= json_encode(Property::get('text-content'), JSON_PRETTY_PRINT) ?> ; 
     </script>
     
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
+    <script src="scripts/nicEdit/nicEdit.js"></script>
+            
 </head>
-<body class="<?= Style::getCurrentStyle() . ' ' . (AccessCheck::isValidAdminPage() ? 'admin': '') ?>">
+<body class="<?= Style::getCurrentStyle() . ' ' . (AccessCheck::isValidAdminPage() ? 'admin': '') . ' ' . (AccessCheck::inListMode() ? 'list' : '') ?>">
     <div id="main">        
         <div id="visible" style="display:none">
             
             <div class="container-timer">
                 <div id="timer"></div>
-            </div>
-            
+            </div>      
+                  
+            <div class="container-timer-spacing"></div>
+
             <div class="container-toolbar">
 
-                <div class="item full-screen">
-                    <a title="Mostrar em tela inteira" href="javascript:fullScreen();"><i class="icon full-screen"></i></a>
-                </div>
+                <?php Toolbar::HTMLLinkAnchor('javascript:fullScreen()','Mostrar em tela inteira','full-screen','');  ?>
 
-                <div class="item qrcode">
-                    <a title="Mostrar QRCode" href="javascript:alternarQRCode();"><i class="icon qrcode"></i></a>
-                </div>
+                <?php Toolbar::HTMLLinkAnchor('javascript:alternarQRCode()','Mostrar QRCode','qrcode','');  ?>
 
                 <?php if (AccessCheck::isValidAdminPage()): ?>
 
-                <?php Style::HTMLMenu(); ?>
+                <?php Toolbar::HTMLMenu(); ?>
 
-                <?php endif; ?> 
-                
+                <?php endif; ?>
+
             </div>
+            
+
+
             <?php if (AccessCheck::isSystemMessageActive()): ?>
 
                 <div class="container-title">
@@ -60,78 +64,17 @@
                 <?php endif; ?>  
 
             <?php if (AccessCheck::isValidAdminPage()): ?>
-
+                
             <!--<admin>--> 
-
-                <div class="container-admin">
-                    <p>
-                    <div class="timer-buttons command-buttons">
-                        <button onclick="Timer.start()" class="big green start">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">▶️</span>   
-                        </button>
-                        <button onclick="Timer.prepareTime(Timer.getRemainingSeconds())" class="big pause">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text"><i class="icon pause"></i></span>      
-                        </button>
+                <div class="container-admin"> 
+                    <div class="textbox"></div> 
+                    
+                    <div class="textedit" style="visibility:hidden">
+                        <textarea style="width: 100%" id="nEditor"><?= Property::get('text-content') ?></textarea> 
                     </div>
-                    <div class="timer-buttons prepare-buttons">
-                        <button onclick="Timer.prepareTime(30)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">0:30</span>    
-                        </button>
-                        <button onclick="Timer.prepareTime(60)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">1:00</span>
-                        </button>
-                        <button onclick="Timer.prepareTime(90)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">1:30</span>                        
-                        </button>
-                        <button onclick="Timer.prepareTime(120)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">2:00</span>                        
-                        </button>
-                        <button onclick="Timer.prepareTime(180)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">3:00</span>                        
-                        </button>
-                        <button onclick="Timer.prepareTime(240)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">4:00</span>                        
-                        </button>
-                        <button onclick="Timer.prepareTime(300)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">5:00</span>                        
-                        </button>
-                        <button onclick="Timer.prepareTime(600)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">10:00</span>                        
-                        </button>
-                        <button onclick="Timer.prepareTime(900)" class="big">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">15:00</span>                        
-                        </button>
-                    </div>   
-                    <div class="timer-buttons">
-                        <button style="display: none" onclick="window.open('?i=<?= $_GET['i'] ?>')" class="big blue">
-                            <span class="shadow"></span>
-                            <span class="edge"></span>
-                            <span class="front text">Tela inteira</span>                        
-                        </button>
-                    </div>                 
-                </div>                                
+                    
+                </div>   
+                                     
             <!--</admin>-->
 
             <?php else: ?>  
@@ -150,7 +93,8 @@
         </div>
         <div class="container-debug">
             <pre id="debug"><?php // var_dump($_SERVER); ?></pre>
-        </div>             
+        </div> 
+          
     </div>   
 </body>
 </html>

@@ -277,7 +277,9 @@ var Timer = {
             m = Math.floor(seconds / 60);
             s = seconds % 60;
             ss = s > 9 ? s : "0" + s;
-            document.querySelectorAll("button.start .text")[0].innerHTML = m + ":" + ss;
+            document.querySelectorAll("button.start .text").forEach(function(elem){
+                elem.innerHTML = m + ":" + ss;
+            })
         } catch (e) {
 
         }
@@ -294,12 +296,18 @@ var Property = {
             } else {
                 Status.setMessageError('A conexão com o servidor foi perdida. Verifique o status da rede.');
             }
+            
             callbackdata(data);
         });
     },
     set: function (prop_name, prop_value, func) {
         HTTPRequest.getJSON("?set=1&prop_name=" + prop_name + "&prop_value=" + prop_value, func);
+    
+    },
+    setPost: function (postdata, func) {
+        HTTPRequest.postJSON("?set=1", postdata, func);
     }
+
 }
 
 var Status = {
@@ -316,9 +324,12 @@ var Status = {
 
 var HTTPRequest = {
     getJSON: function (url, callback_func) {
-        HTTPRequest._send(url + '&json=1&_=' + (Math.floor(Math.random() * 1000000)) + "&i=" + GLOBAL_ID, callback_func);
+        HTTPRequest._send(url + '&json=1&_=' + (Math.floor(Math.random() * 1000000)) + "&i=" + GLOBAL_ID, callback_func, 'GET', null);
     },
-    _send: function (url, callback_func) {
+    postJSON: function (url, postdata, callback_func) {
+        HTTPRequest._send(url + '&json=1&_=' + (Math.floor(Math.random() * 1000000)) + "&i=" + GLOBAL_ID, callback_func, 'POST', postdata);
+    },
+    _send: function (url, callback_func, method, data) {
         var xhr = new XMLHttpRequest();
         if (callback_func) {
             xhr.onreadystatechange = function () {
@@ -333,7 +344,15 @@ var HTTPRequest = {
                 }
             };
         }
-        xhr.open('GET', url);
-        xhr.send();
+        if (!method){
+            method = 'GET';
+        }
+        xhr.open(method, url);
+        if (data){
+            xhr.send(data);
+        } else {            
+            xhr.send();
+        }
     }
 }
+
