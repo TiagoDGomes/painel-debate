@@ -82,7 +82,7 @@ function nl2br(originalText){
 
 function convertTextToButtons(originalText){
     //newText = nl2br(originalText);
-    newText = originalText.replaceAll(/\[([0-9]*|iniciar|start|ss|p|P|[0-9]*:[0-9]*)\]/gi, function(e){
+    newText = originalText.replaceAll(/\[([0-9]*|iniciar|start|ss|pause|P|[0-9]*:[0-9]*)\]/gi, function(e){
         var time = e.replace(/(\[|\])/ig, "");
         if (time == 'iniciar' || time == 'start' ){
             return createBigButton("Timer.start()", "Iniciar", 'green');
@@ -90,7 +90,7 @@ function convertTextToButtons(originalText){
         if (time == 'ss'){
             return createBigButton("Timer.start()", "Iniciar", 'green start');
         }        
-        if (time == 'p' || time == 'P'){
+        if (time == 'pause'|| time == 'P'){
             return createBigButton("Timer.prepareTime(Timer.getRemainingSeconds())", "Pause", 'pause');
         }
         var minutes;
