@@ -13,14 +13,7 @@ switch (@$_GET['prop_name']){
         break;
 }
 if (isset($_POST['text-content'])){
-    Property::set('text-content', strip_tags($_POST['text-content'], array(                                                    
-                                                    '<span>','<p>','<br>','<div>',
-                                                    '<strong>','<b>',
-                                                    '<i>','<em>',
-                                                    '<u>','<del>',
-                                                    '<ul>','<ol>','<li>',
-                                                    '<blockquote>'
-                                                )));
+    Property::set('text-content', strip_tags($_POST['text-content'], $ALLOW_TAGS));
 }
 
 require_once 'info.php';
