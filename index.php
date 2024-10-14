@@ -24,7 +24,12 @@
     <script src="scripts/default.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/classes.js?v=<?= @$APP_VERSION ?>"></script>
     <script src="scripts/qrcode.js?v=<?= @$APP_VERSION ?>"></script>
+    <?php if (AccessCheck::isValidAdminPage()) : ?> 
+
     <script src="scripts/nicEdit/nicEdit.js"></script>
+    <script src="scripts/admin.js?v=<?= @$APP_VERSION ?>"></script>
+    
+    <?php endif; ?>
             
 </head>
 <body class="<?= Style::getCurrentStyle() . ' ' . (AccessCheck::isValidAdminPage() ? 'admin': '') . ' ' . (AccessCheck::inListMode() ? 'list' : '') ?>">
