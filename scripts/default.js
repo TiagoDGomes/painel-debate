@@ -1,7 +1,20 @@
 
 var alternarQRCodeStatus = false;
 
+var textView;
+var textEdit;
+var saveButton;
+var editButton;
+var textEditorContents;
+
 function main() {
+    saveButton = document.querySelector('.container-toolbar .save');
+    editButton = document.querySelector('.container-toolbar .edit');
+    textView = document.querySelector('.textView');    
+    textEdit = document.querySelector('.textEdit');
+
+
+
     document.getElementById("visible").style.display = '';
     Status.setMessageError('');
     Timer.syncTicTac();
@@ -20,8 +33,10 @@ function main() {
     });
     var qrcode_elem = document.getElementById("qrcode");
     qrcode_elem.title = "";
-    document.querySelectorAll('.container-admin .textbox')[0].innerHTML = convertTextToButtons(originalTextContent)
+    textView.innerHTML = convertTextToButtons(originalTextContent);  
+    saveButton.style.display = 'none';
     new nicEditor().panelInstance('nEditor');
+    textEditorContents = textEdit.querySelector('.nicEdit-main');
 }
 
 function alternarQRCode() {
@@ -38,36 +53,32 @@ function fullScreen() {
     }
 }
 function edit(){
-    var textbox = document.querySelector('.textbox');
-    if (textbox.style.display  == 'none') {
+    if (textView.style.display  == 'none') {
         modeView();
     }  else {
         modeEdit();
     }     
 }
 function modeEdit(){
-    var textbox = document.querySelector('.textbox');
-    var textedit = document.querySelector('.textedit');
-    textbox.style.display = 'none';
-    textedit.style.display = 'block';
-    textedit.style.visibility = 'visible';
+    saveButton.style.display = '';
+    editButton.style.display = 'none';
+    textView.style.display = 'none';
+    textEdit.style.display = 'block';
+    textEdit.style.visibility = 'visible';
 }
 function modeView(){
-    var textbox = document.querySelector('.textbox');
-    var textedit = document.querySelector('.textedit');
-    var texteditcontents = textedit.querySelector('.nicEdit-main');
-    textbox.style.display = 'block';
-    textedit.style.display = 'none';
-    var newText = texteditcontents.innerHTML;
-    textbox.innerHTML = convertTextToButtons(newText);;
+    saveButton.style.display = 'none';
+    editButton.style.display = '';
+    textView.style.display = 'block';
+    textEdit.style.display = 'none';
+    var newText = textEditorContents.innerHTML;
+    textView.innerHTML = convertTextToButtons(newText);;
 }
 
 
-function save(){    
-    var textedit = document.querySelector('.textedit');
-    var texteditcontents = textedit.querySelector('.nicEdit-main');
+function save(){   
     var formData = new FormData();
-    formData.append('text-content', texteditcontents.innerHTML);
+    formData.append('text-content', textEditorContents.innerHTML);
     Property.setPost(formData, function(){
         modeView();
     })

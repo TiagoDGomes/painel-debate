@@ -67,9 +67,9 @@
                 
             <!--<admin>--> 
                 <div class="container-admin"> 
-                    <div class="textbox"></div> 
+                    <div class="textView"></div> 
                     
-                    <div class="textedit" style="visibility:hidden">
+                    <div class="textEdit" style="visibility:hidden">
                         <textarea style="width: 100%" id="nEditor"><?= Property::get('text-content') ?></textarea> 
                     </div>
                     

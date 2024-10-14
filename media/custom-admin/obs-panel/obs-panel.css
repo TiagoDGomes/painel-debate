@@ -35,6 +35,21 @@ body.obs-panel {
 }
 
 .obs-panel .container-toolbar{
+    /* display: none; */
+    filter: invert(1);
+    position: fixed;
+    right: 0;
+    top: 0
+}
+.obs-panel .container-toolbar{
+    /* display: none; */
+    filter: invert(1)
+}
+.obs-panel .container-toolbar .item{
+    display: inline-block;
+}
+.obs-panel .container-toolbar hr,
+.obs-panel .container-toolbar .item:not(.edit):not(.save){
     display: none;
 }
 
