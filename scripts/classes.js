@@ -122,7 +122,7 @@ var Timer = {
         } else {
             //console.log('Timer is not Running!');
             //console.log("Timer.serverTime: ", Timer.serverTime, "\nTimer.localTime:  ", Timer.localTime)
-            if (Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime) {
+            if (Timer.isOutOfSync()) {
                 Timer.syncTicTac();
             }
         }
@@ -137,10 +137,7 @@ var Timer = {
                 Timer.updateFailed = false;
             } else {
                 Timer.updateFailed = true;                
-                document.body.classList.add('timer-sync-error');
-                if (!Timer.isRunning) {
-                    Timer.syncTicTac();
-                }
+                document.body.classList.add('timer-sync-error');                
             }
             if (callback) callback();
         });
@@ -262,6 +259,9 @@ var Timer = {
     },
     isPrepared: function () {
         return Timer.endTime <= 0;
+    },
+    isOutOfSync: function(){
+        return Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime;
     },
     start: function () {
         Property.set('timer-start', Timer.localTime + 3, function (data) {
