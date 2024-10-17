@@ -57,7 +57,7 @@ var Timer = {
     _syncTicTacLoop: function (callback_result_success) {
         HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTimeMillis, function (data) {
             if (data === null){
-                // console.error("Sincronização falhou.");
+                console.error("Sincronização falhou.");
                 Timer._syncTicTacLoop(callback_result_success);
             } else {
                 
@@ -127,14 +127,8 @@ var Timer = {
     updateTicTac: function(){
         Timer.updateData();
         Timer.refreshInterface();        
-        if (Timer.isRunning()) {
-            //console.log('Timer is Running!');
-        } else {
-            //console.log('Timer is not Running!');
-            //console.log("Timer.serverTime: ", Timer.serverTime, "\nTimer.localTime:  ", Timer.localTime)
-            if (Timer.isOutOfSync()) {
-                Timer.syncTicTac();
-            }
+        if (!(Timer.isRunning()) && (Timer.isOutOfSync())) {
+            Timer.syncTicTac();            
         }
     },
     updateData: function (callback) {        
@@ -352,8 +346,7 @@ var HTTPRequest = {
                     try {
                         var r = JSON.parse(xhr.responseText);
                         callback_func(r);
-                    } catch (e) {
-                        //console.info(url, '\n', e, xhr.responseText);                        
+                    } catch (e) {                                              
                         callback_func(null);
                     }
                 }

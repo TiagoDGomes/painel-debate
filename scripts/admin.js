@@ -52,7 +52,6 @@ function save(){
 
 
 function convertTextToButtons(originalText){
-    //newText = nl2br(originalText);
     newText = originalText.replaceAll(/\[([0-9]*|iniciar|start|ss|pause|P|[0-9]*:[0-9]*)\]/gi, function(e){
         var time = e.replace(/(\[|\])/ig, "");
         if (time == 'iniciar' || time == 'start' ){
