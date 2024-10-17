@@ -1,4 +1,8 @@
-
+:root {
+    --timer-padding-size: .1em;
+    --timer-height: 6em;
+    --timer-height-full: calc(var(--timer-padding-size) + var(--timer-height) * 1.5);
+}
 
 a {
     text-decoration: none;
@@ -8,25 +12,48 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     padding: 0;
     margin: 0;
-}
-
-
-body .container-timer {
-    width: 100%;
-}
-
-body {
     overflow-x: hidden;
 }
 
-body .container-timer {
-    padding: .1em;
-    font-size: 6em;
+body.admin::backdrop {
+    background-color: white;
+}
+
+.container-timer {
+    width: 100%;
+    padding: var(--timer-padding-size);
+    font-size: var(--timer-height);
     text-align: center;
     text-shadow: 2px 2px black;
     color: var(--timer-font-color);
 }
 
+.container-toolbar {
+    position: fixed;
+    top: 0em;
+    right: 0em;
+    background-color: #30303090;
+    padding: 6px;
+    border-radius: 0 0 0 10px;
+}
+
+body.admin .container-timer {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
+body.admin .container-toolbar {
+    z-index: 1;
+}
+
+body.admin .container-admin {
+    max-width: 980px;
+    margin: 0 auto;
+    min-height: 400px;
+    padding-top: 1em;
+    margin: 0 auto;
+}
 
 body.timer-ready .container-timer {
     background-color: var(--timer-ready-color);
@@ -42,7 +69,7 @@ body.timer-ending .container-timer {
 }
 
 
-body.timer-sync.timer-sync-error .container-timer{
+body.timer-sync.timer-sync-error .container-timer {
     background-color: var(--timer-sync-error-color);
 }
 
@@ -51,22 +78,19 @@ body.timer-ending.timer-alert .container-timer {
     background-color: var(--timer-semaphore-set);
 }
 
-body.admin hr{
+body.admin hr {
     border: 1px solid #33333333;
-}
-
-body.admin .container-admin {
-    padding-top: 1em;
-    margin: 0 auto;
 }
 
 body.admin .timer-buttons {
     margin: 1em;
     text-align: center;
 }
-body.admin{
-    overflow-x: hidden;
+
+body.admin .container-timer-spacing {
+    margin-top: var(--timer-height-full);
 }
+
 #timer {
     min-height: 1.2em;
 }
@@ -77,7 +101,6 @@ body.admin{
     background-repeat: no-repeat;
     background-position: center center;
 }
-
 
 body .container-status div {
     background-color: var(--status-color);
@@ -101,27 +124,26 @@ body .container-status div:empty {
     font-size: .75em
 }
 
-
-
-body #status-error {
+#status-error {
     right: 0;
     border-radius: 8px 0 0 0;
     background-color: var(--status-error-color);
 }
 
-body .container-status .hidden {
+.container-status .hidden {
     visibility: hidden;
 }
 
-body .container-title h1 {
+.container-title h1 {
     margin: 0;
     padding: 0 5px 0 15px;
 }
 
-body .selector{
+.selector {
     display: none;
 }
-body.admin .selector{
+
+body.admin .selector {
     display: block;
 }
 
@@ -130,9 +152,8 @@ body.admin .selector{
     margin: 2px;
     right: 40px;
     top: 1px;
+    z-index: 1;
 }
-
-
 
 @media (max-width: 300px) and (max-height: 650px) {
     #qrcode {
@@ -144,6 +165,7 @@ body.admin .selector{
     position: fixed;
     top: .5em;
     left: .5em;
+    z-index: 1;
 }
 
 #debug {
@@ -152,14 +174,6 @@ body.admin .selector{
     margin: 0;
 }
 
-.container-toolbar {
-    position: fixed;
-    top: 0em;
-    right: 0em;
-    background-color: #30303090;
-    padding: 6px;
-    border-radius: 0 0 0 10px;
-}
 i.icon {
     filter: invert();
     opacity: .5;

@@ -1,6 +1,6 @@
 <?php
 
-$APP_VERSION = "2.4";
+$APP_VERSION = "2.5";
 $APP_TITLE = "Painel";
 
 define('PCORE', true);
@@ -23,6 +23,16 @@ if (!isset($SYNC_PING_COUNT)){
 }
 if (!isset($HIDE_STYLES)){
     $HIDE_STYLES = array();
+}
+if (!isset($ALLOW_TAGS)){
+    $ALLOW_TAGS = array(                                                    
+        '<span>','<p>','<br>','<div>',
+        '<strong>','<b>',
+        '<i>','<em>',
+        '<u>','<del>',
+        '<ul>','<ol>','<li>',
+        '<blockquote>','<hr>'
+    );
 }
 
 

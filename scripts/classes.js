@@ -10,6 +10,10 @@ var Timer = {
     endTime: null,
     preparedTime: null,
     updateFailed: false,
+    beepAudioSecPath: 'media/tick.mp3',
+    beepAudioSec: null,
+    beepAudioAlertPath: 'media/beep.mp3',
+    beepAudioAlert: null,
 
     isSyncing: function () {
         return Timer._syncing;
@@ -53,7 +57,7 @@ var Timer = {
     _syncTicTacLoop: function (callback_result_success) {
         HTTPRequest.getJSON('?timer=1&syncCount=' + Timer._syncCount + "&localTime=" + Timer.localTimeMillis, function (data) {
             if (data === null){
-                // console.error("Sincronização falhou.");
+                console.error("Sincronização falhou.");
                 Timer._syncTicTacLoop(callback_result_success);
             } else {
                 
@@ -97,6 +101,9 @@ var Timer = {
         });
     },
     initTicTac: function () {
+        Timer.beepAudioSec = new Audio(Timer.beepAudioSecPath);
+        Timer.beepAudioAlert = new Audio(Timer.beepAudioAlertPath);
+
         console.log("initTicTac:",
                   "\nTimer.localTime:  ", Timer.localTime, 
                   "\nTimer.serverTime: ", Timer.serverTime);
@@ -113,21 +120,18 @@ var Timer = {
     tic: function(){
         Timer.localTime += 1;
         Status.setDebugMessage('L: ' + Timer.localTime + '\nS: ' + Timer.serverTime);
+        if (Timer.isRunning()){            
+            Timer.beepAudioSec.play();
+        }
     },
     updateTicTac: function(){
         Timer.updateData();
         Timer.refreshInterface();        
-        if (Timer.isRunning()) {
-            //console.log('Timer is Running!');
-        } else {
-            //console.log('Timer is not Running!');
-            //console.log("Timer.serverTime: ", Timer.serverTime, "\nTimer.localTime:  ", Timer.localTime)
-            if (Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime) {
-                Timer.syncTicTac();
-            }
+        if (!(Timer.isRunning()) && (Timer.isOutOfSync())) {
+            Timer.syncTicTac();            
         }
     },
-    updateData: function (callback) {
+    updateData: function (callback) {        
         Property.getAll(function (data) {
             if (data) {
                 Timer.preparedTime = data['timer-prepared'];
@@ -137,10 +141,7 @@ var Timer = {
                 Timer.updateFailed = false;
             } else {
                 Timer.updateFailed = true;                
-                document.body.classList.add('timer-sync-error');
-                if (!Timer.isRunning) {
-                    Timer.syncTicTac();
-                }
+                document.body.classList.add('timer-sync-error');                
             }
             if (callback) callback();
         });
@@ -159,10 +160,12 @@ var Timer = {
             if (secondsRegressive == 2) {
                 document.body.classList.remove('set');
                 document.body.classList.add('ready');
+                Timer.beepAudioAlert.play();
 
             } else if (secondsRegressive == 1) {
                 document.body.classList.remove('ready');
                 document.body.classList.add('set');
+                Timer.beepAudioAlert.play();
             }
         } else if (Timer.isPaused()) {
             Status.setMessage("Em pausa");
@@ -218,13 +221,16 @@ var Timer = {
         document.title = valueShow;
         if (!Timer.isPrepared()) {
             seconds = Timer.getRemainingSecondsDiff();
-            if (seconds < 0) {
+            if (seconds < 0) {                
                 Status.setMessage("Tempo esgotado");
                 document.body.classList.add('timer-zero');
                 Timer.setText('0:00');
                 document.title = '0:00';
                 if (seconds < -3) {
                     document.body.classList.add('timer-ignored');
+                }
+                if (Timer.isRunning()){
+                    Timer.beepAudioAlert.play();
                 }
             }
         }
@@ -263,6 +269,9 @@ var Timer = {
     isPrepared: function () {
         return Timer.endTime <= 0;
     },
+    isOutOfSync: function(){
+        return Math.abs(Timer.serverTime - Timer.localTime) >= 1.5 || Timer.localTime > Timer.serverTime;
+    },
     start: function () {
         Property.set('timer-start', Timer.localTime + 3, function (data) {
             Timer.preparedTime = data['timer-prepared'];
@@ -277,7 +286,9 @@ var Timer = {
             m = Math.floor(seconds / 60);
             s = seconds % 60;
             ss = s > 9 ? s : "0" + s;
-            document.querySelectorAll("button.start .text")[0].innerHTML = m + ":" + ss;
+            document.querySelectorAll("button.start .text").forEach(function(elem){
+                elem.innerHTML = m + ":" + ss;
+            })
         } catch (e) {
 
         }
@@ -294,12 +305,18 @@ var Property = {
             } else {
                 Status.setMessageError('A conexão com o servidor foi perdida. Verifique o status da rede.');
             }
+            
             callbackdata(data);
         });
     },
     set: function (prop_name, prop_value, func) {
         HTTPRequest.getJSON("?set=1&prop_name=" + prop_name + "&prop_value=" + prop_value, func);
+    
+    },
+    setPost: function (postdata, func) {
+        HTTPRequest.postJSON("?set=1", postdata, func);
     }
+
 }
 
 var Status = {
@@ -316,9 +333,12 @@ var Status = {
 
 var HTTPRequest = {
     getJSON: function (url, callback_func) {
-        HTTPRequest._send(url + '&json=1&_=' + (Math.floor(Math.random() * 1000000)) + "&i=" + GLOBAL_ID, callback_func);
+        HTTPRequest._send(url + '&json=1&_=' + (Math.floor(Math.random() * 1000000)) + "&i=" + GLOBAL_ID, callback_func, 'GET', null);
     },
-    _send: function (url, callback_func) {
+    postJSON: function (url, postdata, callback_func) {
+        HTTPRequest._send(url + '&json=1&_=' + (Math.floor(Math.random() * 1000000)) + "&i=" + GLOBAL_ID, callback_func, 'POST', postdata);
+    },
+    _send: function (url, callback_func, method, data) {
         var xhr = new XMLHttpRequest();
         if (callback_func) {
             xhr.onreadystatechange = function () {
@@ -326,14 +346,21 @@ var HTTPRequest = {
                     try {
                         var r = JSON.parse(xhr.responseText);
                         callback_func(r);
-                    } catch (e) {
-                        //console.info(url, '\n', e, xhr.responseText);                        
+                    } catch (e) {                                              
                         callback_func(null);
                     }
                 }
             };
         }
-        xhr.open('GET', url);
-        xhr.send();
+        if (!method){
+            method = 'GET';
+        }
+        xhr.open(method, url);
+        if (data){
+            xhr.send(data);
+        } else {            
+            xhr.send();
+        }
     }
 }
+

@@ -13,3 +13,13 @@ $HIDE_STYLES = array('blank');
 
 // Número de pings para fazer a sincronização:
 $SYNC_PING_COUNT = 4;
+
+// Tags permitidas no editor
+$ALLOW_TAGS = array(                                                    
+    '<span>','<p>','<br>','<div>',
+    '<strong>','<b>',
+    '<i>','<em>',
+    '<u>','<del>',
+    '<ul>','<ol>','<li>',
+    '<blockquote>','<hr>'
+);

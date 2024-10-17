@@ -71,14 +71,19 @@ $queries = array(
     "INSERT INTO props (prop_name, prop_value) VALUES ('timer-end', NULL)",
     "INSERT INTO props (prop_name, prop_value) VALUES ('message-title', '')",
     "INSERT INTO props (prop_name, prop_value) VALUES ('message-content', '')",
-    "INSERT INTO props (prop_name, prop_value) VALUES ('system-message', '0')",
-        
+    "INSERT INTO props (prop_name, prop_value) VALUES ('system-message', '0')",        
 );
 
 Database::setGlobalDatabase($NEW_ID);
 Database::startInstance();
 Database::beginTransaction();
 Database::executeQueries($queries);
+
+
+$query = "INSERT OR REPLACE INTO props (prop_name, prop_value) VALUES ('text-content', ?)";
+$params = array(file_get_contents('core/template.html'));
+Database::execute($query, $params);
+
 Database::commit();
 HTTPResponse::redirect("?i=$NEW_ID&g=$NEW_ADMIN");
 exit();

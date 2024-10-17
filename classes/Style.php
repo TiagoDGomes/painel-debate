@@ -10,45 +10,18 @@ class Style {
 
     } 
     public static function getStyleURL($style, $admin=FALSE){
-        $url =  "?i=" . $_GET['i'] . "&s=" . $style;
+        $url =  "?i=" . $_GET['i'];
+        if ($style){
+            $url .=   "&s=" . $style;
+        }
         if ($admin){
             $url .= "&g=" . $_GET['g'];
         }
         return $url;
     }
-    public static function HTMLMenu(){
-        echo '<hr>';
-        Style::HTMLMenuItems('media/custom', FALSE);
-        if (AccessCheck::isValidAdminPage()){
-            echo '<hr>';
-            Style::HTMLMenuItems('media/custom-admin', TRUE);
-        } 
-    }
-    public static function HTMLMenuItems($path, $admin=FALSE){
-        global $HIDE_STYLES;
-        $files = array_diff(scandir($path), array('..', '.'));
-        foreach ($files as $file){
-            if (in_array($file, $HIDE_STYLES)){
-                // 
-            } else {
-                if (file_exists("$path/$file/$file.png")){
-                    $style_in_line = "background-image: url($path/$file/$file.png);";
-                } else if (file_exists("$path/$file/$file.svg")){
-                    $style_in_line = "background-image: url($path/$file/$file.svg);";
-                } else {
-                    $style_in_line = '';
-                }
-                ?>
     
-                <div class="item selector">
-                    <a title="<?=$file?>" href="<?= Style::getStyleURL($file,$admin) ?>"><i style="<?= $style_in_line ?>" class="icon <?= $file ?>"></i></a>
-                </div>
-    
-                <?php
-            }
-            
-        }
-    }
+
+
     public static function getCurrentStyle(){
         return @$_GET['s'];
     }

@@ -31,7 +31,7 @@ body.timer-ending .container-timer {
 body.timer-sync.timer-sync-error .container-timer{
     background-color: var(--timer-sync-error-color);
 }
-body.timer-sync .timer-buttons,
+body.timer-sync button.pause,
 body.timer-zero button.pause,
 body.timer-ready button.pause {
     visibility: hidden;
@@ -50,28 +50,48 @@ button i.icon{
     height: 1em;
     opacity: 1;
 }
+i.icon {
+    background-image: url(default-custom.svg);
+}
 
 i.icon:hover {
     opacity: 1;
 }
 
 i.icon.full-screen {
-    background-image: url(fullscreen.png);
+    background-image: url(fullscreen.svg);
+}
+
+i.icon.blank {
+    background-image: url(blank.svg);
 }
 
 i.icon.qrcode {
-    background-image: url(qrcode.png);
+    background-image: url(qrcode.svg);
 }
 i.icon.pause {
     background-image: url(pause.svg);
 }
-
-.selector i.icon {
-    background-image: url(default-custom.svg);
+i.icon.edit {
+    background-image: url(edit.svg);
 }
+i.icon.save {
+    background-image: url(save.svg);
+}
+
+
 #timer:empty {
     background-image: url(loading.png);
     background-size: .8em;
     background-repeat: no-repeat;
     background-position: center center;
+}
+
+.nicEdit-main {    
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }

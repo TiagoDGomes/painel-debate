@@ -1,6 +1,8 @@
 
 var alternarQRCodeStatus = false;
 
+
+
 function main() {
     document.getElementById("visible").style.display = '';
     Status.setMessageError('');
@@ -18,10 +20,9 @@ function main() {
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
     });
-    var qrcode_elem = document.getElementById("qrcode");
-    qrcode_elem.title = "";
+    var qrcode_elem = document.getElementById("qrcode"); 
+    qrcode_elem.title = "";   
 }
-
 
 function alternarQRCode() {
     var qrcode = document.getElementById('qrcode');
@@ -33,8 +34,25 @@ function fullScreen() {
     if (document.fullscreenElement != null) {
         document.exitFullscreen();
     } else {
-        document.getElementById('main').requestFullscreen();
+        document.body.requestFullscreen();
     }
 }
+function str_pad_left(string, pad, length) {
+    return (new Array(length + 1).join(pad) + string).slice(-length);
+  }
+  
+function convertToHumanTimeFormat(minutes, seconds){
+    return minutes + ':' + str_pad_left(seconds, '0', 2);
+} 
+
+function removeHtmlTags(originalText){
+    return originalText.replace(/(<([^>]+)>)/ig, "");
+}
+
+function nl2br(originalText){
+    return originalText.replaceAll('\n', '<br>');
+}
+
+
 
 window.addEventListener("load", main);
