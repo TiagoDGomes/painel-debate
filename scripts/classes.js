@@ -10,6 +10,10 @@ var Timer = {
     endTime: null,
     preparedTime: null,
     updateFailed: false,
+    beepAudioSecPath: 'media/tick.mp3',
+    beepAudioSec: null,
+    beepAudioAlertPath: 'media/beep.mp3',
+    beepAudioAlert: null,
 
     isSyncing: function () {
         return Timer._syncing;
@@ -97,6 +101,9 @@ var Timer = {
         });
     },
     initTicTac: function () {
+        Timer.beepAudioSec = new Audio(Timer.beepAudioSecPath);
+        Timer.beepAudioAlert = new Audio(Timer.beepAudioAlertPath);
+
         console.log("initTicTac:",
                   "\nTimer.localTime:  ", Timer.localTime, 
                   "\nTimer.serverTime: ", Timer.serverTime);
@@ -113,6 +120,9 @@ var Timer = {
     tic: function(){
         Timer.localTime += 1;
         Status.setDebugMessage('L: ' + Timer.localTime + '\nS: ' + Timer.serverTime);
+        if (Timer.isRunning()){            
+            Timer.beepAudioSec.play();
+        }
     },
     updateTicTac: function(){
         Timer.updateData();
@@ -127,7 +137,7 @@ var Timer = {
             }
         }
     },
-    updateData: function (callback) {
+    updateData: function (callback) {        
         Property.getAll(function (data) {
             if (data) {
                 Timer.preparedTime = data['timer-prepared'];
@@ -156,10 +166,12 @@ var Timer = {
             if (secondsRegressive == 2) {
                 document.body.classList.remove('set');
                 document.body.classList.add('ready');
+                Timer.beepAudioAlert.play();
 
             } else if (secondsRegressive == 1) {
                 document.body.classList.remove('ready');
                 document.body.classList.add('set');
+                Timer.beepAudioAlert.play();
             }
         } else if (Timer.isPaused()) {
             Status.setMessage("Em pausa");
@@ -215,13 +227,16 @@ var Timer = {
         document.title = valueShow;
         if (!Timer.isPrepared()) {
             seconds = Timer.getRemainingSecondsDiff();
-            if (seconds < 0) {
+            if (seconds < 0) {                
                 Status.setMessage("Tempo esgotado");
                 document.body.classList.add('timer-zero');
                 Timer.setText('0:00');
                 document.title = '0:00';
                 if (seconds < -3) {
                     document.body.classList.add('timer-ignored');
+                }
+                if (Timer.isRunning()){
+                    Timer.beepAudioAlert.play();
                 }
             }
         }
